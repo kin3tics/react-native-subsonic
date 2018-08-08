@@ -16,7 +16,9 @@ const server = (
         password: null,
         version: '1.15.0',
         format: 'json',
-        app: 'REACT_NATIVE'
+        app: 'REACT_NATIVE',
+        valid: true,
+        message: null
     }, 
     action ) => {
     switch (action.type) {
@@ -39,12 +41,17 @@ const server = (
         case 'SET_SERVERFORMAT':
             var obj = Object.assign({}, state, { format: 'json' });
             storeValueToAsync(obj);
-            console.log(state);
             return obj;
         case 'SET_SERVERAPPNAME':
             var obj = Object.assign({}, state, { app: 'REACT_NATIVE' });
             storeValueToAsync(obj);
-            console.log(state);
+            return obj;
+        case 'LOGIN_ATTEMPT':
+            var obj = Object.assign({}, state, { 
+                valid: action.success?true:false,
+                message: action.errorMessage?action.errorMessage.code+': '+action.errorMessage.message:null
+            });
+            storeValueToAsync(obj);
             return obj;
         default:
             return state;

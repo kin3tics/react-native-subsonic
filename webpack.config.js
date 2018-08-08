@@ -1,7 +1,7 @@
 // web/webpack.config.js
 
 const path = require('path');
-const webpack = require('../../../Library/Caches/typescript/2.9/node_modules/@types/webpack');
+const webpack = require('webpack');
 
 const appDirectory = path.resolve(__dirname, './');
 

@@ -6,10 +6,12 @@ import { Provider } from 'react-redux'
 
 import configureStore from './configureStore'
 
+import Navigator from './components/Navigator'
 import ServerInput from './components/ServerInput'
 
 import rootReducer from './reducers'
 
+import styles from './styles/global'
 
 export default class App extends React.Component {
     constructor(props) {
@@ -41,26 +43,17 @@ export default class App extends React.Component {
   render() {
     if(this.state.isStoreLoading) {
        return (
-          <View style={styles.container}>
-            <Text>Loading...</Text>
+          <View style={[styles.container, styles.background1]}>
+            <Text style={styles.font1}>Loading...</Text>
           </View>
         );
     }
     return (
       <Provider store={this.state.store}>
-      <View style={styles.container}>
-        <ServerInput />
+        <View style={[styles.container, styles.background1]}>
+          <Navigator />
       </View>
       </Provider>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

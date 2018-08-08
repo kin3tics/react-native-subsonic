@@ -1,4 +1,4 @@
-import { generateUrl, parseJsonResponse } from '../helpers/api-helper'
+import { generateUrl, parseJsonResponse, OK } from '../helpers/api-helper'
 
 export const SET_SERVERNAME = 'SET_SERVERNAME'
 export const SET_SERVERUSER = 'SET_SERVERUSER'
@@ -6,6 +6,7 @@ export const SET_SERVERPASS = 'SET_SERVERPASS'
 export const SET_SERVERVERSION = 'SET_SERVERVERSION'
 export const SET_SERVERFORMAT = 'SET_SERVERFORMAT'
 export const SET_SERVERAPPNAME = 'SET_SERVERAPPNAME'
+export const LOGIN_ATTEMPT = 'LOGIN_ATTEMPT'
 
 export const TEST_SERVER = 'TEST_SERVER'
 
@@ -33,7 +34,7 @@ export function setServerPassword(password) {
 export function setServerVersion(json) {
     return {
         type: SET_SERVERVERSION,
-        api: json.version
+        version: json.version
     }
 }
 
@@ -49,10 +50,11 @@ export function setServerAppName() {
     }
 }
 
-export function testServer(json) {
+export function setServerLogin(success, errorMessage) {
     return {
-        type: TEST_SERVER,
-        api: json.api
+        type: LOGIN_ATTEMPT,
+        success,
+        errorMessage
     }
 }
 
@@ -66,14 +68,23 @@ export function pingServer() {
             try {
             dispatch(setServerFormat());
             dispatch(setServerAppName());
-            } catch (e) {console.log(e)}
+            } catch (e) {
+                //console.log(e)
+            }
             return;
         }
 
         return fetch(generateUrl(server, 'ping'))
             .then(response => response.json())
             .then(rawjson => parseJsonResponse(rawjson))
-            .then(json => dispatch(setServerVersion(json)))
+            .then(json => {
+                dispatch(setServerVersion(json));
+                if(json.status===OK) {
+                    dispatch(setServerLogin(true))
+                } else {
+                    dispatch(setServerLogin(false, json.error))
+                }
+            })
     }
 }
 
