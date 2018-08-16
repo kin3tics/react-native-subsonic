@@ -31,5 +31,52 @@ export default StyleSheet.create({
     },
     listItem2: {
         padding: 2
+    },
+
+    albumList: {
+        position: 'absolute',
+        //flex:0.1,
+        //right: 0,
+        bottom: 0,
+        height:160,
+        justifyContent: 'center',
+        paddingTop:10,
+        paddingLeft: 10
+    },
+
+    albumListItem: {
+        height: 125,
+        width: 125,
+        backgroundColor: '#FFF',
+        margin: 10
+    },
+    albumDetailTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        padding: 10
+    },
+    albumDetailSubtitle: {
+        fontSize: 18,
+        padding: 5,
+        paddingLeft: 10
+    },
+    albumDetailText: {
+        flexDirection:'row',
+        paddingLeft: 10
+    },
+    albumSongContainer: {
+        
+        position: 'absolute',
+        top: 120,
+        left: 30,
+    },
+    albumSong: {
+        padding: 5
+    },
+    songDuration: {
+        flexDirection: 'row',
+        position: 'absolute',
+        right: 30
     }
+
 });

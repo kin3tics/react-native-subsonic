@@ -14,6 +14,12 @@ export default StyleSheet.create({
     background2: {
         backgroundColor: '#202020'
     },
+    background3: {
+        backgroundColor: '#2a2a2a'
+    },
+    background4: {
+        backgroundColor: '#343434'
+    },
     font1: {
         color: '#DDD'
     },
@@ -26,6 +32,20 @@ export default StyleSheet.create({
         borderWidth: 1,
         borderColor: "#000",
         padding: 5
+    },
+    missingArtworkColor1: {
+        backgroundColor: '#006aff'
+    },
+    missingArtworkColor2: {
+        backgroundColor: '#9500ff'
+    },
+    missingArtworkColor3: {
+        backgroundColor: '#ff006a'
+    },
+    missingArtworkColor4: {
+        backgroundColor: '#ff9500'
+    },
+    missingArtworkColor5: {
+        backgroundColor: '#49b100'
     }
-
 });

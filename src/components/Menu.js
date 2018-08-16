@@ -12,7 +12,6 @@ import {
     dispatchArtistFetch
  } from '../actions/menu-actions'
 
-import { getArtistsFromServer } from '../actions/artist-actions'
 
 const Menu = ({ dispatch, serverInfo }) => {
     return (

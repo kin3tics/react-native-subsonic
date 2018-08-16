@@ -5,17 +5,11 @@ import { connect } from 'react-redux';
 import styles from '../styles/global'
 import a_styles from '../styles/artists'
 
+import { getSelectedArtistFromServer } from '../actions/artist-actions'
+
 const mapStateToProps = state => ({
     artists: state.artists.artists
 })
-
-const renderItem = ({item}) => {
-    let text = item.name.length > 20 ? item.name.substring(0,17) + "..." : item.name;
-    return (
-        <TouchableWithoutFeedback>
-            <View style={a_styles.listItem}><Text style={[styles.font1, a_styles.listItem]}>{text}</Text></View>
-        </TouchableWithoutFeedback>);
-}
 
 const renderSectionHeader = ({section}) => {
     return (
@@ -31,10 +25,21 @@ const renderItem2 = ({item}) => {
         </TouchableWithoutFeedback>);
 }
 
-
 const ArtistList = ({ dispatch, artists }) => {
-    if(artists.length == 0) return <Text>Loading...</Text>
     let {width, height} = Dimensions.get('window')
+
+    if(artists.length == 0) return (
+        <ScrollView contentContainerStyle={{ 
+            flexGrow: 1, 
+            flexDirection: 'column', 
+            justifyContent: 'space-between'}}
+            style={[styles.background2, a_styles.container]}>
+            <View style={{height: (height - 50)}}>
+                <Text>Loading...</Text>
+            </View>
+            <View style={[a_styles.footer]}></View>
+        </ScrollView>);
+
     return (
         <ScrollView contentContainerStyle={{ 
                 flexGrow: 1, 
@@ -44,7 +49,12 @@ const ArtistList = ({ dispatch, artists }) => {
             <View style={{height: (height - 50)}}>
                 <SectionList 
                     sections={artists}
-                    renderItem={renderItem}
+                    renderItem={({item}) => {
+                        return (
+                            <TouchableWithoutFeedback
+                                onPress={() => dispatch(getSelectedArtistFromServer(item.id))}>
+                                <View style={a_styles.listItem}><Text numberOfLines={1} style={[styles.font1, a_styles.listItem]}>{item.name}</Text></View>
+                            </TouchableWithoutFeedback>)}}
                     renderSectionHeader={renderSectionHeader}
                     keyExtractor={(item) => item.id}
                     />

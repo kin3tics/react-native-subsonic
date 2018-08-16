@@ -1,7 +1,8 @@
 const artists = (
     state = { 
         artists: [],
-        currentArtist: null
+        selectedArtist: null,
+        selectedAlbum: null
     }, 
     action ) => {
     switch (action.type) {
@@ -13,6 +14,10 @@ const artists = (
                 value.artist = null;
             });
             return Object.assign({}, state, { artists: artistArray });
+        case 'SET_SELECTEDARTIST':
+            return Object.assign({}, state, { selectedArtist: action.artist});
+        case 'SET_SELECTEDALBUM':
+            return Object.assign({}, state, { selectedAlbum: action.album});
         default:
             return state;
     }

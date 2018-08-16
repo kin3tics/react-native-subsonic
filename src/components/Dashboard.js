@@ -1,5 +1,5 @@
 import React from 'react'
-import  { Text, TextInput, View, Button } from 'react-native'
+import  { Text, TextInput, View, Button, Dimensions } from 'react-native'
 import { connect } from 'react-redux';
 
 import {
@@ -11,6 +11,9 @@ import styles from '../styles/global'
 
 import Menu from './Menu'
 import ArtistList from './ArtistList'
+import ArtistDetail from './ArtistDetail'
+import NowPlayingSidebar from './NowPlayingSidebar';
+//import MediaPlayer from './MediaPlayer';
 
 const mapStateToProps = state => ({
     menu: state.menu
@@ -19,7 +22,17 @@ const mapStateToProps = state => ({
 const Dashboard = ({ dispatch, menu }) => {
     if (menu.active === MENU_MAIN)
         return <Menu />
-    return <ArtistList />
+    return (<View style={{flexDirection:'row'}}>
+            <View>
+                <ArtistList />
+            </View>
+            <View>
+                <ArtistDetail />
+            </View>
+            <View>
+                <NowPlayingSidebar />
+            </View>
+        </View>)
 }
 
 export default connect(mapStateToProps)(Dashboard)
