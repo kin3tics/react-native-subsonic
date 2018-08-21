@@ -29,6 +29,7 @@ export default StyleSheet.create({
     progressBar: {
         height: 10, 
         width: 150, 
-        padding: 5
+        paddingTop: 10,
+        paddingBottom: 10
     }
 });

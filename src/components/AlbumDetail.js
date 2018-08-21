@@ -8,7 +8,7 @@ import { generateUrlwithId } from '../helpers/api-helper'
 import styles from '../styles/global'
 import a_styles from '../styles/artists'
 
-import { playSelectedAlbum } from '../actions/library-actions'
+import { playSelectedAlbum, addSelectedAlbumToPlaylist, addSelectedSongToPlaylist } from '../actions/library-actions'
 
 import { getDurationArray } from '../helpers/audio-helper'
 
@@ -55,24 +55,6 @@ function compareSongs (song_a, song_b) {
     return 0;
 }
 
-
-
-const renderItem = ({item, index}) => {
-    let songDuration = getDurationArray(item.duration);
-    if(index == 0) { console.log(item)}
-    return (
-        <View
-            style={[{flexDirection:'row'}, a_styles.albumSong]}>
-            <Text style={[styles.font1, {width:25}]}>{index + 1}.</Text>
-            <Text style={[styles.font1, {paddingLeft: 15}]}>{item.title}</Text>
-            <View style={a_styles.songDuration}>
-                <Text style={styles.font1}>{songDuration[0]}:{songDuration[1]} | </Text>
-                <Image style={{height:20,width:20}} source={require('../images/av/ic_playlist_add_white_24dp.png')}/>
-            </View>
-        </View>
-    )
-}
-
 const mapStateToProps = state => ({
     server: state.server,
     album: state.library.selectedAlbum
@@ -104,12 +86,33 @@ const AlbumDetail = ({ dispatch, album, server }) => {
                             <Image style={{height: 20, width:20}} source={require('../images/av/ic_play_circle_outline_white_24dp.png')}/>
                         </TouchableWithoutFeedback>
                         <Text style={[styles.font1]}> | </Text>
-                        <Image style={{height:20,width:20}} source={require('../images/av/ic_queue_music_white_24dp.png')}/>
+                        <TouchableWithoutFeedback onPress={() => dispatch(addSelectedAlbumToPlaylist())}>
+                            <Image style={{height:20,width:20}} source={require('../images/av/ic_queue_music_white_24dp.png')}/>
+                        </TouchableWithoutFeedback>
                     </View>
                     <ScrollView style={[a_styles.albumSongContainer, {width: windowWidth - 50, height: windowHeight - 100}]}>
                         <FlatList
                             data={orderAlbumSongs(album).song}
-                            renderItem={renderItem}
+                            renderItem={({item, index}) => {
+                                let songDuration = getDurationArray(item.duration);
+                                return (
+                                    <View
+                                        style={[{flexDirection:'row'}, a_styles.albumSong]}>
+                                        <TouchableWithoutFeedback onPress={() => dispatch(playSelectedAlbum(index))}>
+                                            <View style={{flexDirection:'row'}}>
+                                                <Text style={[styles.font1, {width:25}]}>{index + 1}.</Text>
+                                                <Text style={[styles.font1, {paddingLeft: 15}]}>{item.title}</Text>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                        <TouchableWithoutFeedback onPress={() => dispatch(addSelectedSongToPlaylist(index))}>
+                                            <View style={a_styles.songDuration}>
+                                                <Text style={styles.font1}>{songDuration[0]}:{songDuration[1]} | </Text>
+                                                <Image style={{height:20,width:20}} source={require('../images/av/ic_playlist_add_white_24dp.png')}/>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                    </View>
+                                )
+                            }}
                             keyExtractor={(item) => item.id}
                         />
                     </ScrollView>

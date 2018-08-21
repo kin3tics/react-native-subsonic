@@ -18,12 +18,22 @@ export default class Sound {
     })
     
     this.play = this.play.bind(this)
-    this.stop = this.stop.bind(this)    
+    this.stop = this.stop.bind(this)  
+    this.getSeek = this.getSeek.bind(this);  
+    this.setSeek = this.setSeek.bind(this);  
   }
 
   play() {
     this.sound.play()
     return this
+  }
+
+  setSeek(seek) {
+    this.sound.seek(seek);
+  }
+
+  getSeek() {
+    return this.sound.seek();
   }
 
   stop() {
