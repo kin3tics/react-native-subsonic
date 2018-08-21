@@ -12,7 +12,9 @@ const mediaPlayer = (
         songId: null,
         songSeek: 0,
         isPlaying: 0,
-        mediaPlayer: null
+        mediaPlayer: null,
+        activePlaylistIndex: null,
+        activePlaylist: []
     }, 
     action ) => {
     let s = null;
@@ -40,6 +42,13 @@ const mediaPlayer = (
         case('SEEK_SONG'):
             return Object.assign({}, state, {
                 songSeek: !action.seek
+            });
+        case('PLAY_SELECTEDALBUM'):
+            return Object.assign({}, state, { 
+                activePlaylist: (action.album && action.album.song.length > 0)
+                    ? action.album.song
+                    : [],
+                activePlaylistIndex: action.startingIndex
             });
         default:
             return state;

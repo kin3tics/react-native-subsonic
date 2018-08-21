@@ -1,6 +1,6 @@
 import { generateUrl, parseJsonResponse, OK } from '../helpers/api-helper'
 
-import { getArtistsFromServer } from './artist-actions'
+import { getArtistsFromServer } from './library-actions'
 
 export const MENU_MAIN = 'MENU'
 export const MENU_LIBRARY = 'LIBRARY'

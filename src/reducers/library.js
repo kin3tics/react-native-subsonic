@@ -1,4 +1,4 @@
-const artists = (
+const library = (
     state = { 
         artists: [],
         selectedArtist: null,
@@ -23,4 +23,4 @@ const artists = (
     }
 }
 
-export default artists
+export default library

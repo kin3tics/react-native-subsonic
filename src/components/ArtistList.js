@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 import styles from '../styles/global'
 import a_styles from '../styles/artists'
 
-import { getSelectedArtistFromServer } from '../actions/artist-actions'
+import { getSelectedArtistFromServer } from '../actions/library-actions'
 
 const mapStateToProps = state => ({
-    artists: state.artists.artists
+    artists: state.library.artists
 })
 
 const renderSectionHeader = ({section}) => {

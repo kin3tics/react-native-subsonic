@@ -13,7 +13,6 @@ import Menu from './Menu'
 import ArtistList from './ArtistList'
 import ArtistDetail from './ArtistDetail'
 import NowPlayingSidebar from './NowPlayingSidebar';
-//import MediaPlayer from './MediaPlayer';
 
 const mapStateToProps = state => ({
     menu: state.menu

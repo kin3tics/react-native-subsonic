@@ -1,9 +1,11 @@
 import { generateUrl, generateUrlwithId, parseJsonResponse, OK } from '../helpers/api-helper'
 
+import { playAlbum, playSelectedSongFromServer } from './mediaPlayer-actions'
+
 export const SET_ARTISTLIST = 'SET_ARTISTLIST'
 export const SET_SELECTEDARTIST = 'SET_SELECTEDARTIST'
 export const SET_SELECTEDALBUM = 'SET_SELECTEDALBUM'
-export const PLAY_SELECTEDALBUM = 'PLAY_SELECTEDALBUM'
+
 
 export const PLAY_SONG = 'PLAY_SONG'
 export const PAUSE_SONG = 'PAUSE_SONG'
@@ -29,32 +31,11 @@ export function setSelectedAlbum(album) {
     }
 }
 
-export function playSong(songId, uri) {
-    return {
-        type: PLAY_SONG,
-        songId,
-        uri
-    }
-}
-
-export function pauseSong() {
-    return {
-        type: PAUSE_SONG
-    }
-}
-
-function playAlbum(album, startingIndex) {
-    return {
-        type: PLAY_SELECTEDALBUM,
-        album,
-        startingIndex
-    }
-}
 
 export function playSelectedAlbum(startingIndex = 0) {
     return (dispatch, getState) => {
         var state = getState();
-        var album = state.artists.selectedAlbum;
+        var album = state.library.selectedAlbum;
         dispatch(playAlbum(album,startingIndex));
         dispatch(playSelectedSongFromServer(album.song[0].id))
     }
@@ -93,15 +74,5 @@ export function getSelectedAlbumFromServer(albumId) {
             .then(response => response.json())
             .then(rawjson => parseJsonResponse(rawjson))
             .then(json => dispatch(setSelectedAlbum(json.album)))
-    }
-}
-
-export function playSelectedSongFromServer(songId) {
-    return (dispatch, getState) => {
-        var state = getState();
-        var server = state.server;
-
-        var uri = generateUrlwithId(server, 'stream', songId);
-        dispatch(playSong(songId, uri))
     }
 }

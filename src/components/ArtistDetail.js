@@ -10,7 +10,7 @@ import a_styles from '../styles/artists'
 
 const mapStateToProps = state => ({
     server: state.server,
-    artist: state.artists.selectedArtist
+    artist: state.library.selectedArtist
 })
 
 

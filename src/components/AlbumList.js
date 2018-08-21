@@ -8,7 +8,7 @@ import { generateUrlwithId } from '../helpers/api-helper'
 import styles from '../styles/global'
 import a_styles from '../styles/artists'
 
-import { getSelectedAlbumFromServer } from '../actions/artist-actions'
+import { getSelectedAlbumFromServer } from '../actions/library-actions'
 
 function getColorForMissingArtwork(index) {
     let i = index % 5
@@ -31,7 +31,7 @@ function getColorForMissingArtwork(index) {
 
 const mapStateToProps = state => ({
     server: state.server,
-    artist: state.artists.selectedArtist
+    artist: state.library.selectedArtist
 })
 
 

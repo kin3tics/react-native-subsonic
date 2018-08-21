@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { generateUrlwithId } from '../helpers/api-helper'
 import { getDurationArray } from '../helpers/audio-helper'
 
-import { playSelectedAlbum, pauseSong } from '../actions/artist-actions'
+import { playSelectedAlbum, pauseSong } from '../actions/mediaPlayer-actions'
 
 import styles from '../styles/global'
 import np_styles from '../styles/nowPlaying'
@@ -46,7 +46,7 @@ const renderItem = ({item, index}) => {
 
 const mapStateToProps = state => ({
     server: state.server,
-    nowPlaying: state.nowPlaying
+    nowPlaying: state.mediaPlayer
 })
 
 

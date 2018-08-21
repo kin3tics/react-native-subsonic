@@ -8,7 +8,7 @@ import { generateUrlwithId } from '../helpers/api-helper'
 import styles from '../styles/global'
 import a_styles from '../styles/artists'
 
-import { playSelectedAlbum } from '../actions/artist-actions'
+import { playSelectedAlbum } from '../actions/library-actions'
 
 import { getDurationArray } from '../helpers/audio-helper'
 
@@ -75,7 +75,7 @@ const renderItem = ({item, index}) => {
 
 const mapStateToProps = state => ({
     server: state.server,
-    album: state.artists.selectedAlbum
+    album: state.library.selectedAlbum
 })
 
 const AlbumDetail = ({ dispatch, album, server }) => {
