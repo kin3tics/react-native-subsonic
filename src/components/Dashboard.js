@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 
 import {
     MENU_MAIN,
-    MENU_LIBRARY
+    MENU_LIBRARY,
+    MENU_PLAYLIST
  } from '../actions/menu-actions'
 
 import styles from '../styles/global'
@@ -12,6 +13,8 @@ import styles from '../styles/global'
 import Menu from './Menu'
 import ArtistList from './ArtistList'
 import ArtistDetail from './ArtistDetail'
+import PlaylistList from './PlaylistList'
+import PlaylistDetail from './PlaylistDetail'
 import NowPlayingSidebar from './NowPlayingSidebar';
 
 const mapStateToProps = state => ({
@@ -19,14 +22,31 @@ const mapStateToProps = state => ({
 })
 
 const Dashboard = ({ dispatch, menu }) => {
-    if (menu.active === MENU_MAIN)
-        return <Menu />
+    let leftView = null;
+    let detailView = null;
+    switch(menu.active) {
+        case MENU_LIBRARY:
+            leftView = (<ArtistList />);
+            detailView = (<ArtistDetail />);
+            break;
+        case MENU_PLAYLIST:
+            leftView = (<PlaylistList />);
+            detailView = (<PlaylistDetail />);
+            break;
+        case MENU_MAIN:
+        default:
+            leftView = (<Menu />);
+            detailView = (<ArtistDetail />);
+            break;
+    }
+
+
     return (<View style={{flexDirection:'row'}}>
             <View>
-                <ArtistList />
+                {leftView}
             </View>
             <View>
-                <ArtistDetail />
+                {detailView}
             </View>
             <View>
                 <NowPlayingSidebar />

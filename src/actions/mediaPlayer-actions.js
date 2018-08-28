@@ -1,6 +1,7 @@
 import { generateUrl, generateUrlwithId, parseJsonResponse, OK } from '../helpers/api-helper'
 
 export const PLAY_SELECTEDALBUM = 'PLAY_SELECTEDALBUM'
+export const PLAY_SELECTEDPLAYLIST = 'PLAY_SELECTEDPLAYLIST'
 export const PLAY_SONG = 'PLAY_SONG'
 export const PAUSE_SONG = 'PAUSE_SONG'
 export const SET_PLAYLIST_ACTIVEINDEX = 'SET_PLAYLIST_ACTIVEINDEX'
@@ -26,6 +27,14 @@ export function playAlbum(album, startingIndex) {
     return {
         type: PLAY_SELECTEDALBUM,
         album,
+        startingIndex
+    }
+}
+
+export function playPlaylist(playlist, startingIndex) {
+    return {
+        type: PLAY_SELECTEDPLAYLIST,
+        playlist,
         startingIndex
     }
 }

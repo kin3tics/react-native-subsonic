@@ -7,6 +7,12 @@ function handleError(err) {
     console.log(err);
 }
 
+function setSongActiveMap(item, index, activeIndex) {
+    console.log(index + '-' + activeIndex);
+    index === activeIndex ? item.isActive = true : item.isActive = false;
+    return item;
+}
+
 const mediaPlayer = (
     state = { 
         songId: null,
@@ -54,24 +60,42 @@ const mediaPlayer = (
                 });
             }
 
-            action.mediaPlayer.setSeek(action.seek);
+            state.mediaPlayer.setSeek(action.seek);
             return Object.assign({}, state, {
                 songSeek: action.seek
             });
         case('PLAY_SELECTEDALBUM'):
             return Object.assign({}, state, { 
                 activePlaylist: (action.album && action.album.song.length > 0)
-                    ? action.album.song
+                    ? action.album.song.map(function(item, index) {
+                        return setSongActiveMap(item, index, action.startingIndex);
+                    })
                     : [],
                 activePlaylistIndex: action.startingIndex
             });
+        case('PLAY_SELECTEDPLAYLIST'): {
+            return Object.assign({}, state, {
+                activePlaylist: (action.playlist && action.playlist.entry.length > 0)
+                    ? action.playlist.entry.map(function(item, index) {
+                        return setSongActiveMap(item, index, action.startingIndex);
+                    })
+                    : [],
+                activePlaylistIndex: action.startingIndex
+            });
+        }
         case('SET_PLAYLIST_ACTIVEINDEX'):
             return Object.assign({}, state, {
+                activePlaylist: state.activePlaylist.map(function(item, index) {
+                    return setSongActiveMap(item, index, action.playlistIndex);
+                }),
                 activePlaylistIndex: action.playlistIndex
             });
         case('ADD_SONG'):
             return Object.assign({}, state, {
-                activePlaylist: state.activePlaylist.concat(action.songArray),
+                activePlaylist: state.activePlaylist.concat(action.songArray.map(function(item) {
+                    //Always want the added songs to be 'inactive'
+                    return setSongActiveMap(item, -1, state.activePlaylistIndex);
+                })),
                 activePlaylistIndex: !state.activePlaylistIndex ? 0 : state.activePlaylistIndex
             });
         default:

@@ -2,7 +2,9 @@ const library = (
     state = { 
         artists: [],
         selectedArtist: null,
-        selectedAlbum: null
+        selectedAlbum: null,
+        playlists: [],
+        selectedPlaylist: null
     }, 
     action ) => {
     switch (action.type) {
@@ -13,11 +15,25 @@ const library = (
                 value.data = value.artist;
                 value.artist = null;
             });
-            return Object.assign({}, state, { artists: artistArray });
+            return Object.assign({}, state, { 
+                artists: artistArray 
+            });
         case 'SET_SELECTEDARTIST':
-            return Object.assign({}, state, { selectedArtist: action.artist});
+            return Object.assign({}, state, { 
+                selectedArtist: action.artist
+            });
         case 'SET_SELECTEDALBUM':
-            return Object.assign({}, state, { selectedAlbum: action.album});
+            return Object.assign({}, state, { 
+                selectedAlbum: action.album 
+            });
+        case 'SET_PLAYLISTS':
+            return Object.assign({}, state, { 
+                playlists: action.playlists 
+            });
+        case 'SET_SELECTEDPLAYLIST':
+            return Object.assign({}, state, { 
+                selectedPlaylist: action.playlist 
+            });
         default:
             return state;
     }

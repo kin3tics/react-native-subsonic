@@ -1,18 +1,23 @@
 Front-end to Subsonic written in React Native
 
 Version History
+- 0.1.5
+  - Menu: Can toggle between main menu, library, and playlists
+  - Playlists: Playlist List - Loads a list from the server on component load
+  - Playlists: Playlist List - Selecting playlist fetches playlist details
+  - Playlists: Playlist Details - Shows song info
+  - Playlists: Can play a playlist
+  - Playlists: Can ad a song to end of playlist
+
 - 0.1.4
-  - Library
-    - Can play an album
-    - Can add album to end of playlist
-  - Now Playing
-    - Can Play/Pause a song
-    - Can move forward & back through a playlist via buttons, no automatic traversal yet
-    - Can select specific song in playlist to play
-    - Progress bar fills up as song progresses
-  - Misc
-    - Cleaned up naming convention for reducer and actions
-    - Cleaned up which file some of the actions belonged in
+  - Library: Can play an album
+  - Library: Can add album to end of playlist
+  - Now Playing: Can Play/Pause a song
+  - Now Playing: Can move forward & back through a playlist via buttons, no automatic traversal yet
+  - Now Playing: Can select specific song in playlist to play
+  - Now Playing: Progress bar fills up as song progresses
+  - Misc: Cleaned up naming convention for reducer and actions
+  - Misc: Cleaned up which file some of the actions belonged in
 
 - 0.1.3
   - Library: Artist List - Selecting artist fetches album list

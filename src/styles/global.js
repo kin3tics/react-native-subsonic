@@ -26,6 +26,9 @@ export default StyleSheet.create({
     font2: {
         color: '#FFF'
     },
+    highlightFont: {
+        color: '#F6C042'
+    },
     inputText: {
         backgroundColor: '#FFF',
         color: "#000",

@@ -1,10 +1,16 @@
 import { generateUrl, generateUrlwithId, parseJsonResponse, OK } from '../helpers/api-helper'
 
-import { playAlbum, playSelectedSongFromServer, addSong } from './mediaPlayer-actions'
+import { playAlbum, playPlaylist, playSelectedSongFromServer, addSong } from './mediaPlayer-actions'
+import AlbumDetail from '../components/AlbumDetail';
 
 export const SET_ARTISTLIST = 'SET_ARTISTLIST'
 export const SET_SELECTEDARTIST = 'SET_SELECTEDARTIST'
 export const SET_SELECTEDALBUM = 'SET_SELECTEDALBUM'
+export const SET_PLAYLISTS = 'SET_PLAYLISTS'
+export const SET_SELECTEDPLAYLIST = 'SET_SELECTEDPLAYLIST'
+
+export const ALBUM_TYPE = 'ALBUM';
+export const PLAYLIST_TYPE = 'PLAYLIST';
 
 
 export function setArtistList(artists) {
@@ -28,6 +34,20 @@ export function setSelectedAlbum(album) {
     }
 }
 
+export function setPlaylists(playlists) {
+    return {
+        type: SET_PLAYLISTS,
+        playlists
+    }
+}
+
+export function setSelectedPlaylist(playlist) {
+    return {
+        type: SET_SELECTEDPLAYLIST,
+        playlist
+    }
+}
+
 
 export function playSelectedAlbum(startingIndex) {
     return (dispatch, getState) => {
@@ -46,11 +66,17 @@ export function addSelectedAlbumToPlaylist() {
     }
 }
 
-export function addSelectedSongToPlaylist(index) {
+export function addSelectedSongToPlaylist(type, index) {
     return (dispatch, getState) => {
         var state = getState();
-        var album = state.library.selectedAlbum;
-        dispatch(addSong([album.song[index]]))
+        if(type === ALBUM_TYPE) {
+            var album = state.library.selectedAlbum;
+            dispatch(addSong([album.song[index]]))
+        } else if (type === PLAYLIST_TYPE) {
+            var playlist = state.library.selectedPlaylist;
+            dispatch(addSong([playlist.entry[index]]))
+        }
+       
     }
 }
 
@@ -75,6 +101,7 @@ export function getSelectedArtistFromServer(artistId) {
             .then(response => response.json())
             .then(rawjson => parseJsonResponse(rawjson))
             .then(json => dispatch(setSelectedArtist(json.artist)))
+            .then(dispatch(setSelectedAlbum(null)))
     }
 }
 
@@ -87,5 +114,38 @@ export function getSelectedAlbumFromServer(albumId) {
             .then(response => response.json())
             .then(rawjson => parseJsonResponse(rawjson))
             .then(json => dispatch(setSelectedAlbum(json.album)))
+    }
+}
+
+export function getPlaylistsFromServer() {
+    return (dispatch, getState) => {
+        var state = getState();
+        var server = state.server;
+
+        return fetch(generateUrl(server, 'getPlaylists'))
+            .then(response => response.json())
+            .then(rawjson => parseJsonResponse(rawjson))
+            .then(json => dispatch(setPlaylists(json.playlists.playlist)))
+    }
+}
+
+export function getSelectedPlaylistFromServer(playlistId) {
+    return (dispatch, getState) => {
+        var state = getState();
+        var server = state.server;
+
+        return fetch(generateUrlwithId(server, 'getPlaylist', playlistId))
+            .then(response => response.json())
+            .then(rawjson => parseJsonResponse(rawjson))
+            .then(json => dispatch(setSelectedPlaylist(json.playlist)))
+    }
+}
+
+export function playSelectedPlaylist(startingIndex) {
+    return (dispatch, getState) => {
+        var state = getState();
+        var playlist = state.library.selectedPlaylist;
+        dispatch(playPlaylist(playlist,startingIndex));
+        dispatch(playSelectedSongFromServer(playlist.entry[startingIndex].id))
     }
 }

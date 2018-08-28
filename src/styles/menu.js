@@ -8,7 +8,8 @@ export default StyleSheet.create({
         padding: 10,
         paddingBottom: 12,
         flexDirection:'row',
-        borderBottomWidth: 5
+        borderBottomWidth: 5,
+        borderColor: '#2a2a2a'
     },
     menuHeaderText: {
         fontSize: 20,
