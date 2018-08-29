@@ -11,7 +11,8 @@ export default StyleSheet.create({
         right: 0,
         bottom: 0,
         flexDirection:'row',
-        height:50,
+        height:75,
+        padding: 15,
         alignItems:'center',
     },
     subHeader: {
@@ -23,6 +24,7 @@ export default StyleSheet.create({
     },
     listItem: {
         paddingLeft: 10,
+        paddingRight: 10,
         paddingTop: 2,
         paddingBottom: 2
     },
@@ -30,7 +32,7 @@ export default StyleSheet.create({
         fontWeight: 'bold'
     },
     listItem2: {
-        padding: 2
+        padding: 1.5
     },
 
     albumList: {

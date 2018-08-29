@@ -24,16 +24,25 @@ const renderSectionHeader = ({section}) => {
         </View>);
 }
 
-const renderItem2 = ({item}) => {
-    return (
-        <TouchableWithoutFeedback>
-            <View style={a_styles.listItem2}><Text style={[styles.font1, a_styles.listItem2]}>{item.title}</Text></View>
-        </TouchableWithoutFeedback>);
-}
-
 class ArtistList extends Component  {
     constructor(props) {
         super(props);
+    }
+
+    getItemLayout = (data, index) => (
+        { length: data.length, offset: 25 * index, index }
+    )
+
+    scrollTo = (sectionIndex, itemIndex) => {
+        if(this.sectionList) {
+            this.sectionList.scrollToLocation({
+                sectionIndex: sectionIndex,
+                itemIndex: itemIndex,
+                viewOffset: 38,
+                ViewPosition: 0,
+                animated: false
+            })
+        }
     }
 
     renderMenuIcon() {
@@ -46,6 +55,14 @@ class ArtistList extends Component  {
                 </View>
             </TouchableWithoutFeedback>
         )
+    }
+
+    renderItem2 = ({item, index}) => {
+        return (
+            <TouchableWithoutFeedback
+                onPress={() => this.scrollTo(index, 0)}>
+                <View style={a_styles.listItem2}><Text style={[styles.font1, a_styles.listItem2]}>{item.title}</Text></View>
+            </TouchableWithoutFeedback>);
     }
 
     render() {
@@ -70,10 +87,12 @@ class ArtistList extends Component  {
                     flexDirection: 'column', 
                     justifyContent: 'space-between'}}
                 style={[styles.background2, a_styles.container]}>
-                <View style={{height: (height - 50)}}>
+                <View style={{height: (height - 75)}}>
                     {this.renderMenuIcon()}
                     <SectionList 
+                       ref={(sectionList) => { this.sectionList = sectionList }}
                         sections={artists}
+                        getItemLayout={this.getItemLayout}
                         renderItem={({item}) => {
                             return (
                                 <TouchableWithoutFeedback
@@ -81,13 +100,14 @@ class ArtistList extends Component  {
                                     <View style={a_styles.listItem}><Text numberOfLines={1} style={[styles.font1, a_styles.listItem]}>{item.name}</Text></View>
                                 </TouchableWithoutFeedback>)}}
                         renderSectionHeader={renderSectionHeader}
+                        stickySectionHeadersEnabled={true}
                         keyExtractor={(item) => item.id}
                         />
                 </View>
                 <View style={[a_styles.footer]}>
                     <FlatList
                         data={artists}
-                        renderItem = {renderItem2}
+                        renderItem = {this.renderItem2}
                         keyExtractor={(item) => item.title}
                         horizontal={false}
                         numColumns={14}
