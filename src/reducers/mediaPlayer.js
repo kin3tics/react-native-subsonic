@@ -2,6 +2,7 @@ const PAUSE = 'PAUSE';
 const PLAY = 'PLAY';
 
 import Sound from '../helpers/sound'
+import { shuffle } from '../helpers/audio-helper'
 
 function handleError(err) {
     console.log(err);
@@ -65,18 +66,24 @@ const mediaPlayer = (
                 songSeek: action.seek
             });
         case('PLAY_SELECTEDALBUM'):
+            let songs = !action.album ? [] : action.isShuffle
+                    ? shuffle(action.album.song)
+                    : action.album.song
             return Object.assign({}, state, { 
-                activePlaylist: (action.album && action.album.song.length > 0)
-                    ? action.album.song.map(function(item, index) {
+                activePlaylist: (songs.length > 0)
+                    ? songs.map(function(item, index) {
                         return setSongActiveMap(item, index, action.startingIndex);
                     })
                     : [],
                 activePlaylistIndex: action.startingIndex
             });
         case('PLAY_SELECTEDPLAYLIST'): {
+            let songs = !action.playlist ? [] : action.isShuffle
+                    ? shuffle(action.playlist.entry)
+                    : action.playlist.entry
             return Object.assign({}, state, {
-                activePlaylist: (action.playlist && action.playlist.entry.length > 0)
-                    ? action.playlist.entry.map(function(item, index) {
+                activePlaylist: (songs.length > 0)
+                    ? songs.map(function(item, index) {
                         return setSongActiveMap(item, index, action.startingIndex);
                     })
                     : [],

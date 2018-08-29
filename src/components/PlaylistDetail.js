@@ -48,6 +48,10 @@ const PlaylistDetail = ({ dispatch, playlist, server }) => {
                             <Image style={{height: 20, width:20}} source={require('../images/av/ic_play_circle_outline_white_24dp.png')}/>
                         </TouchableWithoutFeedback>
                         <Text style={[styles.font1]}> | </Text>
+                        <TouchableWithoutFeedback onPress={() => dispatch(playSelectedPlaylist(0, true))}>
+                            <Image style={{height: 20, width:20}} source={require('../images/av/ic_shuffle_white_24dp.png')}/>
+                        </TouchableWithoutFeedback>
+                        <Text style={[styles.font1]}> | </Text>
                         <TouchableWithoutFeedback onPress={() => dispatch(addSelectedPlaylistToPlaylist())}>
                             <Image style={{height:20,width:20}} source={require('../images/av/ic_queue_music_white_24dp.png')}/>
                         </TouchableWithoutFeedback>
@@ -60,7 +64,7 @@ const PlaylistDetail = ({ dispatch, playlist, server }) => {
                                 return (
                                     <View
                                         style={[{flexDirection:'row'}, a_styles.albumSong]}>
-                                        <TouchableWithoutFeedback onPress={() => dispatch(playSelectedPlaylist(index))}>
+                                        <TouchableWithoutFeedback onPress={() => dispatch(playSelectedPlaylist(index, false))}>
                                             <View style={{flexDirection:'row'}}>
                                                 <Text style={[styles.font1, {width:songIndexWidth}]}>{index + 1}.</Text>
                                                 <Text style={[styles.font1, {paddingLeft: 15}]}>{item.title}</Text>

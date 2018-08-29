@@ -1,7 +1,6 @@
 import { generateUrl, generateUrlwithId, parseJsonResponse, OK } from '../helpers/api-helper'
 
-import { playAlbum, playPlaylist, playSelectedSongFromServer, addSong } from './mediaPlayer-actions'
-import AlbumDetail from '../components/AlbumDetail';
+import { playAlbum, playPlaylist, playSelectedSongFromServer, addSong, playSongInPlaylist } from './mediaPlayer-actions'
 
 export const SET_ARTISTLIST = 'SET_ARTISTLIST'
 export const SET_SELECTEDARTIST = 'SET_SELECTEDARTIST'
@@ -49,12 +48,12 @@ export function setSelectedPlaylist(playlist) {
 }
 
 
-export function playSelectedAlbum(startingIndex) {
+export function playSelectedAlbum(startingIndex, isShuffle) {
     return (dispatch, getState) => {
         var state = getState();
         var album = state.library.selectedAlbum;
-        dispatch(playAlbum(album,startingIndex));
-        dispatch(playSelectedSongFromServer(album.song[startingIndex].id))
+        dispatch(playAlbum(album, startingIndex, isShuffle));
+        dispatch(playSongInPlaylist(startingIndex));
     }
 }
 
@@ -141,11 +140,11 @@ export function getSelectedPlaylistFromServer(playlistId) {
     }
 }
 
-export function playSelectedPlaylist(startingIndex) {
+export function playSelectedPlaylist(startingIndex, isShuffle) {
     return (dispatch, getState) => {
         var state = getState();
         var playlist = state.library.selectedPlaylist;
-        dispatch(playPlaylist(playlist,startingIndex));
-        dispatch(playSelectedSongFromServer(playlist.entry[startingIndex].id))
+        dispatch(playPlaylist(playlist, startingIndex, isShuffle));
+        dispatch(playSongInPlaylist(startingIndex))
     }
 }

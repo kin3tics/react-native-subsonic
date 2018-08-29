@@ -87,8 +87,12 @@ const AlbumDetail = ({ dispatch, album, server }) => {
                     <View style={a_styles.albumDetailText}>
                         <Text style={[styles.font1]}>{album.songCount} Tracks | </Text>
                         <Text style={[styles.font1]}>{albumDuration[0]}:{albumDuration[1]} | {album.genre} | </Text>
-                        <TouchableWithoutFeedback onPress={() => dispatch(playSelectedAlbum(0))}>
+                        <TouchableWithoutFeedback onPress={() => dispatch(playSelectedAlbum(0, false))}>
                             <Image style={{height: 20, width:20}} source={require('../images/av/ic_play_circle_outline_white_24dp.png')}/>
+                        </TouchableWithoutFeedback>
+                        <Text style={[styles.font1]}> | </Text>
+                        <TouchableWithoutFeedback onPress={() => dispatch(playSelectedAlbum(0, true))}>
+                            <Image style={{height: 20, width:20}} source={require('../images/av/ic_shuffle_white_24dp.png')}/>
                         </TouchableWithoutFeedback>
                         <Text style={[styles.font1]}> | </Text>
                         <TouchableWithoutFeedback onPress={() => dispatch(addSelectedAlbumToPlaylist())}>
@@ -103,7 +107,7 @@ const AlbumDetail = ({ dispatch, album, server }) => {
                                 return (
                                     <View
                                         style={[{flexDirection:'row'}, a_styles.albumSong]}>
-                                        <TouchableWithoutFeedback onPress={() => dispatch(playSelectedAlbum(index))}>
+                                        <TouchableWithoutFeedback onPress={() => dispatch(playSelectedAlbum(index, false))}>
                                             <View style={{flexDirection:'row'}}>
                                                 <Text style={[styles.font1, {width:songIndexWidth}]}>{index + 1}.</Text>
                                                 <Text style={[styles.font1, {paddingLeft: 15}]}>{item.title}</Text>

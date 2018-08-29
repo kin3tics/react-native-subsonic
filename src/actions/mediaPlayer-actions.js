@@ -1,4 +1,4 @@
-import { generateUrl, generateUrlwithId, parseJsonResponse, OK } from '../helpers/api-helper'
+import { generateUrlwithId } from '../helpers/api-helper'
 
 export const PLAY_SELECTEDALBUM = 'PLAY_SELECTEDALBUM'
 export const PLAY_SELECTEDPLAYLIST = 'PLAY_SELECTEDPLAYLIST'
@@ -23,19 +23,21 @@ export function pauseSong() {
     }
 }
 
-export function playAlbum(album, startingIndex) {
+export function playAlbum(album, startingIndex, isShuffle) {
     return {
         type: PLAY_SELECTEDALBUM,
         album,
-        startingIndex
+        startingIndex,
+        isShuffle
     }
 }
 
-export function playPlaylist(playlist, startingIndex) {
+export function playPlaylist(playlist, startingIndex, isShuffle) {
     return {
         type: PLAY_SELECTEDPLAYLIST,
         playlist,
-        startingIndex
+        startingIndex,
+        isShuffle
     }
 }
 
