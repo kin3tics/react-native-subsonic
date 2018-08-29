@@ -17,6 +17,10 @@ const mapStateToProps = state => ({
     playlist: state.library.selectedPlaylist
 })
 
+const getItemLayout = (data, index) => (
+    { length: data.length, offset: 25 * index, index }
+)
+
 const PlaylistDetail = ({ dispatch, playlist, server }) => {
     let {width, height} = Dimensions.get('window')
     let windowWidth = width - 500;
@@ -59,6 +63,7 @@ const PlaylistDetail = ({ dispatch, playlist, server }) => {
                     <ScrollView style={[a_styles.albumSongContainer, {width: windowWidth - 50, height: windowHeight - 150}]}>
                         <FlatList
                             data={playlist.entry}
+                            getItemLayout={getItemLayout}
                             renderItem={({item, index}) => {
                                 let songDuration = getDurationArray(item.duration);
                                 return (

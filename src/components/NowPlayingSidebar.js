@@ -40,7 +40,6 @@ class NowPlayingSidebar extends Component {
         super(props);
 
     }
-
     componentWillReceiveProps(nextProps)
     {
         if (this.props.activePlaylistIndex !== nextProps.activePlaylistIndex)
@@ -48,6 +47,10 @@ class NowPlayingSidebar extends Component {
             this.props.activePlaylist = nextProps.activePlaylistIndex;
         }
     }
+
+    getItemLayout = (data, index) => (
+        { length: data.length, offset: 15 * index, index }
+    )
 
     onTouchEvent(name, ev) {
         let {dispatch, nowPlaying} = this.props;
@@ -137,6 +140,7 @@ class NowPlayingSidebar extends Component {
                     >
                     <FlatList
                         data={nowPlaying.activePlaylist}
+                        getItemLayout={this.getItemLayout}
                         renderItem={this.renderItem}
                         keyExtractor={(item) => item.id}
                     />

@@ -1,6 +1,14 @@
 Front-end to Subsonic written in React Native
 
 Version History
+- 0.1.6
+  - Media Player: Auto Progression through playlists
+  - Library: Shuffle play for albums
+  - Library: Artist List - A-Z quick access
+  - Playlists: Shuffle play for playlists
+  - Misc: Fix spacing in A-Z quick access area
+  - Misc: Fix performance in large lists (Artist, Song, Playlist, etc)
+
 - 0.1.5
   - Menu: Can toggle between main menu, library, and playlists
   - Playlists: Playlist List - Loads a list from the server on component load
