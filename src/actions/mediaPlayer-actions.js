@@ -74,6 +74,7 @@ function beginSeekTracking() {
             clearTimeout(seekTrackerTimeout);
             seekTrackerTimeout = null;
         }
+        
         seekTrackerTimeout = setTimeout(function() {
             var state = getState();
             var mediaPlayer = state.mediaPlayer
@@ -86,6 +87,18 @@ function beginSeekTracking() {
     }
 }
 
+function setAutoProgression() {
+    return (dispatch, getState) => {
+        var state = getState();
+        var mediaPlayer = state.mediaPlayer.mediaPlayer;
+        mediaPlayer.off('end')
+        mediaPlayer.once('end', function() {
+            dispatch(pauseSong())
+            dispatch(playNextSongInPlaylist())
+        })
+    }
+}
+
 export function playSelectedSongFromServer(songId) {
     return (dispatch, getState) => {
         var state = getState();
@@ -94,6 +107,7 @@ export function playSelectedSongFromServer(songId) {
         var uri = generateUrlwithId(server, 'stream', songId);
         dispatch(playSong(songId, uri));
         dispatch(beginSeekTracking());
+        dispatch(setAutoProgression());
     }
 }
 
@@ -120,6 +134,7 @@ export function playSongInPlaylist(playlistIndex) {
         dispatch(setPlaylistActiveIndex(playlistIndex));
         dispatch(playSong(songId, uri));
         dispatch(beginSeekTracking());
+        dispatch(setAutoProgression());
     }
 }
 
@@ -139,6 +154,7 @@ export function playNextSongInPlaylist() {
         dispatch(setPlaylistActiveIndex(playlistIndex));
         dispatch(playSong(songId, uri));
         dispatch(beginSeekTracking());
+        dispatch(setAutoProgression());
     }
 }
 
@@ -158,5 +174,6 @@ export function playPreviousSongInPlaylist() {
         dispatch(setPlaylistActiveIndex(playlistIndex));
         dispatch(playSong(songId, uri));
         dispatch(beginSeekTracking());
+        dispatch(setAutoProgression());
     }
 }

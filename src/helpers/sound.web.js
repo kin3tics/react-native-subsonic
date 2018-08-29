@@ -12,15 +12,17 @@ export default class Sound {
       onplayerror: function(err) {
           console.log(err);
         that.sound.once('unlock', function() {
-            that.sound.play();
+            that.sound.play()
         });
       }
     })
     
     this.play = this.play.bind(this)
     this.stop = this.stop.bind(this)  
-    this.getSeek = this.getSeek.bind(this);  
-    this.setSeek = this.setSeek.bind(this);  
+    this.getSeek = this.getSeek.bind(this)
+    this.setSeek = this.setSeek.bind(this) 
+    this.off = this.off.bind(this)
+    this.once = this.once.bind(this)
   }
 
   play() {
@@ -39,6 +41,14 @@ export default class Sound {
   stop() {
     this.sound.stop()
     return this
+  }
+
+  off(event) {
+    this.sound.off(event)
+  }
+
+  once(event, callback) {
+    this.sound.once(event, callback)
   }
 
   unload() {
