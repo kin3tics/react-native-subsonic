@@ -179,3 +179,15 @@ export function playPreviousSongInPlaylist() {
         dispatch(setAutoProgression());
     }
 }
+
+export function setNewPlaylistOrder(newPlaylist) {
+    return (dispatch, getState) => {
+        var state = getState();
+        var playlist = state.mediaPlayer.activePlaylist;
+        var playlistIndex = state.mediaPlayer.activePlaylistIndex;
+
+        var selectedIndexAfterReorder = newPlaylist.findIndex(i => i.id == playlist[playlistIndex].id);
+
+        dispatch(playPlaylist(newPlaylist, selectedIndexAfterReorder, false))
+    }
+}

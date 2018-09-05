@@ -11,13 +11,13 @@ function storeValueToAsync(obj) {
 
 const server = (
     state = { 
-        url: null,
-        user: null,
-        password: null,
+        url: '',
+        user: '',
+        password: '',
         version: '1.15.0',
         format: 'json',
         app: 'REACT_NATIVE',
-        valid: true,
+        valid: false,
         message: null
     }, 
     action ) => {

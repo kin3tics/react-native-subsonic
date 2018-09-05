@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import  { Text, ProgressBar, View, Dimensions, ScrollView, TouchableWithoutFeedback, FlatList, Image} from 'react-native'
 import { connect } from 'react-redux';
+import DraggableFlatList from './SortableFlatList'
 
 import { generateUrlwithId } from '../helpers/api-helper'
 import { getDurationArray } from '../helpers/audio-helper'
 
-import { pauseSongInPlaylist, playSongInPlaylist, playNextSongInPlaylist, playPreviousSongInPlaylist, seekSong } from '../actions/mediaPlayer-actions'
+import { pauseSongInPlaylist, playSongInPlaylist, playNextSongInPlaylist, playPreviousSongInPlaylist, seekSong, setNewPlaylistOrder } from '../actions/mediaPlayer-actions'
 
 import styles from '../styles/global'
 import np_styles from '../styles/nowPlaying'
@@ -63,13 +64,17 @@ class NowPlayingSidebar extends Component {
         dispatch(seekSong(seekValue));
     }
 
-    renderItem = ({item, index}) => {
+    renderItem = ({item, index, move, moveEnd, isActive}) => {
         let {dispatch } = this.props;
         let itemColor = item.isActive ? styles.highlightFont : styles.font1;
 
         let songDuration = getDurationArray(item.duration);
         return (
-            <TouchableWithoutFeedback onPress={() => dispatch(playSongInPlaylist(index))}>
+            <TouchableWithoutFeedback 
+                onPress={() => dispatch(playSongInPlaylist(index))}
+                onLongPress={move}
+                onPressOut={moveEnd}
+                >
                 <View style={[{flexDirection:'row', padding: 2}]}>
                     <View style={{width: 190}}>
                         <Text numberOfLines={1} style={[itemColor, {paddingLeft: 10}]}>{item.title} - {item.artist}</Text>
@@ -138,12 +143,17 @@ class NowPlayingSidebar extends Component {
                     <ScrollView
                         style={{height: height-330}}
                     >
-                    <FlatList
+
+                    <DraggableFlatList
                         data={nowPlaying.activePlaylist}
                         getItemLayout={this.getItemLayout}
                         renderItem={this.renderItem}
-                        keyExtractor={(item) => item.id}
+                        keyExtractor={(item, index) => `draggable-item-${item.id}`}
+                        scrollPercent={5}
+                        onMoveEnd={({ data }) => dispatch(setNewPlaylistOrder(data))}
+                        extraData={nowPlaying.activePlaylistIndex}
                     />
+                    
                     </ScrollView>
                 </View>
                 <View style={np_styles.playlistTrackCount}>

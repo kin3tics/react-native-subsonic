@@ -1,6 +1,9 @@
 Front-end to Subsonic written in React Native
 
 Version History
+- 0.1.7
+  - Now Playing: Can drag and drop menu items to change playlist order w/ a long hold
+
 - 0.1.6
   - Media Player: Auto Progression through playlists
   - Library: Shuffle play for albums

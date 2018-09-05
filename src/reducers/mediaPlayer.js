@@ -78,9 +78,10 @@ const mediaPlayer = (
                 activePlaylistIndex: action.startingIndex
             });
         case('PLAY_SELECTEDPLAYLIST'): {
+            console.log(action.playlist);
             let songs = !action.playlist ? [] : action.isShuffle
-                    ? shuffle(action.playlist.entry)
-                    : action.playlist.entry
+                    ? shuffle(action.playlist)
+                    : action.playlist
             return Object.assign({}, state, {
                 activePlaylist: (songs.length > 0)
                     ? songs.map(function(item, index) {

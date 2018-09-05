@@ -136,7 +136,7 @@ export function getSelectedPlaylistFromServer(playlistId) {
         return fetch(generateUrlwithId(server, 'getPlaylist', playlistId))
             .then(response => response.json())
             .then(rawjson => parseJsonResponse(rawjson))
-            .then(json => dispatch(setSelectedPlaylist(json.playlist)))
+            .then(json => dispatch(setSelectedPlaylist(json.playlist ? json.playlist.entry : [])))
     }
 }
 
@@ -148,3 +148,4 @@ export function playSelectedPlaylist(startingIndex, isShuffle) {
         dispatch(playSongInPlaylist(startingIndex))
     }
 }
+
