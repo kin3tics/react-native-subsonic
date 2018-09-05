@@ -9,6 +9,7 @@ import {
     MENU_MAIN,
     MENU_LIBRARY,
     MENU_PLAYLIST,
+    MENU_NOWPLAYING,
     setMenu,
     dispatchArtistFetch
  } from '../actions/menu-actions'
@@ -36,6 +37,13 @@ const Menu = ({ dispatch, serverInfo }) => {
             <View style={m_styles.menuItem}>
                 <Image source={require('../images/av/ic_queue_music_white_24dp.png')} style={{height: 24, width: 24}}/>
                 <Text style={[styles.font2, m_styles.menuItemText]}>Playlists</Text>
+            </View>
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback
+            onPress={() => dispatch(setMenu(MENU_NOWPLAYING))}>
+            <View style={m_styles.menuItem}>
+                <Image source={require('../images/av/ic_queue_music_white_24dp.png')} style={{height: 24, width: 24}}/>
+                <Text style={[styles.font2, m_styles.menuItemText]}>Now Playing</Text>
             </View>
         </TouchableWithoutFeedback>
         <View style={m_styles.menuItem}>

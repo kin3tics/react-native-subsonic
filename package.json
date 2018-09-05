@@ -34,7 +34,11 @@
   "dependencies": {
     "expo": "^27.0.1",
     "expo-web": "^0.0.12",
+    "gl-react": "^3.15.0",
+    "gl-react-dom": "^3.15.0",
+    "gl-react-native": "^3.15.0",
     "howler": "^2.0.15",
+    "node-vibrant": "^3.0.0",
     "react": "16.3.2",
     "react-art": "^16.4.2",
     "react-dom": "16.3.2",

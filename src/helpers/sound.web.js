@@ -16,7 +16,7 @@ export default class Sound {
         });
       }
     })
-    
+
     this.play = this.play.bind(this)
     this.stop = this.stop.bind(this)  
     this.getSeek = this.getSeek.bind(this)

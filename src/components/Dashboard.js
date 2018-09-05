@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import {
     MENU_MAIN,
     MENU_LIBRARY,
-    MENU_PLAYLIST
+    MENU_PLAYLIST,
+    MENU_NOWPLAYING,
  } from '../actions/menu-actions'
 
 import styles from '../styles/global'
@@ -15,6 +16,7 @@ import ArtistList from './ArtistList'
 import ArtistDetail from './ArtistDetail'
 import PlaylistList from './PlaylistList'
 import PlaylistDetail from './PlaylistDetail'
+import NowPlaying from './NowPlaying'
 import NowPlayingSidebar from './NowPlayingSidebar';
 
 const mapStateToProps = state => ({
@@ -24,6 +26,7 @@ const mapStateToProps = state => ({
 const Dashboard = ({ dispatch, menu }) => {
     let leftView = null;
     let detailView = null;
+    let rightView = (<NowPlayingSidebar />);
     switch(menu.active) {
         case MENU_LIBRARY:
             leftView = (<ArtistList />);
@@ -32,6 +35,11 @@ const Dashboard = ({ dispatch, menu }) => {
         case MENU_PLAYLIST:
             leftView = (<PlaylistList />);
             detailView = (<PlaylistDetail />);
+            break;
+        case MENU_NOWPLAYING:
+            leftView = (<View/>)
+            detailView = (<NowPlaying />)
+            rightView = (<View />)
             break;
         case MENU_MAIN:
         default:
@@ -49,7 +57,7 @@ const Dashboard = ({ dispatch, menu }) => {
                 {detailView}
             </View>
             <View>
-                <NowPlayingSidebar />
+                {rightView}
             </View>
         </View>)
 }
