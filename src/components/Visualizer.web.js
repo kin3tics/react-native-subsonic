@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import  { Text, ProgressBar, View, Dimensions, ScrollView, TouchableWithoutFeedback, FlatList, Image, ART} from 'react-native'
 import { connect } from 'react-redux';
-import * as Vibrant from 'node-vibrant';
 import {Howler} from 'howler';
 import {Surface} from 'gl-react-dom';
+import timeLoop from "../helpers/timeLoop";
 
 import { generateUrlwithId } from '../helpers/api-helper'
 import { getDurationArray } from '../helpers/audio-helper'
 
-import HelloBlue from '../helpers/helloBlue'
+import Fluid from '../helpers/fluid'
 
 const mapStateToProps = state => ({
     server: state.server,
@@ -19,53 +19,40 @@ class Visualizer extends Component {
     _analyzer = null
     constructor(props) {
         super(props);
-        this.state = {
-            uri: '',
-            palette: null
-        }
-    }
-    componentWillMount() {
-        //this._analyzer = Howler.ctx.createAnalyser()
-        //Howler.masterGain.connect(this._analyzer)
-
-        /*
-        let {server, nowPlaying} = this.props;
-        if(!nowPlaying || !nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex]) return;
-        let uri = generateUrlwithId(server, 'getCoverArt', nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].coverArt)
-        this.setUriState(uri);
-        */
-    }
-
-    componentWillReceiveProps(nextProps)
-    {
-        /*
-        let {server, nowPlaying} = nextProps;
-        let uri = generateUrlwithId(server, 'getCoverArt', nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].coverArt)
-        this.setUriState(uri);
-        */
-    }
-
-    setUriState(uri) {
-        if(uri === this.state.uri) return;
-
-        let that = this;
-        this.setState({uri: uri})
         
-        let v = Vibrant.from(uri)
-        v.getPalette((err, palette) => {
-            console.log(palette);
-            that.setState({ palette: palette })
-        })
     }
-
+    
     render () {
+        const { time, nowPlaying } = this.props;
         let {width, height} = Dimensions.get('window');
+        
+        if(!nowPlaying.songPalette) {
+            return (<View width={width} height={height} />)
+        }
 
+        let {LightVibrant, LightMuted, DarkVibrant, DarkMuted} = nowPlaying.songPalette;
+        
+        let lightColor = LightVibrant 
+            ? LightVibrant.getRgb() 
+            : LightMuted 
+                ? LightMuted.getRgb()
+                : [128, 128, 128];
+        let darkColor = DarkVibrant 
+            ? DarkVibrant.getRgb() 
+            : DarkMuted
+                ? DarkMuted.getRgb()
+                : [0, 0 ,0];
         return (
             <Surface width={width} height={height}>
-                <HelloBlue blue={0.5} />
+                <Fluid 
+                    color1 = {lightColor} 
+                    color2 = {darkColor} 
+                    time={time}
+                    x={width}
+                    y={height} />
+                    
             </Surface>);
         }
 }
 
-export default connect(mapStateToProps)(Visualizer)
+export default connect(mapStateToProps)(timeLoop(Visualizer))

@@ -1,15 +1,13 @@
 import React, { Component } from 'react'
-import  { Text, ProgressBar, View, Dimensions, ScrollView, TouchableWithoutFeedback, FlatList, Image, ART} from 'react-native'
+import  { Text, ProgressBar, View, Dimensions, TouchableWithoutFeedback, Image} from 'react-native'
 import { connect } from 'react-redux';
-import * as Vibrant from 'node-vibrant';
 import Howler from 'howler';
 
 import Visualizer from './Visualizer';
 
-import { generateUrlwithId } from '../helpers/api-helper'
 import { getDurationArray } from '../helpers/audio-helper'
 
-import { pauseSongInPlaylist, playSongInPlaylist, playNextSongInPlaylist, playPreviousSongInPlaylist, seekSong, setNewPlaylistOrder } from '../actions/mediaPlayer-actions'
+import { pauseSongInPlaylist, playNextSongInPlaylist, playPreviousSongInPlaylist, seekSong } from '../actions/mediaPlayer-actions'
 import {
     MENU_MAIN,
     setMenu,
@@ -81,12 +79,16 @@ class NowPlaying extends Component {
                     <View style={np_styles.fs_visualizer}><Visualizer /></View>
                     {this.renderMenuIcon()}
                 </View>);
-        let uri = generateUrlwithId(server, 'getCoverArt', nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].coverArt)
+        let uri = nowPlaying.songCoverArtUri;
+        console.log(uri);
         var song = nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex];
         var playButton = !nowPlaying.isPlaying
                 ?(<Image style={{height: 30, width:30}} source={require('../images/av/ic_play_arrow_white_24dp.png')}/>)
                 :(<Image style={{height: 30, width:30}} source={require('../images/av/ic_pause_white_24dp.png')}/>);
         var seekProgress = (nowPlaying.songSeek / song.duration);
+        var titleColor = (nowPlaying.songPalette && nowPlaying.songPalette.LightVibrant) ? nowPlaying.songPalette.LightVibrant.getTitleTextColor()
+                            : '#FFF';
+        console.log(titleColor);
         return (
             <View style={[np_styles.fs_main, {width: width, height: height}]}> 
                 <View style={np_styles.fs_visualizer}><Visualizer /></View>
@@ -95,17 +97,17 @@ class NowPlaying extends Component {
                     <Image 
                         source={{ uri: uri}}
                         style={{height: 350, width: 350}} />
-                    <Text numberOfLines={1} style={[styles.font1, np_styles.fs_songText]}>{nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].title}</Text>
-                    <Text numberOfLines={1} style={[styles.font1, np_styles.fs_artistText]}>{nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].artist}</Text>
+                    <Text numberOfLines={1} style={[{color: '#FFF'}, np_styles.fs_songText]}>{nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].title}</Text>
+                    <Text numberOfLines={1} style={[{color: '#FFF'}, np_styles.fs_artistText]}>{nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].artist}</Text>
                     <View style={np_styles.fs_progressBar}
                         onStartShouldSetResponder={(ev) => true}
                         onResponderGrant={this.onTouchEvent.bind(this, "onResponderGrant")}
                         onResponderMove={this.onTouchEvent.bind(this, "onResponderMove")}
                         >
                         <ProgressBar
-                            style={{borderRadius: 10, height: 10}}
-                            color={'#DDD'}
-                            trackColor={'#343434'}
+                            style={{borderRadius: 10, height: 12}}
+                            color={'#FFF'}
+                            trackColor={'#545454'}
                             progress={seekProgress}
                         />
                     </View>

@@ -1,3 +1,5 @@
+import * as Vibrant from 'node-vibrant';
+
 import { generateUrlwithId } from '../helpers/api-helper'
 
 export const PLAY_SELECTEDALBUM = 'PLAY_SELECTEDALBUM'
@@ -8,6 +10,7 @@ export const SET_PLAYLIST_ACTIVEINDEX = 'SET_PLAYLIST_ACTIVEINDEX'
 export const PREV_SONG = 'PREV_SONG'
 export const SEEK_SONG = 'SEEK_SONG'
 export const ADD_SONG = 'ADD_SONG'
+export const SET_ART = 'SET_ART'
 
 export function playSong(songId, uri) {
     return {
@@ -65,6 +68,14 @@ export function addSong(songArray) {
     return {
         type: ADD_SONG,
         songArray
+    }
+}
+
+export function setSongArt(coverArtUri, palette) {
+    return {
+        type: SET_ART,
+        coverArtUri,
+        palette
     }
 }
 
@@ -132,11 +143,21 @@ export function playSongInPlaylist(playlistIndex) {
             return;
         }
         var songId = mediaPlayer.activePlaylist[playlistIndex].id;
+        var coverArt = mediaPlayer.activePlaylist[playlistIndex].coverArt;
         var uri = generateUrlwithId(server, 'stream', songId);
+        let coverArtUri = generateUrlwithId(server, 'getCoverArt', coverArt);
+        
         dispatch(setPlaylistActiveIndex(playlistIndex));
         dispatch(playSong(songId, uri));
         dispatch(beginSeekTracking());
         dispatch(setAutoProgression());
+
+        if(mediaPlayer.songCoverArtUri === coverArtUri) return;
+
+        let v = Vibrant.from(coverArtUri)
+        v.getPalette((err, palette) => {
+            dispatch(setSongArt(coverArtUri, palette));
+        })
     }
 }
 
@@ -151,12 +172,7 @@ export function playNextSongInPlaylist() {
         if (playlistIndex > (mediaPlayer.activePlaylist.length - 1)) {
             return;
         }
-        var songId = mediaPlayer.activePlaylist[playlistIndex].id;
-        var uri = generateUrlwithId(server, 'stream', songId);
-        dispatch(setPlaylistActiveIndex(playlistIndex));
-        dispatch(playSong(songId, uri));
-        dispatch(beginSeekTracking());
-        dispatch(setAutoProgression());
+        dispatch(playSongInPlaylist(playlistIndex));
     }
 }
 
@@ -171,12 +187,7 @@ export function playPreviousSongInPlaylist() {
         if (playlistIndex < 0) {
             return;
         }
-        var songId = mediaPlayer.activePlaylist[playlistIndex].id;
-        var uri = generateUrlwithId(server, 'stream', songId);
-        dispatch(setPlaylistActiveIndex(playlistIndex));
-        dispatch(playSong(songId, uri));
-        dispatch(beginSeekTracking());
-        dispatch(setAutoProgression());
+        dispatch(playSongInPlaylist(playlistIndex));
     }
 }
 

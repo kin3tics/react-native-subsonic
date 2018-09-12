@@ -62,8 +62,8 @@ export default StyleSheet.create({
     fs_progressBar: {
         height: 10, 
         width: 350, 
-        paddingTop: 20,
-        paddingBottom: 20
+        marginTop: 20,
+        marginBottom: 20
     },
     fs_visualizer: {
         zIndex: 0, 

@@ -18,6 +18,8 @@ const mediaPlayer = (
     state = { 
         songId: null,
         songSeek: 0,
+        songCoverArtUri: null,
+        songPalette: null,
         isPlaying: 0,
         mediaPlayer: null,
         activePlaylistIndex: null,
@@ -105,6 +107,11 @@ const mediaPlayer = (
                     return setSongActiveMap(item, -1, state.activePlaylistIndex);
                 })),
                 activePlaylistIndex: !state.activePlaylistIndex ? 0 : state.activePlaylistIndex
+            });
+        case('SET_ART'):
+            return Object.assign({}, state, {
+                songCoverArtUri: action.coverArtUri,
+                songPalette: action.palette
             });
         default:
             return state;
