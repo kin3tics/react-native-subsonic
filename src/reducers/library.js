@@ -2,6 +2,8 @@ const library = (
     state = { 
         artists: [],
         selectedArtist: null,
+        selectedArtistInfo: null,
+        selectedArtistTopSongs: [],
         selectedAlbum: null,
         playlists: [],
         selectedPlaylist: null
@@ -21,6 +23,14 @@ const library = (
         case 'SET_SELECTEDARTIST':
             return Object.assign({}, state, { 
                 selectedArtist: action.artist
+            });
+        case 'SET_SELECTEDARTISTINFO':
+            return Object.assign({}, state, { 
+                selectedArtistInfo: action.artistInfo
+            });
+        case 'SET_SELECTEDARTISTTOPSONGS':
+            return Object.assign({}, state, { 
+                selectedArtistTopSongs: action.topSongs
             });
         case 'SET_SELECTEDALBUM':
             return Object.assign({}, state, { 

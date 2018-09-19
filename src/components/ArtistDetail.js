@@ -4,18 +4,20 @@ import { connect } from 'react-redux';
 
 import AlbumList from './AlbumList'
 import AlbumDetails from './AlbumDetail'
+import ArtistInfo from './ArtistInfo'
 
 import styles from '../styles/global'
 import a_styles from '../styles/artists'
 
 const mapStateToProps = state => ({
     server: state.server,
-    artist: state.library.selectedArtist
+    artist: state.library.selectedArtist,
+    album: state.library.selectedAlbum
 })
 
 
 
-const ArtistDetail = ({ dispatch, artist, server }) => {
+const ArtistDetail = ({ dispatch, artist, album, server }) => {
     let {width, height} = Dimensions.get('window')
     if(!artist || !artist.album || artist.album.length == 0) 
         return (<ScrollView contentContainerStyle={{ 
@@ -27,6 +29,7 @@ const ArtistDetail = ({ dispatch, artist, server }) => {
             </View>
             <AlbumList />
         </ScrollView>);
+    let detailView = !album ? <ArtistInfo/> : <AlbumDetails/>
     return (
         <ScrollView contentContainerStyle={{ 
                 flexGrow: 1, 
@@ -34,7 +37,7 @@ const ArtistDetail = ({ dispatch, artist, server }) => {
                 justifyContent: 'space-between'}}
              style={[styles.background1, a_styles.container, {width: width - 500}]}>
             <View style={{height: (height)}}>
-                <AlbumDetails/>
+                {detailView}
             </View>
                 <AlbumList/>
         </ScrollView>);

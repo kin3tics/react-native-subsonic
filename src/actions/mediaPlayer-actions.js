@@ -5,6 +5,7 @@ import { generateUrlwithId } from '../helpers/api-helper'
 export const PLAY_SELECTEDALBUM = 'PLAY_SELECTEDALBUM'
 export const PLAY_SELECTEDPLAYLIST = 'PLAY_SELECTEDPLAYLIST'
 export const PLAY_SONG = 'PLAY_SONG'
+export const PLAY_TOPSONGS = 'PLAY_TOPSONGS'
 export const PAUSE_SONG = 'PAUSE_SONG'
 export const SET_PLAYLIST_ACTIVEINDEX = 'SET_PLAYLIST_ACTIVEINDEX'
 export const PREV_SONG = 'PREV_SONG'
@@ -41,6 +42,14 @@ export function playPlaylist(playlist, startingIndex, isShuffle) {
         playlist,
         startingIndex,
         isShuffle
+    }
+}
+
+export function playTopSongs(topSongs, startingIndex) {
+    return {
+        type: PLAY_TOPSONGS,
+        topSongs,
+        startingIndex
     }
 }
 
@@ -182,12 +191,18 @@ export function playPreviousSongInPlaylist() {
         var mediaPlayer = state.mediaPlayer;
         var server = state.server;
 
-        var playlistIndex = (mediaPlayer.activePlaylistIndex - 1);
-        //if already at beginning of playlist don't do anything
-        if (playlistIndex < 0) {
-            return;
+        //If in the middle of a song, go to the beginning of the song
+        if (mediaPlayer.songSeek > 10) {
+            dispatch(seekSong(0));
+            
+        } else {
+            var playlistIndex = (mediaPlayer.activePlaylistIndex - 1);
+            //if already at beginning of playlist don't do anything
+            if (playlistIndex < 0) {
+                return;
+            }
+            dispatch(playSongInPlaylist(playlistIndex));
         }
-        dispatch(playSongInPlaylist(playlistIndex));
     }
 }
 

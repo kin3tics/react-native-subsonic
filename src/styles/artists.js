@@ -79,6 +79,14 @@ export default StyleSheet.create({
         flexDirection: 'row',
         position: 'absolute',
         right: 30
+    },
+    similarArtist: {
+        flexDirection: 'row',
+        backgroundColor: 'rgba(127, 127, 127, 0.34)',
+        padding: 5,
+        margin: 2,
+        borderRadius: 5,
+
     }
 
 });

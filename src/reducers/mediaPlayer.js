@@ -9,7 +9,6 @@ function handleError(err) {
 }
 
 function setSongActiveMap(item, index, activeIndex) {
-    console.log(index + '-' + activeIndex);
     index === activeIndex ? item.isActive = true : item.isActive = false;
     return item;
 }
@@ -57,7 +56,7 @@ const mediaPlayer = (
             }
             return s;
         case('SEEK_SONG'):
-            if (!action.seek) {
+            if (!action.seek && action.seek !== 0) {
                 return Object.assign({}, state, {
                     songSeek: state.mediaPlayer.getSeek()
                 });
@@ -80,13 +79,22 @@ const mediaPlayer = (
                 activePlaylistIndex: action.startingIndex
             });
         case('PLAY_SELECTEDPLAYLIST'): {
-            console.log(action.playlist);
-            let songs = !action.playlist ? [] : action.isShuffle
-                    ? shuffle(action.playlist)
-                    : action.playlist
+            let songs = !action.playlist.entry ? [] : action.isShuffle
+                    ? shuffle(action.playlist.entry)
+                    : action.playlist.entry
             return Object.assign({}, state, {
                 activePlaylist: (songs.length > 0)
                     ? songs.map(function(item, index) {
+                        return setSongActiveMap(item, index, action.startingIndex);
+                    })
+                    : [],
+                activePlaylistIndex: action.startingIndex
+            });
+        }
+        case('PLAY_TOPSONGS'): {
+            return Object.assign({}, state, {
+                activePlaylist: (action.topSongs.length > 0)
+                    ? action.topSongs.map(function(item, index) {
                         return setSongActiveMap(item, index, action.startingIndex);
                     })
                     : [],

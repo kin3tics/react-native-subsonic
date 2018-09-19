@@ -84,7 +84,7 @@ const PlaylistDetail = ({ dispatch, playlist, server }) => {
                                     </View>
                                 )
                             }}
-                            keyExtractor={(item) => item.id}
+                            keyExtractor={(item, index) => item.id + '-' + index}
                         />
                     </ScrollView>
                 </View>

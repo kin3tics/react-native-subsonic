@@ -8,7 +8,7 @@ import { generateUrlwithId } from '../helpers/api-helper'
 import styles from '../styles/global'
 import a_styles from '../styles/artists'
 
-import { ALBUM_TYPE, playSelectedAlbum, addSelectedAlbumToPlaylist, addSelectedSongToPlaylist } from '../actions/library-actions'
+import { ALBUM_TYPE, playSelectedAlbum, addSelectedAlbumToPlaylist, addSelectedSongToPlaylist, setSelectedAlbum } from '../actions/library-actions'
 
 import { getDurationArray } from '../helpers/audio-helper'
 
@@ -87,7 +87,10 @@ const AlbumDetail = ({ dispatch, album, server }) => {
                 
                 <View style={{backgroundColor: 'rgba(16, 12, 12, 0.64)', width: windowWidth, height: windowHeight}}>
                     <Text style={[styles.font1, a_styles.albumDetailTitle]}>{album.name}</Text>
-                    <Text style={[styles.font1, a_styles.albumDetailSubtitle]}>{album.artist}</Text>
+                    <TouchableWithoutFeedback
+                        onPress={() => dispatch(setSelectedAlbum(null))}>
+                        <View><Text style={[styles.font1, a_styles.albumDetailSubtitle]}>{album.artist}</Text></View>
+                    </TouchableWithoutFeedback>
                     <View style={a_styles.albumDetailText}>
                         <Text style={[styles.font1]}>{album.songCount} Tracks | </Text>
                         <Text style={[styles.font1]}>{albumDuration[0]}:{albumDuration[1]} | {album.genre} | </Text>

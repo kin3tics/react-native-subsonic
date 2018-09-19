@@ -9,6 +9,10 @@ export function generateUrlwithId(server, apiAction, id) {
     return generateUrl(server, apiAction) + `&id=${id}`
 }
 
+export function generateUrlwithCustomParam(server, apiAction, param, data) {
+    return generateUrl(server, apiAction) + `&${param}=${data}`
+}
+
 export function parseJsonResponse(json) {
     console.log(json);
     return json['subsonic-response'];

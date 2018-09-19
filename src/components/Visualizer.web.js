@@ -8,7 +8,7 @@ import timeLoop from "../helpers/timeLoop";
 import { generateUrlwithId } from '../helpers/api-helper'
 import { getDurationArray } from '../helpers/audio-helper'
 
-import Fluid from '../helpers/fluid'
+import Fluid from '../helpers/fluid2'
 
 const mapStateToProps = state => ({
     server: state.server,

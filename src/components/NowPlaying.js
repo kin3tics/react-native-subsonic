@@ -83,8 +83,8 @@ class NowPlaying extends Component {
         console.log(uri);
         var song = nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex];
         var playButton = !nowPlaying.isPlaying
-                ?(<Image style={{height: 30, width:30}} source={require('../images/av/ic_play_arrow_white_24dp.png')}/>)
-                :(<Image style={{height: 30, width:30}} source={require('../images/av/ic_pause_white_24dp.png')}/>);
+                ?(<Image style={{height: 42, width:42}} source={require('../images/av/ic_play_arrow_white_24dp.png')}/>)
+                :(<Image style={{height: 42, width:42}} source={require('../images/av/ic_pause_white_24dp.png')}/>);
         var seekProgress = (nowPlaying.songSeek / song.duration);
         var titleColor = (nowPlaying.songPalette && nowPlaying.songPalette.LightVibrant) ? nowPlaying.songPalette.LightVibrant.getTitleTextColor()
                             : '#FFF';
@@ -96,30 +96,29 @@ class NowPlaying extends Component {
                 <View style={[np_styles.fs_mediaSection, styles.centeredcontainer]} >
                     <Image 
                         source={{ uri: uri}}
-                        style={{height: 350, width: 350}} />
-                    <Text numberOfLines={1} style={[{color: '#FFF'}, np_styles.fs_songText]}>{nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].title}</Text>
-                    <Text numberOfLines={1} style={[{color: '#FFF'}, np_styles.fs_artistText]}>{nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].artist}</Text>
+                        style={{height: 350, width: 350, borderRadius: 10}} />
                     <View style={np_styles.fs_progressBar}
                         onStartShouldSetResponder={(ev) => true}
                         onResponderGrant={this.onTouchEvent.bind(this, "onResponderGrant")}
                         onResponderMove={this.onTouchEvent.bind(this, "onResponderMove")}
                         >
                         <ProgressBar
-                            style={{borderRadius: 10, height: 12}}
+                            style={{borderRadius: 10, height: 12, border:2}}
                             color={'#FFF'}
-                            trackColor={'#545454'}
                             progress={seekProgress}
                         />
                     </View>
-                    <View style={{flexDirection: 'row'}}>
+                    <Text numberOfLines={1} style={[{color: '#FFF'}, np_styles.fs_songText]}>{nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].title}</Text>
+                    <Text numberOfLines={1} style={[{color: '#FFF'}, np_styles.fs_artistText]}>{nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].artist}</Text>
+                    <View style={{flexDirection: 'row', paddingTop: 10}}>
                         <TouchableWithoutFeedback onPress={() => dispatch(playPreviousSongInPlaylist())}>
-                            <Image style={{height: 30, width:30}} source={require('../images/av/ic_skip_previous_white_24dp.png')}/>
+                            <Image style={{height: 42, width:42}} source={require('../images/av/ic_skip_previous_white_24dp.png')}/>
                         </TouchableWithoutFeedback>
                         <TouchableWithoutFeedback onPress={() => dispatch(pauseSongInPlaylist())}>
                             {playButton}
                         </TouchableWithoutFeedback>
                         <TouchableWithoutFeedback onPress={() => dispatch(playNextSongInPlaylist())}>
-                            <Image style={{height: 30, width:30}} source={require('../images/av/ic_skip_next_white_24dp.png')}/>
+                            <Image style={{height: 42, width:42}} source={require('../images/av/ic_skip_next_white_24dp.png')}/>
                         </TouchableWithoutFeedback>
                     </View>
                 </View>

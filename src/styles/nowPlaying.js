@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { rgbDiff } from 'node-vibrant/lib/util';
 
 export default StyleSheet.create({
     //Library Sidebar
@@ -21,7 +22,6 @@ export default StyleSheet.create({
         padding: 10
     },
     songText: {
-        marginTop: 5,
         fontWeight: 'bold'
     },
     artistText: {
@@ -30,8 +30,8 @@ export default StyleSheet.create({
     progressBar: {
         height: 10, 
         width: 150, 
-        paddingTop: 10,
-        paddingBottom: 10
+        marginTop: 10,
+        //marginBottom: 10,
     },
     //Fullscreen
     fs_main: {
@@ -51,19 +51,20 @@ export default StyleSheet.create({
         width: 500
     },
     fs_songText: {
-        marginTop: 15,
-        marginBottom: 5,
+        //paddingTop: 15,
+        paddingBottom: 5,
         fontWeight: 'bold',
-        fontSize: 20
+        fontSize: 20,
     },
     fs_artistText: {
-        fontSize: 16
+        fontSize: 16,
     },
     fs_progressBar: {
-        height: 10, 
         width: 350, 
         marginTop: 20,
-        marginBottom: 20
+        marginBottom: 20,
+        backgroundColor: 'rgba(127, 127, 127, 0.34)',
+        borderRadius: 10
     },
     fs_visualizer: {
         zIndex: 0, 

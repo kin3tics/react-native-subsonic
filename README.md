@@ -1,6 +1,12 @@
 Front-end to Subsonic written in React Native
 
 Version History
+- 0.1.8
+  - Library: Artist Info page
+  - Now Playing: Fullscreen smoke & lavalamp  visualisations colored from album art
+  - Bugfix: issues with multiples of the same song
+  - UI Tweak: Change order of elements for the media controls
+
 - 0.1.7
   - Now Playing: Sidebar can drag and drop menu items to change playlist order w/ a long hold
   - Now Playing: Fullscreen initialization w/ open gl background for visualizations

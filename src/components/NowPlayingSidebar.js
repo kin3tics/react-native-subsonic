@@ -110,8 +110,6 @@ class NowPlayingSidebar extends Component {
                     <Image 
                         source={{ uri: uri}}
                         style={{height: 150, width: 150}} />
-                    <Text numberOfLines={1} style={[styles.font1, np_styles.songText]}>{nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].title}</Text>
-                    <Text numberOfLines={1} style={[styles.font1, np_styles.artistText]}>{nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].artist}</Text>
                     <View style={np_styles.progressBar}
                         onStartShouldSetResponder={(ev) => true}
                         onResponderGrant={this.onTouchEvent.bind(this, "onResponderGrant")}
@@ -124,7 +122,9 @@ class NowPlayingSidebar extends Component {
                             progress={seekProgress}
                         />
                     </View>
-                    <View style={{flexDirection: 'row'}}>
+                    <Text numberOfLines={1} style={[styles.font1, np_styles.songText]}>{nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].title}</Text>
+                    <Text numberOfLines={1} style={[styles.font1, np_styles.artistText]}>{nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].artist}</Text>
+                    <View style={{flexDirection: 'row', marginTop: 10}}>
                         <TouchableWithoutFeedback onPress={() => dispatch(playPreviousSongInPlaylist())}>
                             <Image style={{height: 20, width:20}} source={require('../images/av/ic_skip_previous_white_24dp.png')}/>
                         </TouchableWithoutFeedback>
@@ -148,7 +148,7 @@ class NowPlayingSidebar extends Component {
                         data={nowPlaying.activePlaylist}
                         getItemLayout={this.getItemLayout}
                         renderItem={this.renderItem}
-                        keyExtractor={(item, index) => `draggable-item-${item.id}`}
+                        keyExtractor={(item, index) => `draggable-item-${item.id}-${index}`}
                         scrollPercent={5}
                         onMoveEnd={({ data }) => dispatch(setNewPlaylistOrder(data))}
                         extraData={nowPlaying.activePlaylistIndex}
