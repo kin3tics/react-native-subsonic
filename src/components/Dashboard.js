@@ -14,6 +14,7 @@ import styles from '../styles/global'
 
 import Menu from './Menu'
 import ArtistList from './ArtistList'
+import Library from './Library'
 import ArtistDetail from './ArtistDetail'
 import PlaylistList from './PlaylistList'
 import PlaylistDetail from './PlaylistDetail'
@@ -32,7 +33,7 @@ const Dashboard = ({ dispatch, menu }) => {
     switch(menu.active) {
         case MENU_LIBRARY:
             leftView = (<ArtistList />);
-            detailView = (<ArtistDetail />);
+            detailView = (<Library />);
             break;
         case MENU_PLAYLIST:
             leftView = (<PlaylistList />);

@@ -6,11 +6,23 @@ export function generateUrl(server, apiAction) {
 }
 
 export function generateUrlwithId(server, apiAction, id) {
-    return generateUrl(server, apiAction) + `&id=${id}`
+    return generateUrlwithCustomParams(server, apiAction, {id: id});
 }
 
 export function generateUrlwithCustomParam(server, apiAction, param, data) {
-    return generateUrl(server, apiAction) + `&${param}=${data}`
+    var object = {};
+    object[param] = data;
+    return generateUrlwithCustomParams(server, apiAction, object);
+}
+
+export function generateUrlwithCustomParams(server, apiAction, paramData) {
+    var url = generateUrl(server, apiAction);
+    
+    Object.keys(paramData).forEach(function(key,index) {
+        url+= `&${key}=${paramData[key]}`;
+    });
+
+    return url;
 }
 
 export function parseJsonResponse(json) {

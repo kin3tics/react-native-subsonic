@@ -16,7 +16,6 @@ import {
 import styles from '../styles/global'
 import np_styles from '../styles/nowPlaying'
 
-
 function getColorForMissingArtwork(index) {
     let i = index % 5
     switch(i)

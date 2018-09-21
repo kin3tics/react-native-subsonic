@@ -102,6 +102,20 @@ export default StyleSheet.create({
         fontSize: 16,
         padding: 10,
         flex: 1 
+    },
+    libraryTypes: {
+        marginTop: 10,
+        marginRight: 10,
+        marginBottom: 10
+    },
+    libraryListItem: {
+        fontSize: 14,
+        lineHeight: 20
+    },
+    libraryListItemSelected: {
+        fontSize: 20,
+        lineHeight: 20,
+        fontWeight: 'bold'
     }
 
 });

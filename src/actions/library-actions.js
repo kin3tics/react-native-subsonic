@@ -1,4 +1,4 @@
-import { generateUrl, generateUrlwithId, generateUrlwithCustomParam, parseJsonResponse, OK } from '../helpers/api-helper'
+import { generateUrl, generateUrlwithId, generateUrlwithCustomParam, generateUrlwithCustomParams, parseJsonResponse, OK } from '../helpers/api-helper'
 
 import { playAlbum, playPlaylist, playTopSongs, addSong, playSongInPlaylist } from './mediaPlayer-actions'
 
@@ -11,11 +11,21 @@ export const SET_PLAYLISTS = 'SET_PLAYLISTS'
 export const SET_SELECTEDPLAYLIST = 'SET_SELECTEDPLAYLIST'
 export const SET_SEARCHQUERY = 'SET_SEARCHQUERY'
 export const SET_SEARCHRESULTS = 'SET_SEARCHRESULTS'
+export const SET_ALBUMLISTTYPE = 'SET_ALBUMLISTTYPE'
+export const SET_ALBUMLIST = 'SET_ALBUMLIST'
 
 export const ALBUM_TYPE = 'ALBUM'
 export const PLAYLIST_TYPE = 'PLAYLIST'
 export const TOPSONG_TYPE = 'TOPSONG'
 export const SEARCH_TYPE = 'SEARCH'
+
+export const RANDOM_TYPE = 'Random';
+export const RECENTADD_TYPE = 'Recently Added'
+export const PINNED_TYPE = 'Pinned'
+export const TOPRATED_TYPE = 'Top Rated'
+export const MOSTPLAYED_TYPE = 'Most Played'
+export const RECENTPLAYED_TYPE = 'Recently Played'
+export const GENRE_TYPE = 'By Genre'
 
 
 export function setArtistList(artists) {
@@ -81,6 +91,19 @@ export function setSearchResults(searchResults) {
     }
 }
 
+export function setLibraryAlbumListType(libraryAlbumListType) {
+    return {
+        type: SET_ALBUMLISTTYPE,
+        libraryAlbumListType
+    }
+}
+
+export function setLibraryAlbumList(libraryAlbumList) {
+    return {
+        type: SET_ALBUMLIST,
+        libraryAlbumList
+    }
+}
 
 export function playSelectedAlbum(startingIndex, isShuffle) {
     return (dispatch, getState) => {
@@ -248,6 +271,68 @@ export function playSearchedSong(index) {
             dispatch(playSongInPlaylist(playlist.length-1))
         }, 250)
 
+    }
+}
+
+export function getGenreList() {
+    var state = getState();
+    var server = state.server;
+    var library = state.library;
+
+    
+    dispatch(setSearchQuery(searchText))
+    return fetch(generateUrlwithCustomParam(server, 'getGenres', 'query', searchText))
+        .then(response => response.json())
+        .then(rawjson => parseJsonResponse(rawjson))
+        .then(json => {
+            dispatch(setGenreList(json.genres))
+            if(!library.selectedGenre) {
+                dispatch(setSelectedGenre(json.genres[0]))
+            }
+        })
+}
+
+function getAlbumListTypeFromNiceName(name) {
+    switch(name) {
+        case RANDOM_TYPE:
+            return 'random'
+        case RECENTADD_TYPE:
+            return 'newest'
+        case PINNED_TYPE:
+            return 'starred'
+        case MOSTPLAYED_TYPE:
+            return 'frequent'
+        case RECENTPLAYED_TYPE:
+            return 'recent'
+        case GENRE_TYPE:
+            return 'byGenre'
+    }
+}
+
+export function getAlbumList(type, genre, size, offset) {
+    return (dispatch, getState) => {
+        var state = getState();
+        var server = state.server;
+
+        var obj = {type: getAlbumListTypeFromNiceName(type)};
+        if(genre) {
+            obj['genre'] = genre;
+        }
+        if(size) {
+            obj['size'] = size;
+        } else {
+            obj['size'] = 50;
+        }
+        if(offset) {
+            obj['offset'] = offset;
+        } else {
+            obj['offset'] = 0;
+        }
+
+        return fetch(generateUrlwithCustomParams(server, 'getAlbumList2', obj))
+            .then(response => response.json())
+            .then(rawjson => parseJsonResponse(rawjson))
+            .then(json => dispatch(setLibraryAlbumList((json.albumList2 && json.albumList2.album) ? json.albumList2.album : [])))
     }
 }
 
