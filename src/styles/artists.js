@@ -87,6 +87,21 @@ export default StyleSheet.create({
         margin: 2,
         borderRadius: 5,
 
+    },
+    searchBox: {
+        flex: 1,
+        flexDirection: 'row',
+        backgroundColor: 'rgba(12, 12, 12, 0.34)',
+        //padding: 10,
+        margin: 10,
+        marginTop: 5,
+        borderRadius: 10,
+    },
+    searchInput: {
+        color: '#FFF',
+        fontSize: 16,
+        padding: 10,
+        flex: 1 
     }
 
 });

@@ -10,6 +10,7 @@ import {
     MENU_LIBRARY,
     MENU_PLAYLIST,
     MENU_NOWPLAYING,
+    MENU_SEARCH,
     setMenu,
     dispatchArtistFetch
  } from '../actions/menu-actions'
@@ -42,14 +43,17 @@ const Menu = ({ dispatch, serverInfo }) => {
         <TouchableWithoutFeedback
             onPress={() => dispatch(setMenu(MENU_NOWPLAYING))}>
             <View style={m_styles.menuItem}>
-                <Image source={require('../images/av/ic_queue_music_white_24dp.png')} style={{height: 24, width: 24}}/>
+                <Image source={require('../images/av/ic_play_circle_outline_white_24dp.png')} style={{height: 24, width: 24}}/>
                 <Text style={[styles.font2, m_styles.menuItemText]}>Now Playing</Text>
             </View>
         </TouchableWithoutFeedback>
-        <View style={m_styles.menuItem}>
-            <Image source={require('../images/navigation/ic_search_white_24dp.png')} style={{height: 24, width: 24}}/>
-            <Text style={[styles.font2, m_styles.menuItemText]}>Search</Text>
-        </View>
+        <TouchableWithoutFeedback
+            onPress={() => dispatch(setMenu(MENU_SEARCH))}>
+            <View style={m_styles.menuItem}>
+                <Image source={require('../images/navigation/ic_search_white_24dp.png')} style={{height: 24, width: 24}}/>
+                <Text style={[styles.font2, m_styles.menuItemText]}>Search</Text>
+            </View>
+        </TouchableWithoutFeedback>
         <View style={m_styles.menuItem}>
             <Image source={require('../images/action/ic_settings_white_24dp.png')} style={{height: 24, width: 24}}/>
             <Text style={[styles.font2, m_styles.menuItemText]}>Settings</Text>

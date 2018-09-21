@@ -7,6 +7,7 @@ import {
     MENU_LIBRARY,
     MENU_PLAYLIST,
     MENU_NOWPLAYING,
+    MENU_SEARCH,
  } from '../actions/menu-actions'
 
 import styles from '../styles/global'
@@ -18,6 +19,7 @@ import PlaylistList from './PlaylistList'
 import PlaylistDetail from './PlaylistDetail'
 import NowPlaying from './NowPlaying'
 import NowPlayingSidebar from './NowPlayingSidebar';
+import Search from './Search'
 
 const mapStateToProps = state => ({
     menu: state.menu
@@ -40,6 +42,10 @@ const Dashboard = ({ dispatch, menu }) => {
             leftView = (<View/>)
             detailView = (<NowPlaying />)
             rightView = (<View />)
+            break;
+        case MENU_SEARCH:
+            leftView = (<Menu />)
+            detailView = (<Search />)
             break;
         case MENU_MAIN:
         default:

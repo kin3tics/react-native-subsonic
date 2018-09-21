@@ -6,7 +6,7 @@ import styles from '../styles/global'
 import a_styles from '../styles/artists'
 import m_styles from '../styles/menu'
 
-import { getSelectedArtistFromServer } from '../actions/library-actions'
+import { getSelectedArtistFromServer, setSelectedAlbum } from '../actions/library-actions'
 
 import {
     MENU_MAIN,
@@ -96,7 +96,9 @@ class ArtistList extends Component  {
                         renderItem={({item}) => {
                             return (
                                 <TouchableWithoutFeedback
-                                    onPress={() => dispatch(getSelectedArtistFromServer(item.id))}>
+                                    onPress={() => dispatch(getSelectedArtistFromServer(item.id))
+                                                    .then(dispatch(setSelectedAlbum(null)))
+                                                }>
                                     <View style={a_styles.listItem}><Text numberOfLines={1} style={[styles.font1, a_styles.listItem]}>{item.name}</Text></View>
                                 </TouchableWithoutFeedback>)}}
                         renderSectionHeader={renderSectionHeader}

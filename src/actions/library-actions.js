@@ -9,10 +9,13 @@ export const SET_SELECTEDARTISTTOPSONGS = 'SET_SELECTEDARTISTTOPSONGS'
 export const SET_SELECTEDALBUM = 'SET_SELECTEDALBUM'
 export const SET_PLAYLISTS = 'SET_PLAYLISTS'
 export const SET_SELECTEDPLAYLIST = 'SET_SELECTEDPLAYLIST'
+export const SET_SEARCHQUERY = 'SET_SEARCHQUERY'
+export const SET_SEARCHRESULTS = 'SET_SEARCHRESULTS'
 
-export const ALBUM_TYPE = 'ALBUM';
-export const PLAYLIST_TYPE = 'PLAYLIST';
+export const ALBUM_TYPE = 'ALBUM'
+export const PLAYLIST_TYPE = 'PLAYLIST'
 export const TOPSONG_TYPE = 'TOPSONG'
+export const SEARCH_TYPE = 'SEARCH'
 
 
 export function setArtistList(artists) {
@@ -64,6 +67,20 @@ export function setSelectedPlaylist(playlist) {
     }
 }
 
+export function setSearchQuery(searchQuery) {
+    return {
+        type: SET_SEARCHQUERY,
+        searchQuery
+    }
+}
+
+export function setSearchResults(searchResults) {
+    return {
+        type: SET_SEARCHRESULTS,
+        searchResults
+    }
+}
+
 
 export function playSelectedAlbum(startingIndex, isShuffle) {
     return (dispatch, getState) => {
@@ -84,16 +101,19 @@ export function addSelectedAlbumToPlaylist() {
 
 export function addSelectedSongToPlaylist(type, index) {
     return (dispatch, getState) => {
-        var state = getState();
+        var state = getState()
         if(type === ALBUM_TYPE) {
-            var album = state.library.selectedAlbum;
+            var album = state.library.selectedAlbum
             dispatch(addSong([album.song[index]]))
         } else if (type === PLAYLIST_TYPE) {
-            var playlist = state.library.selectedPlaylist;
+            var playlist = state.library.selectedPlaylist
             dispatch(addSong([playlist.entry[index]]))
         } else if (type === TOPSONG_TYPE) {
-            var topSongs = state.library.selectedArtistTopSongs;
+            var topSongs = state.library.selectedArtistTopSongs
             dispatch(addSong([topSongs[index]]))
+        } else if (type === SEARCH_TYPE) {
+            var songs = state.library.searchResults.song
+            dispatch(addSong([songs[index]])) 
         }
        
     }
@@ -121,15 +141,13 @@ export function getSelectedArtistFromServer(artistId) {
             .then(rawjson => parseJsonResponse(rawjson))
             .then(json => dispatch(setSelectedArtistInfo(json.artistInfo2)))
 
-        fetch(generateUrlwithId(server, 'getArtist', artistId))
+        return fetch(generateUrlwithId(server, 'getArtist', artistId))
             .then(response => response.json())
             .then(rawjson => parseJsonResponse(rawjson))
             .then(json => {
                 dispatch(setSelectedArtist(json.artist))
                 dispatch(getArtistTopSongsFromServer(json.artist.name))
             })
-            .then(dispatch(setSelectedAlbum(null)))
-        return;
     }
 }
 
@@ -196,6 +214,40 @@ export function playSelectedArtistTopSongs(startingIndex) {
         var topSongs = state.library.selectedArtistTopSongs;
         dispatch(playTopSongs(topSongs, startingIndex));
         dispatch(playSongInPlaylist(startingIndex))
+    }
+}
+
+export function searchServer(searchText) {
+    return (dispatch, getState) => {
+        var state = getState();
+        var server = state.server;
+
+        if(!searchText) {
+            dispatch(setSearchQuery(''))
+            dispatch(setSearchResults(null))
+            return
+        }
+
+        dispatch(setSearchQuery(searchText))
+        return fetch(generateUrlwithCustomParam(server, 'search3', 'query', searchText))
+            .then(response => response.json())
+            .then(rawjson => parseJsonResponse(rawjson))
+            .then(json => dispatch(setSearchResults(json.searchResult3)))
+    }
+}
+
+export function playSearchedSong(index) {
+    return (dispatch, getState) => {
+       
+
+        dispatch(addSelectedSongToPlaylist(SEARCH_TYPE, index))
+        setTimeout(function() {
+            var state = getState();
+            var playlist = state.mediaPlayer.activePlaylist;
+
+            dispatch(playSongInPlaylist(playlist.length-1))
+        }, 250)
+
     }
 }
 

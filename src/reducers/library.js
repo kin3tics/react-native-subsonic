@@ -6,7 +6,9 @@ const library = (
         selectedArtistTopSongs: [],
         selectedAlbum: null,
         playlists: [],
-        selectedPlaylist: null
+        selectedPlaylist: null,
+        searchQuery: '',
+        searchResults: null
     }, 
     action ) => {
     switch (action.type) {
@@ -43,6 +45,14 @@ const library = (
         case 'SET_SELECTEDPLAYLIST':
             return Object.assign({}, state, { 
                 selectedPlaylist: action.playlist 
+            });
+        case 'SET_SEARCHQUERY':
+            return Object.assign({}, state, { 
+                searchQuery: action.searchQuery 
+            });
+        case 'SET_SEARCHRESULTS':
+            return Object.assign({}, state, { 
+                searchResults: action.searchResults 
             });
         default:
             return state;
