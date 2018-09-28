@@ -5,8 +5,6 @@ export default StyleSheet.create({
         width: 250
     },
     menuHeader: {
-        padding: 10,
-        paddingBottom: 12,
         flexDirection:'row',
         borderBottomWidth: 5,
         borderColor: '#2a2a2a'
@@ -17,8 +15,10 @@ export default StyleSheet.create({
         paddingLeft: 20
     },
     menuItem: {
-        flexDirection:'row',
         padding: 10
+    },
+    selectedMenuItem: {
+        backgroundColor: '#2a2a2a'
     },
     menuItemText: {
         fontSize: 20,

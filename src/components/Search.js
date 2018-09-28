@@ -36,8 +36,14 @@ class Search extends Component {
 
     componentWillMount() {
         let {searchText} = this.props;
-        if(this.state.searchText != searchText)
+        if(this.state.text != searchText)
             this.setState({text: searchText});
+    }
+
+    componentDidMount() {
+        if(!this.state.text) {
+            this.refs.searchInput.focus()
+        }
     }
 
     textChange(text) {
@@ -49,11 +55,12 @@ class Search extends Component {
     }
 
     render() {
-        let {width, height} = Dimensions.get('window')
-        let windowWidth = width - 500;
+        let {width, height} = this.props;
+        let windowWidth = width;
 
         let cancelButton = null;
-        if (this.state.searchText && this.state.searchText.length > 0) {
+        let searchResults = null;
+        if (this.state.text && this.state.text.length > 0) {
             cancelButton = (<TouchableWithoutFeedback
                 onPress={() => { 
                     this.setState({ text: ''}) 
@@ -61,6 +68,12 @@ class Search extends Component {
                 }}>
                 <Image style={{height:20,width:20, margin: 10}} source={require('../images/navigation/ic_cancel_white_24dp.png')}/>
             </TouchableWithoutFeedback>)
+            
+            searchResults = (<View>
+                    <SearchArtists width={width}/>
+                    <SearchAlbums width={width}/>
+                    <SearchSongs width={width}/>
+                </View>)
         }
 
         return (
@@ -87,9 +100,7 @@ class Search extends Component {
                     flexDirection: 'column', 
                     justifyContent: 'space-between'}}
                     style={{width: windowWidth}}>
-                    <SearchArtists />
-                    <SearchAlbums />
-                    <SearchSongs />
+                    {searchResults}
                 </ScrollView>
             </View>);
         }

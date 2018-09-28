@@ -8,7 +8,7 @@ import a_styles from '../styles/artists'
 import {getSelectedArtistFromServer} from '../actions/library-actions'
 import {
     MENU_LIBRARY,
-    dispatchArtistFetch
+    setMenu
  } from '../actions/menu-actions'
 
 const mapStateToProps = state => ({
@@ -25,16 +25,15 @@ class SearchArtists extends Component {
     }
 
     render() {
-        let { dispatch, searchResults } = this.props
-        let {width, height} = Dimensions.get('window')
-        let windowWidth = width - 500;
+        let { dispatch, searchResults, width } = this.props
+        let windowWidth = width;
 
         let artistsExist = (searchResults && searchResults.artist)
         let artists = artistsExist ? searchResults.artist.map((item) => {
             return (
                 <View><TouchableWithoutFeedback
                     onPress={() => {
-                        dispatch(dispatchArtistFetch(MENU_LIBRARY))
+                        dispatch(setMenu(MENU_LIBRARY))
                         dispatch(getSelectedArtistFromServer(item.id))
                     }}>
                     <View style={a_styles.similarArtist}><Text style={[styles.font1, a_styles.listItem2]}>{item.name}</Text></View>
@@ -42,7 +41,10 @@ class SearchArtists extends Component {
         }) : [];
 
         if (!artistsExist)
-            return(<View/>)
+            return(<View>
+                <Text style={[styles.font1, a_styles.albumDetailSubtitle]}>Artists</Text>
+                <Text style={[styles.font1, {paddingLeft: 30}]}>No Artists Found.</Text>
+            </View>)
 
         return (
             <View>

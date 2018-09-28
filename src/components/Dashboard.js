@@ -23,35 +23,39 @@ import NowPlayingSidebar from './NowPlayingSidebar';
 import Search from './Search'
 
 const mapStateToProps = state => ({
-    menu: state.menu
+    menu: state.menu,
+    activePlaylist: state.mediaPlayer.activePlaylist
 })
 
-const Dashboard = ({ dispatch, menu }) => {
+const Dashboard = ({ menu, activePlaylist }) => {
+    let {width, height} = Dimensions.get('window')
+
     let leftView = null;
     let detailView = null;
-    let rightView = (<NowPlayingSidebar />);
+    let showRightView = activePlaylist.length > 0;
+
+    let windowWidth = showRightView ? width - 500 : width - 250;
+    let rightView = showRightView ? (<NowPlayingSidebar />) : (<View/>)
+
     switch(menu.active) {
-        case MENU_LIBRARY:
-            leftView = (<ArtistList />);
-            detailView = (<Library />);
-            break;
         case MENU_PLAYLIST:
             leftView = (<PlaylistList />);
-            detailView = (<PlaylistDetail />);
+            detailView = (<PlaylistDetail height={height} width={windowWidth} />);
             break;
         case MENU_NOWPLAYING:
             leftView = (<View/>)
-            detailView = (<NowPlaying />)
+            detailView = (<NowPlaying height={height} width={width} />)
             rightView = (<View />)
             break;
         case MENU_SEARCH:
-            leftView = (<Menu />)
-            detailView = (<Search />)
+            leftView = (<ArtistList />)
+            detailView = (<Search height={height} width={windowWidth} />)
             break;
         case MENU_MAIN:
+        case MENU_LIBRARY:
         default:
-            leftView = (<Menu />);
-            detailView = (<ArtistDetail />);
+            leftView = (<ArtistList />);
+            detailView = (<Library height={height} width={windowWidth} />);
             break;
     }
 

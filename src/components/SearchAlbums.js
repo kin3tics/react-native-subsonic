@@ -8,7 +8,6 @@ import a_styles from '../styles/artists'
 import { getSelectedAlbumFromServer, getSelectedArtistFromServer} from '../actions/library-actions'
 import {
     MENU_LIBRARY,
-    dispatchArtistFetch,
     setMenu
  } from '../actions/menu-actions'
 
@@ -50,9 +49,8 @@ class SearchAlbums extends Component {
 
 
     render() {
-        let { dispatch, server, searchResults } = this.props
-        let {width, height} = Dimensions.get('window')
-        let windowWidth = width - 500;
+        let { dispatch, server, searchResults, width } = this.props
+        let windowWidth = width;
 
         let albumsExist = (searchResults && searchResults.album && searchResults.album.length > 0);
         let albums = albumsExist ? searchResults.album.map((item, index) => {
@@ -60,7 +58,7 @@ class SearchAlbums extends Component {
                 return (
                 <TouchableWithoutFeedback
                     onPress={() => {
-                        dispatch(dispatchArtistFetch(MENU_LIBRARY))
+                        dispatch(setMenu(MENU_LIBRARY))
                         dispatch(getSelectedArtistFromServer(item.artistId))
                         dispatch(getSelectedAlbumFromServer(item.id))
                     }}>
@@ -73,7 +71,7 @@ class SearchAlbums extends Component {
             return(
                 <TouchableWithoutFeedback
                     onPress={() => {
-                        dispatch(dispatchArtistFetch(MENU_LIBRARY))
+                        dispatch(setMenu(MENU_LIBRARY))
                         dispatch(getSelectedArtistFromServer(item.artistId))
                         dispatch(getSelectedAlbumFromServer(item.id))
                     }}>
@@ -87,7 +85,10 @@ class SearchAlbums extends Component {
             }) : []
 
         if (!albumsExist)
-            return (<View/>)
+            return (<View>
+                <Text style={[styles.font1, a_styles.albumDetailSubtitle]}>Albums</Text>
+                <Text style={[styles.font1, {paddingLeft: 30}]}>No Albums Found.</Text>
+            </View>)
 
         return (<View>
             <Text style={[styles.font1, a_styles.albumDetailSubtitle]}>Albums</Text>

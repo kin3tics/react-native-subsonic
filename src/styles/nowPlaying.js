@@ -44,7 +44,7 @@ export default StyleSheet.create({
         position: 'absolute',
         top: 0,
         left: 0,
-        padding: 10
+        flexDirection: 'row'
     },
     fs_mediaSection: {
         height: 500,

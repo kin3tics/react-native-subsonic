@@ -2,11 +2,13 @@ import React, {Component} from 'react'
 import  { Text, SectionList, View, Dimensions, ScrollView, TouchableWithoutFeedback, FlatList, Image} from 'react-native'
 import { connect } from 'react-redux';
 
+import Menu from './Menu'
+
 import styles from '../styles/global'
 import a_styles from '../styles/artists'
 import m_styles from '../styles/menu'
 
-import { getSelectedArtistFromServer, setSelectedAlbum } from '../actions/library-actions'
+import { getArtistsFromServer, getSelectedArtistFromServer, setSelectedAlbum } from '../actions/library-actions'
 
 import {
     MENU_MAIN,
@@ -29,6 +31,11 @@ class ArtistList extends Component  {
         super(props);
     }
 
+    componentWillMount() {
+        let {dispatch} = this.props;
+        dispatch(getArtistsFromServer());
+    }
+
     getItemLayout = (data, index) => (
         { length: data.length, offset: 25 * index, index }
     )
@@ -43,18 +50,6 @@ class ArtistList extends Component  {
                 animated: false
             })
         }
-    }
-
-    renderMenuIcon() {
-        let {dispatch} = this.props;
-        return (
-            <TouchableWithoutFeedback
-                onPress={() => dispatch(setMenu(MENU_MAIN))}>
-                <View style={m_styles.menuHeader}>
-                    <Image source={require('../images/navigation/ic_menu_white_24dp.png')} style={{height:24,width:24}}/>
-                </View>
-            </TouchableWithoutFeedback>
-        )
     }
 
     renderItem2 = ({item, index}) => {
@@ -76,7 +71,7 @@ class ArtistList extends Component  {
                 justifyContent: 'space-between'}}
                 style={[styles.background2, a_styles.container]}>
                 <View style={{height: (height - 50)}}>
-                    {this.renderMenuIcon()}
+                    <Menu />
                 </View>
                 <View style={[a_styles.footer]}></View>
             </ScrollView>);
@@ -88,7 +83,7 @@ class ArtistList extends Component  {
                     justifyContent: 'space-between'}}
                 style={[styles.background2, a_styles.container]}>
                 <View style={{height: (height - 75)}}>
-                    {this.renderMenuIcon()}
+                    <Menu />
                     <SectionList 
                        ref={(sectionList) => { this.sectionList = sectionList }}
                         sections={artists}

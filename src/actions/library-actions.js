@@ -336,3 +336,20 @@ export function getAlbumList(type, genre, size, offset) {
     }
 }
 
+export function pinSelectedAlbum() {
+    return (dispatch, getState) => {
+        var state = getState();
+        var server = state.server;
+        var selectedAlbum = state.library.selectedAlbum;
+
+        var modifiedAlbum = Object.assign({}, selectedAlbum, { 
+            starred: !(selectedAlbum.starred)
+        });
+    
+        let action = modifiedAlbum.starred ? 'star' : 'unstar'
+        return fetch(generateUrlwithCustomParam(server, action, 'albumId', selectedAlbum.id))
+            .then(response => response.json())
+            .then(() => dispatch(setSelectedAlbum(modifiedAlbum)))
+    }
+}
+

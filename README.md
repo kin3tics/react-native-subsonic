@@ -1,11 +1,19 @@
 Front-end to Subsonic written in React Native
 
 Version History
+- 0.1.10
+  - Search: Fix issues with empty results
+  - Albums: Add Pinning ability (via heart icon)
+  - All Screens: Overhaul menu
+  - All Screens: Hide "Now Playing" sidebar when play queue is empty
+  - Misc: Converted most components to pure React components
+
 - 0.1.9
   - Search: Navigation to artist pages
   - Search: Navigation to album pages
   - Search: Adding and playing songs
   - Library: Adding main screen to get Random, Recently Added, Most Played and Recently Played
+
 - 0.1.8
   - Library: Artist Info page
   - Now Playing: Fullscreen smoke & lavalamp  visualisations colored from album art

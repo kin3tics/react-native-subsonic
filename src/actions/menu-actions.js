@@ -17,12 +17,3 @@ export function setMenu(active) {
     }
 }
 
-export function dispatchArtistFetch(active) {
-    return (dispatch) => {
-    try {
-        dispatch(setMenu(active));
-        dispatch(getArtistsFromServer());
-    }
-    catch(e) {console.log(e)}
-    }
-}

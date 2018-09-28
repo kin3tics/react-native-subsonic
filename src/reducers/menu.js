@@ -1,8 +1,8 @@
-import { MENU_MAIN } from '../actions/menu-actions'
+import { MENU_LIBRARY } from '../actions/menu-actions'
 
 const menu = (
     state = { 
-        active: MENU_MAIN
+        active: MENU_LIBRARY
     }, 
     action ) => {
     switch (action.type) {

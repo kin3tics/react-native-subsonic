@@ -35,7 +35,10 @@ class SearchSongs extends Component {
         let songs = songsExist ? searchResults.song : [];
         
         if(!songsExist)
-            return (<View/>)
+            return (<View>
+                <Text style={[styles.font1, a_styles.albumDetailSubtitle]}>Songs</Text>
+                <Text style={[styles.font1, {paddingLeft: 30}]}>No Songs Found.</Text>
+            </View>)
 
         return (
             <View>
@@ -51,7 +54,7 @@ class SearchSongs extends Component {
                                 <TouchableWithoutFeedback
                                     onPress={() => dispatch(playSearchedSong(index))}>
                                     <View style={{flexDirection:'row'}}>
-                                        <Text style={[styles.font1, {paddingLeft: 30}]}>{item.title}</Text>
+                                        <Text numberOfLines={1} style={[styles.font1, {paddingLeft: 30}]}>{item.title} - {item.artist}</Text>
                                     </View>
                                 </TouchableWithoutFeedback>
                                 <TouchableWithoutFeedback

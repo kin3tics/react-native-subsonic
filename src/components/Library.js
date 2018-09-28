@@ -69,11 +69,9 @@ class Library extends Component {
     }
 
     render() {
-        let {dispatch, server, artist, albumListType, albumList} = this.props;
-        if(artist) { return (<ArtistDetail/>)}
-
-        let {width, height} = Dimensions.get('window')
-        let windowWidth = width - 500;
+        let {dispatch, server, artist, albumListType, albumList, height, width} = this.props;
+        if(artist) { return (<ArtistDetail height={height} width={width} />)}
+        let windowWidth = width;
 
         let types = this.state.typeArray.map((item) => {
             let text = (item == albumListType)

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Howler from 'howler';
 
 import Visualizer from './Visualizer';
+import NowPlayingMenu from './NowPlayingMenu';
 
 import { getDurationArray } from '../helpers/audio-helper'
 
@@ -15,6 +16,7 @@ import {
 
 import styles from '../styles/global'
 import np_styles from '../styles/nowPlaying'
+import m_styles from '../styles/menu'
 
 function getColorForMissingArtwork(index) {
     let i = index % 5
@@ -43,7 +45,14 @@ const mapStateToProps = state => ({
 class NowPlaying extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            isMenuActive: false
+        }
+    }
 
+    toggleMenu() {
+        var menuActive = this.state.isMenuActive;
+        this.setState({ isMenuActive: !menuActive })
     }
 
     onTouchEvent(name, ev) {
@@ -59,14 +68,32 @@ class NowPlaying extends Component {
 
     renderMenuIcon() {
         let {dispatch} = this.props;
-        return (
-            <TouchableWithoutFeedback
-                onPress={() => dispatch(setMenu(MENU_MAIN))}>
-                <View style={[styles.background2, np_styles.fs_menu]}>
-                    <Image source={require('../images/navigation/ic_menu_white_24dp.png')} style={{height:24,width:24}}/>
+        let mainMenuIcon = (
+            <View>
+                <TouchableWithoutFeedback
+                    onPress={() => this.toggleMenu()}>
+                    <View style={[m_styles.menuItem, this.state.isMenuActive ? m_styles.selectedMenuItem : {}]}>
+                        <Image source={require('../images/navigation/ic_menu_white_24dp.png')} style={{height:24,width:24}}/>
+                    </View>
+                </TouchableWithoutFeedback>
+            </View>)
+
+        if(!this.state.isMenuActive)
+            return (
+                <View
+                    style={[np_styles.fs_menu, styles.background2]}>
+                    {mainMenuIcon}
                 </View>
-            </TouchableWithoutFeedback>
-        )
+            )
+        else {
+            return (
+                <View
+                    style={[np_styles.fs_menu, styles.background2]}>
+                    {mainMenuIcon}
+                    <NowPlayingMenu />
+                </View>
+            )
+        }
     }
 
     render () {

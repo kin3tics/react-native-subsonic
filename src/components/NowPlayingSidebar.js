@@ -91,10 +91,7 @@ class NowPlayingSidebar extends Component {
         let {dispatch, server, nowPlaying} = this.props;
         let {width, height} = Dimensions.get('window')
         if(!nowPlaying || nowPlaying.activePlaylist.length === 0) 
-            return (
-                <View style={[np_styles.nowPlaying, styles.background4, {height: height}]}> 
-                    <View style={[np_styles.mediaSection, styles.background2]} ></View>
-                </View>);
+            return(<View />);
         console.log(nowPlaying);
         var uri = generateUrlwithId(server, 'getCoverArt', nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].coverArt);
         console.log(uri);
