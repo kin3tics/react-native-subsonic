@@ -15,11 +15,23 @@ const mapStateToProps = state => ({
     nowPlaying: state.mediaPlayer
 })
 
+var lastRendered = 0;
+
 class Visualizer extends Component {
     _analyzer = null
     constructor(props) {
         super(props);
         
+    }
+
+    componentDidUpdate() {
+        var now = Date.now();
+        var diff = now - lastRendered;
+        lastRendered = now;
+        var timeout = diff >= 16 ? 0 : 16 - diff;
+        setTimeout(() => {
+            this.forceUpdate();
+        }, timeout);
     }
     
     render () {

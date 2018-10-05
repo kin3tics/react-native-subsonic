@@ -44,37 +44,39 @@ class Menu extends Component {
     }
 
     render() {
-        let { dispatch } = this.props;
+        let { dispatch, isMobile } = this.props;
+        let menuItemStyle = isMobile ? m_styles.mobileMenuItem : m_styles.menuItem;
+        let menuItemImgStyle = isMobile ? m_styles.mobileMenuItemImg : m_styles.menuItemImg;
 
         return (
         <View 
             style={m_styles.menuHeader}>
             <TouchableWithoutFeedback
                 onPress={() => dispatch(setMenu(MENU_NOWPLAYING))}>
-                <View style={[m_styles.menuItem, this.isMenuIconActive(MENU_NOWPLAYING) ? m_styles.selectedMenuItem : {}]}>
-                    <Image source={require('../images/av/ic_play_circle_outline_white_24dp.png')} style={{height: 24, width: 24}}/>
+                <View style={[menuItemStyle, this.isMenuIconActive(MENU_NOWPLAYING) ? m_styles.selectedMenuItem : {}]}>
+                    <Image source={require('../images/av/ic_play_circle_outline_white_24dp.png')} style={menuItemImgStyle}/>
                 </View>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
                 onPress={() => this.resetLibrary()}>
-                <View style={[m_styles.menuItem, this.isMenuIconActive(MENU_LIBRARY) ? m_styles.selectedMenuItem : {}]}>
-                    <Image source={require('../images/av/ic_album_white_24dp.png')} style={{height: 24, width: 24}}/>
+                <View style={[menuItemStyle, this.isMenuIconActive(MENU_LIBRARY) ? m_styles.selectedMenuItem : {}]}>
+                    <Image source={require('../images/av/ic_album_white_24dp.png')} style={menuItemImgStyle}/>
                 </View>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
                 onPress={() => dispatch(setMenu(MENU_PLAYLIST))}>
-                <View style={[m_styles.menuItem, , this.isMenuIconActive(MENU_PLAYLIST) ? m_styles.selectedMenuItem : {}]}>
-                    <Image source={require('../images/av/ic_queue_music_white_24dp.png')} style={{height: 24, width: 24}}/>
+                <View style={[menuItemStyle, , this.isMenuIconActive(MENU_PLAYLIST) ? m_styles.selectedMenuItem : {}]}>
+                    <Image source={require('../images/av/ic_queue_music_white_24dp.png')} style={menuItemImgStyle}/>
                 </View>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
                 onPress={() => dispatch(setMenu(MENU_SEARCH))}>
-                <View style={[m_styles.menuItem, , this.isMenuIconActive(MENU_SEARCH) ? m_styles.selectedMenuItem : {}]}>
-                    <Image source={require('../images/navigation/ic_search_white_24dp.png')} style={{height: 24, width: 24}}/>
+                <View style={[menuItemStyle, , this.isMenuIconActive(MENU_SEARCH) ? m_styles.selectedMenuItem : {}]}>
+                    <Image source={require('../images/navigation/ic_search_white_24dp.png')} style={menuItemImgStyle}/>
                 </View>
             </TouchableWithoutFeedback>
-            <View style={m_styles.menuItem}>
-                <Image source={require('../images/action/ic_settings_white_24dp.png')} style={{height: 24, width: 24}}/>
+            <View style={menuItemStyle}>
+                <Image source={require('../images/action/ic_settings_white_24dp.png')} style={menuItemImgStyle}/>
             </View>
         </View>);
     }

@@ -2,12 +2,17 @@ import React, { Component } from 'react'
 import  { Text, View, Dimensions, TouchableWithoutFeedback, FlatList, ImageBackground, Image} from 'react-native'
 import { connect } from 'react-redux';
 
-import styles from '../styles/global'
-import a_styles from '../styles/artists'
+import styles from '../../styles/global'
+import a_styles from '../../styles/artists'
 
-import {TOPSONG_TYPE, playSelectedArtistTopSongs, addSelectedSongToPlaylist, getSelectedArtistFromServer } from '../actions/library-actions'
+import {
+    TOPSONG_TYPE,
+    playSelectedArtistTopSongs,
+    addSelectedSongToPlaylist, 
+    getSelectedArtistFromServer 
+} from '../../actions/library-actions'
 
-import { getDurationArray } from '../helpers/audio-helper'
+import { getDurationArray } from '../../helpers/audio-helper'
 
 const mapStateToProps = state => ({
     server: state.server,
@@ -23,11 +28,11 @@ const getItemLayout = (data, index) => (
 class ArtistInfo extends Component {
     constructor(props) {
         super(props);
+
     }
 
     render() {
         let { dispatch, artist, artistInfo, topSongs, width, height } = this.props;
-        console.log('width:' + width + ' height: ' + height)
         let windowWidth = width;
         let windowHeight = height;
         if(!artist || !artistInfo) 
@@ -81,7 +86,7 @@ class ArtistInfo extends Component {
                                                 onPress={() => dispatch(addSelectedSongToPlaylist(TOPSONG_TYPE, index))}>
                                                 <View style={a_styles.songDuration}>
                                                     <Text style={styles.font1}>{songDuration[0]}:{songDuration[1]} | </Text>
-                                                    <Image style={{height:20,width:20}} source={require('../images/av/ic_playlist_add_white_24dp.png')}/>
+                                                    <Image style={{height:20,width:20}} source={require('../../images/av/ic_playlist_add_white_24dp.png')}/>
                                                 </View>
                                             </TouchableWithoutFeedback>
                                         </View>

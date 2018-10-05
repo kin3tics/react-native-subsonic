@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import  { Text, ProgressBar, View, Dimensions, ScrollView, TouchableWithoutFeedback, FlatList, Image} from 'react-native'
 import { connect } from 'react-redux';
-import DraggableFlatList from './SortableFlatList'
+import DraggableFlatList from '../SortableFlatList'
 
-import { generateUrlwithId } from '../helpers/api-helper'
-import { getDurationArray } from '../helpers/audio-helper'
+import { generateUrlwithId } from '../../helpers/api-helper'
+import { getDurationArray } from '../../helpers/audio-helper'
 
-import { pauseSongInPlaylist, playSongInPlaylist, playNextSongInPlaylist, playPreviousSongInPlaylist, seekSong, setNewPlaylistOrder } from '../actions/mediaPlayer-actions'
+import { pauseSongInPlaylist, playSongInPlaylist, playNextSongInPlaylist, playPreviousSongInPlaylist, seekSong, setNewPlaylistOrder } from '../../actions/mediaPlayer-actions'
 
-import styles from '../styles/global'
-import np_styles from '../styles/nowPlaying'
+import styles from '../../styles/global'
+import np_styles from '../../styles/nowPlaying'
 
 
 function getColorForMissingArtwork(index) {
@@ -92,14 +92,12 @@ class NowPlayingSidebar extends Component {
         let {width, height} = Dimensions.get('window')
         if(!nowPlaying || nowPlaying.activePlaylist.length === 0) 
             return(<View />);
-        console.log(nowPlaying);
         var uri = generateUrlwithId(server, 'getCoverArt', nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].coverArt);
-        console.log(uri);
         
         var song = nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex];
         var playButton = !nowPlaying.isPlaying
-                ?(<Image style={{height: 20, width:20}} source={require('../images/av/ic_play_arrow_white_24dp.png')}/>)
-                :(<Image style={{height: 20, width:20}} source={require('../images/av/ic_pause_white_24dp.png')}/>);
+                ?(<Image style={{height: 20, width:20}} source={require('../../images/av/ic_play_arrow_white_24dp.png')}/>)
+                :(<Image style={{height: 20, width:20}} source={require('../../images/av/ic_pause_white_24dp.png')}/>);
         var seekProgress = (nowPlaying.songSeek / song.duration);
         return (
             <View style={[np_styles.nowPlaying, styles.background4, {height: height}]}> 
@@ -123,13 +121,13 @@ class NowPlayingSidebar extends Component {
                     <Text numberOfLines={1} style={[styles.font1, np_styles.artistText]}>{nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].artist}</Text>
                     <View style={{flexDirection: 'row', marginTop: 10}}>
                         <TouchableWithoutFeedback onPress={() => dispatch(playPreviousSongInPlaylist())}>
-                            <Image style={{height: 20, width:20}} source={require('../images/av/ic_skip_previous_white_24dp.png')}/>
+                            <Image style={{height: 20, width:20}} source={require('../../images/av/ic_skip_previous_white_24dp.png')}/>
                         </TouchableWithoutFeedback>
                         <TouchableWithoutFeedback onPress={() => dispatch(pauseSongInPlaylist())}>
                             {playButton}
                         </TouchableWithoutFeedback>
                         <TouchableWithoutFeedback onPress={() => dispatch(playNextSongInPlaylist())}>
-                            <Image style={{height: 20, width:20}} source={require('../images/av/ic_skip_next_white_24dp.png')}/>
+                            <Image style={{height: 20, width:20}} source={require('../../images/av/ic_skip_next_white_24dp.png')}/>
                         </TouchableWithoutFeedback>
                     </View>
                 </View>

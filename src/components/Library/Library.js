@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 
 import ArtistDetail from './ArtistDetail'
 
-import styles from '../styles/global'
-import a_styles from '../styles/artists'
+import styles from '../../styles/global'
+import a_styles from '../../styles/artists'
 
 import {
     RANDOM_TYPE,
@@ -18,9 +18,9 @@ import {
     getAlbumList,
     getSelectedArtistFromServer,
     getSelectedAlbumFromServer
-} from '../actions/library-actions'
+} from '../../actions/library-actions'
 
-import { generateUrlwithId } from '../helpers/api-helper'
+import { generateUrlwithId } from '../../helpers/api-helper'
 
 function getColorForMissingArtwork(index) {
     let i = index % 5
@@ -69,9 +69,11 @@ class Library extends Component {
     }
 
     render() {
-        let {dispatch, server, artist, albumListType, albumList, height, width} = this.props;
-        if(artist) { return (<ArtistDetail height={height} width={width} />)}
+        let {dispatch, server, artist, albumListType, albumList, height, width, isMobile} = this.props;
+        if(artist) { return (<ArtistDetail height={height} width={width} isMobile={isMobile} />)}
         let windowWidth = width;
+
+        let paddingStyle = isMobile ? a_styles.mobileLibraryPadding : a_styles.libraryPadding;
 
         let types = this.state.typeArray.map((item) => {
             let text = (item == albumListType)
@@ -119,8 +121,8 @@ class Library extends Component {
 
         return (
             <View style={[{width: windowWidth, height: height}]}> 
-                <Text style={[styles.font1, a_styles.albumDetailTitle, {paddingLeft: 30}]}>Library</Text>
-                <View style={[{flexDirection: 'row', width: windowWidth, flexWrap: 'wrap', alignItems: "flex-start", paddingLeft: 30, paddingRight: 30}]}>
+                <Text style={[styles.font1, a_styles.albumDetailTitle, paddingStyle]}>Library</Text>
+                <View style={[{flexDirection: 'row', width: windowWidth, flexWrap: 'wrap', alignItems: "flex-start"}, paddingStyle]}>
                     {types}
                 </View>
                 <ScrollView contentContainerStyle={{ 
@@ -130,7 +132,7 @@ class Library extends Component {
                     alignItems: "flex-start",
                     justifyContent: 'flex-start',
                     flexWrap: 'wrap'}}
-                    style={[{width: windowWidth}, { paddingLeft: 30, paddingRight: 30}]}>
+                    style={[{width: windowWidth, height: height}]}>
                         {albums}
                 </ScrollView>
             </View>);

@@ -13,13 +13,13 @@ import {
 import styles from '../styles/global'
 
 import Menu from './Menu'
-import ArtistList from './ArtistList'
-import Library from './Library'
-import ArtistDetail from './ArtistDetail'
+import ArtistList from './Library/ArtistList'
+import Library from './Library/Library'
+import ArtistDetail from './Library/ArtistDetail'
 import PlaylistList from './PlaylistList'
 import PlaylistDetail from './PlaylistDetail'
-import NowPlaying from './NowPlaying'
-import NowPlayingSidebar from './NowPlayingSidebar';
+import NowPlaying from './NowPlaying/NowPlaying'
+import NowPlayingSidebar from './NowPlaying/NowPlayingSidebar';
 import Search from './Search'
 
 const mapStateToProps = state => ({

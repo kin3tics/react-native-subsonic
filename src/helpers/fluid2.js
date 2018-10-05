@@ -99,7 +99,6 @@ function convertRgbColorToDecimal(arr) {
 class Fluid extends React.Component {
   render() {
     const { color1, color2, time, x, y } = this.props;
-    console.log(this.props);
     return <Node shader={shaders.fluid} 
         uniforms={{
             color1: convertRgbColorToDecimal(color1),

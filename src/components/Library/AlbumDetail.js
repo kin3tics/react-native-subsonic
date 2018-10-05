@@ -2,11 +2,11 @@ import React, {Component} from 'react'
 import  { Text, SectionList, View, Dimensions, ScrollView, TouchableWithoutFeedback, FlatList, ImageBackground, Image} from 'react-native'
 import { connect } from 'react-redux';
 
-import { generateUrlwithId } from '../helpers/api-helper'
+import { generateUrlwithId } from '../../helpers/api-helper'
 
 
-import styles from '../styles/global'
-import a_styles from '../styles/artists'
+import styles from '../../styles/global'
+import a_styles from '../../styles/artists'
 
 import { 
     ALBUM_TYPE, 
@@ -15,9 +15,9 @@ import {
     addSelectedSongToPlaylist, 
     setSelectedAlbum ,
     pinSelectedAlbum
-} from '../actions/library-actions'
+} from '../../actions/library-actions'
 
-import { getDurationArray } from '../helpers/audio-helper'
+import { getDurationArray } from '../../helpers/audio-helper'
 
 function getColorForMissingArtwork(index) {
     let i = index % 5
@@ -81,8 +81,6 @@ class AlbumDetail extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log("Props Changed")
-        console.log(nextProps)
         nextPropPinned = nextProps.album.starred ? true : false;
         if(this.state.albumPinned != nextPropPinned) {
             this.setState({albumPinned: nextPropPinned})
@@ -107,8 +105,8 @@ class AlbumDetail extends Component {
         
         let genreText = album.genre ? `${album.genre} | ` : '';
         let pinnedImg = this.state.albumPinned 
-                ? (<Image style={{height: 20, width: 20}} source={require('../images/action/baseline_favorite_white_24dp.png')} />)
-                : (<Image style={{height: 20, width: 20}} source={require('../images/action/baseline_favorite_border_white_24dp.png')} />)
+                ? (<Image style={{height: 20, width: 20}} source={require('../../images/action/baseline_favorite_white_24dp.png')} />)
+                : (<Image style={{height: 20, width: 20}} source={require('../../images/action/baseline_favorite_border_white_24dp.png')} />)
 
         return (
             <View style={[{width: windowWidth}]}> 
@@ -129,15 +127,15 @@ class AlbumDetail extends Component {
                             </TouchableWithoutFeedback>
                             <Text style={[styles.font1]}> | {album.songCount} Tracks | {albumDuration[0]}:{albumDuration[1]} | {genreText}</Text>
                             <TouchableWithoutFeedback onPress={() => dispatch(playSelectedAlbum(0, false))}>
-                                <Image style={{height: 20, width:20}} source={require('../images/av/ic_play_circle_outline_white_24dp.png')}/>
+                                <Image style={{height: 20, width:20}} source={require('../../images/av/ic_play_circle_outline_white_24dp.png')}/>
                             </TouchableWithoutFeedback>
                             <Text style={[styles.font1]}> | </Text>
                             <TouchableWithoutFeedback onPress={() => dispatch(playSelectedAlbum(0, true))}>
-                                <Image style={{height: 20, width:20}} source={require('../images/av/ic_shuffle_white_24dp.png')}/>
+                                <Image style={{height: 20, width:20}} source={require('../../images/av/ic_shuffle_white_24dp.png')}/>
                             </TouchableWithoutFeedback>
                             <Text style={[styles.font1]}> | </Text>
                             <TouchableWithoutFeedback onPress={() => dispatch(addSelectedAlbumToPlaylist())}>
-                                <Image style={{height:20,width:20}} source={require('../images/av/ic_queue_music_white_24dp.png')}/>
+                                <Image style={{height:20,width:20}} source={require('../../images/av/ic_queue_music_white_24dp.png')}/>
                             </TouchableWithoutFeedback>
                         </View>
                         <ScrollView style={[a_styles.albumSongContainer, {width: windowWidth - 50, height: windowHeight - 150}]}>
@@ -158,7 +156,7 @@ class AlbumDetail extends Component {
                                             <TouchableWithoutFeedback onPress={() => dispatch(addSelectedSongToPlaylist(ALBUM_TYPE, index))}>
                                                 <View style={a_styles.songDuration}>
                                                     <Text style={styles.font1}>{songDuration[0]}:{songDuration[1]} | </Text>
-                                                    <Image style={{height:20,width:20}} source={require('../images/av/ic_playlist_add_white_24dp.png')}/>
+                                                    <Image style={{height:20,width:20}} source={require('../../images/av/ic_playlist_add_white_24dp.png')}/>
                                                 </View>
                                             </TouchableWithoutFeedback>
                                         </View>

@@ -26,6 +26,5 @@ export function generateUrlwithCustomParams(server, apiAction, paramData) {
 }
 
 export function parseJsonResponse(json) {
-    console.log(json);
     return json['subsonic-response'];
 }

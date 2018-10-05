@@ -71,5 +71,23 @@ export default StyleSheet.create({
         position: 'absolute',
         top: 0,
         left: 0
+    },
+    bottomBar: {
+        position: 'absolute',
+        //flex:0.1,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        flexDirection:'row',
+        height:75,
+        padding: 5,
+    },
+    bb_songText: {
+        //paddingBottom: 5,
+        fontWeight: 'bold',
+        fontSize: 16,
+    },
+    bb_artistText: {
+        fontSize: 14
     }
 });

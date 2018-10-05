@@ -18,7 +18,6 @@ const shaders = Shaders.create({
 class HelloBlue extends React.Component {
   render() {
     const { color1, color2, color3, color4 } = this.props;
-    console.log(this.props);
     return <Node shader={shaders.helloBlue} uniforms={{ circle1From: color1, circle1To: color2 }} />;
   }
 }

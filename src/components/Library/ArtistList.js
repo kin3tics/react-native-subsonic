@@ -2,18 +2,22 @@ import React, {Component} from 'react'
 import  { Text, SectionList, View, Dimensions, ScrollView, TouchableWithoutFeedback, FlatList, Image} from 'react-native'
 import { connect } from 'react-redux';
 
-import Menu from './Menu'
+import Menu from '../Menu'
 
-import styles from '../styles/global'
-import a_styles from '../styles/artists'
-import m_styles from '../styles/menu'
+import styles from '../../styles/global'
+import a_styles from '../../styles/artists'
+import m_styles from '../../styles/menu'
 
-import { getArtistsFromServer, getSelectedArtistFromServer, setSelectedAlbum } from '../actions/library-actions'
+import { 
+    getArtistsFromServer,
+    getSelectedArtistFromServer, 
+    setSelectedAlbum 
+} from '../../actions/library-actions'
 
 import {
     MENU_MAIN,
     setMenu,
- } from '../actions/menu-actions'
+ } from '../../actions/menu-actions'
 
 const mapStateToProps = state => ({
     artists: state.library.artists

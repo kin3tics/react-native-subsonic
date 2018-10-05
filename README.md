@@ -1,6 +1,14 @@
 Front-end to Subsonic written in React Native
 
 Version History
+- 0.1.11
+  - Library: Main Screen - Update for mobile web view
+  - Library: Artist info - Update for mobile web view
+  - Now Playing: Sidebar - moved to bottom of screen for mobile web view
+  - Now Playing: Fullscreen - Update for mobile web view
+  - Menu: Update for mobile web views
+  - Misc: modified flow of elements to better support mobile web
+
 - 0.1.10
   - Search: Fix issues with empty results
   - Albums: Add Pinning ability (via heart icon)

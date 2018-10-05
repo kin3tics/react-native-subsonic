@@ -103,6 +103,14 @@ export default StyleSheet.create({
         padding: 10,
         flex: 1 
     },
+    libraryPadding: {
+        paddingLeft: 30,
+        paddingRight: 30
+    },
+    mobileLibraryPadding: {
+        paddingLeft: 10,
+        paddingRight: 10
+    },
     libraryTypes: {
         marginTop: 10,
         marginRight: 10,

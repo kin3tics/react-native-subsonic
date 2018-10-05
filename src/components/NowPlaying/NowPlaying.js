@@ -3,20 +3,20 @@ import  { Text, ProgressBar, View, Dimensions, TouchableWithoutFeedback, Image} 
 import { connect } from 'react-redux';
 import Howler from 'howler';
 
-import Visualizer from './Visualizer';
+import Visualizer from '../Visualizer';
 import NowPlayingMenu from './NowPlayingMenu';
 
-import { getDurationArray } from '../helpers/audio-helper'
+import { getDurationArray } from '../../helpers/audio-helper'
 
-import { pauseSongInPlaylist, playNextSongInPlaylist, playPreviousSongInPlaylist, seekSong } from '../actions/mediaPlayer-actions'
+import { pauseSongInPlaylist, playNextSongInPlaylist, playPreviousSongInPlaylist, seekSong } from '../../actions/mediaPlayer-actions'
 import {
     MENU_MAIN,
     setMenu,
- } from '../actions/menu-actions'
+ } from '../../actions/menu-actions'
 
-import styles from '../styles/global'
-import np_styles from '../styles/nowPlaying'
-import m_styles from '../styles/menu'
+import styles from '../../styles/global'
+import np_styles from '../../styles/nowPlaying'
+import m_styles from '../../styles/menu'
 
 function getColorForMissingArtwork(index) {
     let i = index % 5
@@ -67,13 +67,14 @@ class NowPlaying extends Component {
     }
 
     renderMenuIcon() {
-        let {dispatch} = this.props;
+        let {dispatch, width} = this.props;
+        if(width < 1000) { return null; }
         let mainMenuIcon = (
             <View>
                 <TouchableWithoutFeedback
                     onPress={() => this.toggleMenu()}>
                     <View style={[m_styles.menuItem, this.state.isMenuActive ? m_styles.selectedMenuItem : {}]}>
-                        <Image source={require('../images/navigation/ic_menu_white_24dp.png')} style={{height:24,width:24}}/>
+                        <Image source={require('../../images/navigation/ic_menu_white_24dp.png')} style={{height:24,width:24}}/>
                     </View>
                 </TouchableWithoutFeedback>
             </View>)
@@ -106,15 +107,13 @@ class NowPlaying extends Component {
                     {this.renderMenuIcon()}
                 </View>);
         let uri = nowPlaying.songCoverArtUri;
-        console.log(uri);
         var song = nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex];
         var playButton = !nowPlaying.isPlaying
-                ?(<Image style={{height: 42, width:42}} source={require('../images/av/ic_play_arrow_white_24dp.png')}/>)
-                :(<Image style={{height: 42, width:42}} source={require('../images/av/ic_pause_white_24dp.png')}/>);
+                ?(<Image style={{height: 42, width:42}} source={require('../../images/av/ic_play_arrow_white_24dp.png')}/>)
+                :(<Image style={{height: 42, width:42}} source={require('../../images/av/ic_pause_white_24dp.png')}/>);
         var seekProgress = (nowPlaying.songSeek / song.duration);
         var titleColor = (nowPlaying.songPalette && nowPlaying.songPalette.LightVibrant) ? nowPlaying.songPalette.LightVibrant.getTitleTextColor()
                             : '#FFF';
-        console.log(titleColor);
         return (
             <View style={[np_styles.fs_main, {width: width, height: height}]}> 
                 <View style={np_styles.fs_visualizer}><Visualizer /></View>
@@ -129,7 +128,7 @@ class NowPlaying extends Component {
                         onResponderMove={this.onTouchEvent.bind(this, "onResponderMove")}
                         >
                         <ProgressBar
-                            style={{borderRadius: 10, height: 12, border:2}}
+                            style={{borderRadius: 10, height: 12}}
                             color={'#FFF'}
                             progress={seekProgress}
                         />
@@ -138,13 +137,13 @@ class NowPlaying extends Component {
                     <Text numberOfLines={1} style={[{color: '#FFF'}, np_styles.fs_artistText]}>{nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].artist}</Text>
                     <View style={{flexDirection: 'row', paddingTop: 10}}>
                         <TouchableWithoutFeedback onPress={() => dispatch(playPreviousSongInPlaylist())}>
-                            <Image style={{height: 42, width:42}} source={require('../images/av/ic_skip_previous_white_24dp.png')}/>
+                            <Image style={{height: 42, width:42}} source={require('../../images/av/ic_skip_previous_white_24dp.png')}/>
                         </TouchableWithoutFeedback>
                         <TouchableWithoutFeedback onPress={() => dispatch(pauseSongInPlaylist())}>
                             {playButton}
                         </TouchableWithoutFeedback>
                         <TouchableWithoutFeedback onPress={() => dispatch(playNextSongInPlaylist())}>
-                            <Image style={{height: 42, width:42}} source={require('../images/av/ic_skip_next_white_24dp.png')}/>
+                            <Image style={{height: 42, width:42}} source={require('../../images/av/ic_skip_next_white_24dp.png')}/>
                         </TouchableWithoutFeedback>
                     </View>
                 </View>

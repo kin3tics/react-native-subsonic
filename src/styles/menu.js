@@ -17,6 +17,10 @@ export default StyleSheet.create({
     menuItem: {
         padding: 10
     },
+    menuItemImg: {
+        height: 24,
+        width: 24
+    },
     selectedMenuItem: {
         backgroundColor: '#2a2a2a'
     },
@@ -24,5 +28,12 @@ export default StyleSheet.create({
         fontSize: 20,
         paddingLeft: 20,
         fontWeight: 'bold'
-    }
+    },
+    mobileMenuItem: {
+        padding: 10
+    },
+    mobileMenuItemImg: {
+        height: 42,
+        width: 42
+    },
 });
