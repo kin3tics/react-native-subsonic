@@ -56,6 +56,6 @@
     "redux-thunk": "^2.3.0",
     "subsonicjs": "^0.6.0",
     "webpack": "^3.11.0",
-    "webpack-dev-server": "2.9.4"
+    "webpack-dev-server": "3.1.11"
   }
 }
