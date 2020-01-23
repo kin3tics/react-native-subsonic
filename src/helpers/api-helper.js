@@ -28,3 +28,7 @@ export function generateUrlwithCustomParams(server, apiAction, paramData) {
 export function parseJsonResponse(json) {
     return json['subsonic-response'];
 }
+
+export function getSubsonicInstance(server) {
+    return require('subsonicjs')(server.user, server.password, server.secret, server.url);
+}

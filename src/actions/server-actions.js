@@ -1,4 +1,4 @@
-import { generateUrl, parseJsonResponse, OK } from '../helpers/api-helper'
+import { getSubsonicInstance, OK } from '../helpers/api-helper'
 
 export const SET_SERVERNAME = 'SET_SERVERNAME'
 export const SET_SERVERUSER = 'SET_SERVERUSER'
@@ -25,6 +25,7 @@ export function setServerUser(user) {
 }
 
 export function setServerPassword(password) {
+    console.log(password);
     return {
         type: SET_SERVERPASS,
         password
@@ -74,10 +75,7 @@ export function pingServer() {
             return;
         }
 
-        return fetch(generateUrl(server, 'ping'))
-            .then(response => response.json())
-            .then(rawjson => parseJsonResponse(rawjson))
-            .then(json => {
+        return getSubsonicInstance(server).system.ping().then(json => {
                 dispatch(setServerVersion(json));
                 if(json.status===OK) {
                     dispatch(setServerLogin(true))

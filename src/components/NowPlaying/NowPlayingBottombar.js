@@ -3,7 +3,7 @@ import  { Text, ProgressBar, View, Dimensions, ScrollView, TouchableWithoutFeedb
 import { connect } from 'react-redux';
 import DraggableFlatList from '../SortableFlatList'
 
-import { generateUrlwithId } from '../../helpers/api-helper'
+import { getSubsonicInstance } from '../../helpers/api-helper'
 import { getDurationArray } from '../../helpers/audio-helper'
 
 import { pauseSongInPlaylist, playSongInPlaylist, playNextSongInPlaylist, playPreviousSongInPlaylist, seekSong, setNewPlaylistOrder } from '../../actions/mediaPlayer-actions'
@@ -91,7 +91,7 @@ class NowPlayingBottombar extends Component {
         let {dispatch, server, nowPlaying, width} = this.props;
         if(!nowPlaying || nowPlaying.activePlaylist.length === 0) 
             return(<View />);
-        var uri = generateUrlwithId(server, 'getCoverArt', nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].coverArt);
+        var uri = getSubsonicInstance(server).media.getCoverArt(nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].coverArt);
         
         var song = nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex];
         var playButton = !nowPlaying.isPlaying

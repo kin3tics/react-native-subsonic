@@ -1,4 +1,4 @@
-import { generateUrl, generateUrlwithId, generateUrlwithCustomParam, generateUrlwithCustomParams, parseJsonResponse, OK } from '../helpers/api-helper'
+import { getSubsonicInstance } from '../helpers/api-helper'
 
 import { playAlbum, playPlaylist, playTopSongs, addSong, playSongInPlaylist } from './mediaPlayer-actions'
 
@@ -146,10 +146,7 @@ export function getArtistsFromServer() {
     return (dispatch, getState) => {
         var state = getState();
         var server = state.server;
-
-        return fetch(generateUrl(server, 'getArtists'))
-            .then(response => response.json())
-            .then(rawjson => parseJsonResponse(rawjson))
+        getSubsonicInstance(server).browsing.getArtists()
             .then(json => dispatch(setArtistList(json.artists)))
     }
 }
@@ -158,18 +155,14 @@ export function getSelectedArtistFromServer(artistId) {
     return (dispatch, getState) => {
         var state = getState();
         var server = state.server;
-
-        fetch(generateUrlwithId(server, 'getArtistInfo2', artistId))
-            .then(response => response.json())
-            .then(rawjson => parseJsonResponse(rawjson))
-            .then(json => dispatch(setSelectedArtistInfo(json.artistInfo2)))
-
-        return fetch(generateUrlwithId(server, 'getArtist', artistId))
-            .then(response => response.json())
-            .then(rawjson => parseJsonResponse(rawjson))
-            .then(json => {
-                dispatch(setSelectedArtist(json.artist))
-                dispatch(getArtistTopSongsFromServer(json.artist.name))
+        let subsonic = getSubsonicInstance(server);
+        Promise.all([subsonic.browsing.getArtistInfo2(artistId), subsonic.browsing.getArtist(artistId)])
+            .then(values => {
+                if(values[0]) dispatch(setSelectedArtistInfo(values[0].artistInfo2))
+                if(values[1]) {
+                    dispatch(setSelectedArtist(values[1].artist))
+                    dispatch(getArtistTopSongsFromServer(values[1].artist.name))
+                }
             })
     }
 }
@@ -178,10 +171,7 @@ function getArtistTopSongsFromServer(artistName) {
     return (dispatch, getState) => {
         var state = getState();
         var server = state.server;
-
-        return fetch(generateUrlwithCustomParam(server, 'getTopSongs', 'artist', artistName))
-            .then(response => response.json())
-            .then(rawjson => parseJsonResponse(rawjson))
+        return getSubsonicInstance(server).browsing.getTopSongs(artistName)
             .then(json => dispatch(setSelectedArtistTopSongs(json.topSongs.song)))
     }
 }
@@ -191,9 +181,7 @@ export function getSelectedAlbumFromServer(albumId) {
         var state = getState();
         var server = state.server;
 
-        return fetch(generateUrlwithId(server, 'getAlbum', albumId))
-            .then(response => response.json())
-            .then(rawjson => parseJsonResponse(rawjson))
+        return getSubsonicInstance(server).browsing.getAlbum(albumId)
             .then(json => dispatch(setSelectedAlbum(json.album)))
     }
 }
@@ -203,9 +191,7 @@ export function getPlaylistsFromServer() {
         var state = getState();
         var server = state.server;
 
-        return fetch(generateUrl(server, 'getPlaylists'))
-            .then(response => response.json())
-            .then(rawjson => parseJsonResponse(rawjson))
+        return getSubsonicInstance(server).playlists.getPlaylists()
             .then(json => dispatch(setPlaylists(json.playlists.playlist)))
     }
 }
@@ -215,9 +201,7 @@ export function getSelectedPlaylistFromServer(playlistId) {
         var state = getState();
         var server = state.server;
 
-        return fetch(generateUrlwithId(server, 'getPlaylist', playlistId))
-            .then(response => response.json())
-            .then(rawjson => parseJsonResponse(rawjson))
+        return getSubsonicInstance(server).playlists.getPlaylist(playlistId)
             .then(json => dispatch(setSelectedPlaylist(json.playlist)))
     }
 }
@@ -236,7 +220,7 @@ export function playSelectedArtistTopSongs(startingIndex) {
         var state = getState();
         var topSongs = state.library.selectedArtistTopSongs;
         dispatch(playTopSongs(topSongs, startingIndex));
-        dispatch(playSongInPlaylist(startingIndex))
+        dispatch(playSongInPlaylist(startingIndex));
     }
 }
 
@@ -246,16 +230,14 @@ export function searchServer(searchText) {
         var server = state.server;
 
         if(!searchText) {
-            dispatch(setSearchQuery(''))
-            dispatch(setSearchResults(null))
-            return
+            dispatch(setSearchQuery(''));
+            dispatch(setSearchResults(null));
+            return;
         }
 
         dispatch(setSearchQuery(searchText))
-        return fetch(generateUrlwithCustomParam(server, 'search3', 'query', searchText))
-            .then(response => response.json())
-            .then(rawjson => parseJsonResponse(rawjson))
-            .then(json => dispatch(setSearchResults(json.searchResult3)))
+        return getSubsonicInstance(server).searching.search3(searchText)
+            .then(json => dispatch(setSearchResults(json.searchResult3)));
     }
 }
 
@@ -281,9 +263,7 @@ export function getGenreList() {
 
     
     dispatch(setSearchQuery(searchText))
-    return fetch(generateUrlwithCustomParam(server, 'getGenres', 'query', searchText))
-        .then(response => response.json())
-        .then(rawjson => parseJsonResponse(rawjson))
+    return getSubsonicInstance(server).browsing.getGenres()
         .then(json => {
             dispatch(setGenreList(json.genres))
             if(!library.selectedGenre) {
@@ -314,7 +294,8 @@ export function getAlbumList(type, genre, size, offset) {
         var state = getState();
         var server = state.server;
 
-        var obj = {type: getAlbumListTypeFromNiceName(type)};
+        let niceType = getAlbumListTypeFromNiceName(type)
+        var obj = {};
         if(genre) {
             obj['genre'] = genre;
         }
@@ -329,9 +310,7 @@ export function getAlbumList(type, genre, size, offset) {
             obj['offset'] = 0;
         }
 
-        return fetch(generateUrlwithCustomParams(server, 'getAlbumList2', obj))
-            .then(response => response.json())
-            .then(rawjson => parseJsonResponse(rawjson))
+        return getSubsonicInstance(server).browsing.getAlbumList2(niceType, obj)
             .then(json => dispatch(setLibraryAlbumList((json.albumList2 && json.albumList2.album) ? json.albumList2.album : [])))
     }
 }
@@ -347,8 +326,7 @@ export function pinSelectedAlbum() {
         });
     
         let action = modifiedAlbum.starred ? 'star' : 'unstar'
-        return fetch(generateUrlwithCustomParam(server, action, 'albumId', selectedAlbum.id))
-            .then(response => response.json())
+        return getSubsonicInstance(server).media[action]({ albumId: selectedAlbum.id })
             .then(() => dispatch(setSelectedAlbum(modifiedAlbum)))
     }
 }

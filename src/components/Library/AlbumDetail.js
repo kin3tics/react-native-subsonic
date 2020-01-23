@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import  { Text, SectionList, View, Dimensions, ScrollView, TouchableWithoutFeedback, FlatList, ImageBackground, Image} from 'react-native'
 import { connect } from 'react-redux';
 
-import { generateUrlwithId } from '../../helpers/api-helper'
+import { getSubsonicInstance } from '../../helpers/api-helper'
 
 
 import styles from '../../styles/global'
@@ -112,7 +112,7 @@ class AlbumDetail extends Component {
             <View style={[{width: windowWidth}]}> 
                 <ImageBackground style={{ height: windowHeight, width:windowWidth }}
                     blurRadius={5}
-                    source={{ uri: generateUrlwithId(server, 'getCoverArt', album.coverArt)}}>
+                    source={{ uri: getSubsonicInstance(server).media.getCoverArt(album.coverArt) }}>
                     
                     <View style={{backgroundColor: 'rgba(16, 12, 12, 0.64)', width: windowWidth, height: windowHeight}}>
                             <Text style={[styles.font1, a_styles.albumDetailTitle]}>{album.name}</Text>

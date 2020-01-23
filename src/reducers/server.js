@@ -1,4 +1,5 @@
 import { AsyncStorage } from "react-native";
+import md5 from 'md5';
 
 function storeValueToAsync(obj) {
     try {
@@ -9,11 +10,16 @@ function storeValueToAsync(obj) {
     }
 }
 
+function generateSecret() {
+    return [...Array(10)].map(i=>(~~(Math.random()*36)).toString(36)).join('');
+}
+
 const server = (
     state = { 
         url: '',
         user: '',
         password: '',
+        secret: '',
         version: '1.15.0',
         format: 'json',
         app: 'REACT_NATIVE',
@@ -31,7 +37,12 @@ const server = (
             storeValueToAsync(obj);
             return obj;
         case 'SET_SERVERPASS':
-            var obj = Object.assign({}, state, { password: action.password });
+            let secret = generateSecret();
+            console.log(secret);
+            var obj = Object.assign({}, state, { 
+                password: md5(`${action.password}${secret}`),
+                secret: secret
+            });
             storeValueToAsync(obj);
             return obj;
         case 'SET_SERVERVERSION':

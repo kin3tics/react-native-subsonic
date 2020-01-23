@@ -1,6 +1,6 @@
 import * as Vibrant from 'node-vibrant';
 
-import { generateUrlwithId } from '../helpers/api-helper'
+import { getSubsonicInstance } from '../helpers/api-helper'
 
 export const PLAY_SELECTEDALBUM = 'PLAY_SELECTEDALBUM'
 export const PLAY_SELECTEDPLAYLIST = 'PLAY_SELECTEDPLAYLIST'
@@ -126,10 +126,12 @@ export function playSelectedSongFromServer(songId) {
         var state = getState();
         var server = state.server;
 
-        var uri = generateUrlwithId(server, 'stream', songId);
-        dispatch(playSong(songId, uri));
-        dispatch(beginSeekTracking());
-        dispatch(setAutoProgression());
+        getSubsonicInstance(server).media.stream(songId).then(uri => {
+            dispatch(playSong(songId, uri));
+            dispatch(beginSeekTracking());
+            dispatch(setAutoProgression());
+        });
+        
     }
 }
 
@@ -145,6 +147,7 @@ export function playSongInPlaylist(playlistIndex) {
         var state = getState();
         var mediaPlayer = state.mediaPlayer;
         var server = state.server;
+        let subsonic = getSubsonicInstance(server);
 
         //if index is outside of the bounds don't do anything
         if (playlistIndex < 0 
@@ -153,20 +156,23 @@ export function playSongInPlaylist(playlistIndex) {
         }
         var songId = mediaPlayer.activePlaylist[playlistIndex].id;
         var coverArt = mediaPlayer.activePlaylist[playlistIndex].coverArt;
-        var uri = generateUrlwithId(server, 'stream', songId);
-        let coverArtUri = generateUrlwithId(server, 'getCoverArt', coverArt);
+        Promise.all([subsonic.media.stream(songId), subsonic.media.getCoverArt(coverArt)])
+            .then(values => {
+                var uri = values[0];
+                let coverArtUri = values[1];
+                
+                dispatch(setPlaylistActiveIndex(playlistIndex));
+                dispatch(playSong(songId, uri));
+                dispatch(beginSeekTracking());
+                dispatch(setAutoProgression());
         
-        dispatch(setPlaylistActiveIndex(playlistIndex));
-        dispatch(playSong(songId, uri));
-        dispatch(beginSeekTracking());
-        dispatch(setAutoProgression());
-
-        if(mediaPlayer.songCoverArtUri === coverArtUri) return;
-
-        let v = Vibrant.from(coverArtUri)
-        v.getPalette((err, palette) => {
-            dispatch(setSongArt(coverArtUri, palette));
-        })
+                if(mediaPlayer.songCoverArtUri === coverArtUri) return;
+        
+                let v = Vibrant.from(coverArtUri)
+                v.getPalette((err, palette) => {
+                    dispatch(setSongArt(coverArtUri, palette));
+                })
+            })
     }
 }
 

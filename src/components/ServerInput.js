@@ -48,7 +48,7 @@ const ServerInput = ({ dispatch, serverInfo }) => {
                 <TextInput
                     placeholder="Password"
                     onChangeText={(text) => dispatch(setServerPassword(text))}
-                    value={(serverInfo)?serverInfo.password:null}
+                    //value={(serverInfo)?serverInfo.password:null}
                     style={styles.inputText}
                     //textContentType='password'
                     secureTextEntry={true}

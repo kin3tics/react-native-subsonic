@@ -11,7 +11,7 @@ import {
     setMenu
  } from '../actions/menu-actions'
 
-import { generateUrlwithId } from '../helpers/api-helper'
+import { getSubsonicInstance } from '../helpers/api-helper'
 
 
 const mapStateToProps = state => ({
@@ -78,7 +78,7 @@ class SearchAlbums extends Component {
                 <View style={a_styles.albumListItem}>
                     <ImageBackground style={{ height:125, width:125
                     }}
-                    source={{ uri: generateUrlwithId(server, 'getCoverArt', item.coverArt)}}>
+                    source={{ uri: getSubsonicInstance(server).media.getCoverArt(item.coverArt) }}>
                     </ImageBackground>
                 </View>
                 </TouchableWithoutFeedback>)

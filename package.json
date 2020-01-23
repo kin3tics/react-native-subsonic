@@ -26,7 +26,7 @@
     "ios": "react-native-scripts ios",
     "test": "jest",
     "web": "webpack-dev-server -d --config ./webpack.config.js  --inline --hot --colors --content-base public/ --history-api-fallback",
-    "build": "NODE_ENV=production webpack -p --config ./webpack.config.js"
+    "build": "NODE_ENV=development webpack -p --config ./webpack.config.js"
   },
   "jest": {
     "preset": "jest-expo"
@@ -38,6 +38,7 @@
     "gl-react-dom": "^3.15.0",
     "gl-react-native": "^3.15.0",
     "howler": "^2.0.15",
+    "md5": "^2.2.1",
     "node-vibrant": "^3.0.0",
     "react": "16.3.2",
     "react-art": "^16.4.2",
@@ -53,6 +54,7 @@
     "redux-devtools": "^3.4.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "subsonicjs": "^0.6.0",
     "webpack": "^3.11.0",
     "webpack-dev-server": "2.9.4"
   }
