@@ -256,21 +256,21 @@ export function playSearchedSong(index) {
     }
 }
 
-export function getGenreList() {
-    var state = getState();
-    var server = state.server;
-    var library = state.library;
+// export function getGenreList() {
+//     return (dispatch, getState) => {
+//         var state = getState();
+//         var server = state.server;
+//         var library = state.library;
 
-    
-    dispatch(setSearchQuery(searchText))
-    return getSubsonicInstance(server).browsing.getGenres()
-        .then(json => {
-            dispatch(setGenreList(json.genres))
-            if(!library.selectedGenre) {
-                dispatch(setSelectedGenre(json.genres[0]))
-            }
-        })
-}
+//         return getSubsonicInstance(server).browsing.getGenres()
+//             .then(json => {
+//                 dispatch(setGenreList(json.genres))
+//                 if(!library.selectedGenre) {
+//                     dispatch(setSelectedGenre(json.genres[0]))
+//                 }
+//             })
+//     }
+// }
 
 function getAlbumListTypeFromNiceName(name) {
     switch(name) {

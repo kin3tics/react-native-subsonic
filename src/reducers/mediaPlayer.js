@@ -1,8 +1,8 @@
-const PAUSE = 'PAUSE';
-const PLAY = 'PLAY';
-
 import Sound from '../helpers/sound'
 import { shuffle } from '../helpers/audio-helper'
+
+const PAUSE = 'PAUSE';
+const PLAY = 'PLAY';
 
 function handleError(err) {
     console.log(err);

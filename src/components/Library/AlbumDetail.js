@@ -81,7 +81,7 @@ class AlbumDetail extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        nextPropPinned = nextProps.album.starred ? true : false;
+        const nextPropPinned = nextProps.album.starred ? true : false;
         if(this.state.albumPinned != nextPropPinned) {
             this.setState({albumPinned: nextPropPinned})
         }
