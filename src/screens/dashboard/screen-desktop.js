@@ -1,6 +1,8 @@
 import React from 'react'
 import  { View } from 'react-native'
 import { connect } from 'react-redux';
+import { withTheme } from '../../themeProvider';
+import styles from '../../styles/global';
 
 import {
     MENU_MAIN,
@@ -8,22 +10,24 @@ import {
     MENU_PLAYLIST,
     MENU_NOWPLAYING,
     MENU_SEARCH,
+    MENU_SETTINGS
  } from '../../actions/menu-actions'
 
-import ArtistList from '../../components/Library/ArtistList'
+import ArtistList from '../../components/artistList';
 import Library from '../../components/Library/Library'
 import PlaylistList from '../../components/PlaylistList'
 import PlaylistDetail from '../../components/PlaylistDetail'
 import NowPlaying from '../../components/NowPlaying/NowPlaying'
 import NowPlayingSidebar from '../../components/NowPlaying/NowPlayingSidebar';
 import Search from '../../components/Search'
+import Settings from '../../components/settings';
 
 const mapStateToProps = state => ({
     menu: state.menu,
     activePlaylist: state.mediaPlayer.activePlaylist
 })
 
-const DesktopDashboardScreen = ({ dimensions, menu, activePlaylist }) => {
+const DesktopDashboardScreen = ({ dimensions, menu, activePlaylist, theme }) => {
     let {width, height} = dimensions;
 
     let leftView = null;
@@ -47,6 +51,10 @@ const DesktopDashboardScreen = ({ dimensions, menu, activePlaylist }) => {
             leftView = (<ArtistList />)
             detailView = (<Search height={height} width={windowWidth} />)
             break;
+        case MENU_SETTINGS:
+            leftView = (<ArtistList />)
+            detailView= (<Settings height={height} width={width} />)
+            break;
         case MENU_MAIN:
         case MENU_LIBRARY:
         default:
@@ -56,17 +64,17 @@ const DesktopDashboardScreen = ({ dimensions, menu, activePlaylist }) => {
     }
 
 
-    return (<View style={{flexDirection:'row'}}>
-            <View>
-                {leftView}
-            </View>
-            <View>
-                {detailView}
-            </View>
-            <View>
-                {rightView}
-            </View>
-        </View>)
+    return (<View style={{ flexDirection:'row' }}>
+        <View>
+            {leftView}
+        </View>
+        <View>
+            {detailView}
+        </View>
+        <View>
+            {rightView}
+        </View>
+    </View>)
 }
 
-export default connect(mapStateToProps)(DesktopDashboardScreen)
+export default connect(mapStateToProps)(withTheme(DesktopDashboardScreen))

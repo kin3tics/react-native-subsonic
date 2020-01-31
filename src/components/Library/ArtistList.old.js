@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
 import  { Text, SectionList, View, Dimensions, ScrollView, TouchableWithoutFeedback, FlatList, Image} from 'react-native'
 import { connect } from 'react-redux';
+import { withTheme } from '../../themeProvider';
 
-import Menu from '../Menu'
+import Menu from '../menu/index'
 
 import styles from '../../styles/global'
 import a_styles from '../../styles/artists'
-import m_styles from '../../styles/menu'
 
 import { 
     getArtistsFromServer,
@@ -14,18 +14,13 @@ import {
     setSelectedAlbum 
 } from '../../actions/library-actions'
 
-import {
-    MENU_MAIN,
-    setMenu,
- } from '../../actions/menu-actions'
-
 const mapStateToProps = state => ({
     artists: state.library.artists
 })
 
 const renderSectionHeader = ({section}) => {
     return (
-        <View style={[a_styles.subHeader, styles.background1]}>
+        <View style={[a_styles.subHeader]}>
             <Text style={[styles.font1, a_styles.subHeaderText]}>{section.title}</Text>
         </View>);
 }
@@ -65,15 +60,16 @@ class ArtistList extends Component  {
     }
 
     render() {
-        let {dispatch, artists} = this.props;
+        let {dispatch, artists, theme} = this.props;
         let {width, height} = Dimensions.get('window')
+        let backgroundColor = theme.dark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0,0,0,.03)'
 
         if(artists.length == 0) return (
             <ScrollView contentContainerStyle={{ 
                 flexGrow: 1, 
                 flexDirection: 'column', 
                 justifyContent: 'space-between'}}
-                style={[styles.background2, a_styles.container]}>
+                style={[a_styles.container, { backgroundColor: backgroundColor}]}>
                 <View style={{height: (height - 50)}}>
                     <Menu />
                 </View>
@@ -85,7 +81,7 @@ class ArtistList extends Component  {
                     flexGrow: 1, 
                     flexDirection: 'column', 
                     justifyContent: 'space-between'}}
-                style={[styles.background2, a_styles.container]}>
+                style={[a_styles.container, { backgroundColor: backgroundColor}]}>
                 <View style={{height: (height - 75)}}>
                     <Menu />
                     <SectionList 
@@ -119,4 +115,4 @@ class ArtistList extends Component  {
     }
 }
 
-export default connect(mapStateToProps)(ArtistList)
+export default connect(mapStateToProps)(withTheme(ArtistList))

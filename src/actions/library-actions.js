@@ -1,4 +1,5 @@
 import { getSubsonicInstance } from '../helpers/api-helper'
+import * as db from '../helpers/indexedDB';
 
 import { playAlbum, playPlaylist, playTopSongs, addSong, playSongInPlaylist } from './mediaPlayer-actions'
 
@@ -13,6 +14,7 @@ export const SET_SEARCHQUERY = 'SET_SEARCHQUERY'
 export const SET_SEARCHRESULTS = 'SET_SEARCHRESULTS'
 export const SET_ALBUMLISTTYPE = 'SET_ALBUMLISTTYPE'
 export const SET_ALBUMLIST = 'SET_ALBUMLIST'
+export const SET_COVERART = 'SET_COVERART'
 
 export const ALBUM_TYPE = 'ALBUM'
 export const PLAYLIST_TYPE = 'PLAYLIST'
@@ -291,6 +293,7 @@ function getAlbumListTypeFromNiceName(name) {
 
 export function getAlbumList(type, genre, size, offset) {
     return (dispatch, getState) => {
+        dispatch(setLibraryAlbumList([]));
         var state = getState();
         var server = state.server;
 
@@ -329,5 +332,34 @@ export function pinSelectedAlbum() {
         return getSubsonicInstance(server).media[action]({ albumId: selectedAlbum.id })
             .then(() => dispatch(setSelectedAlbum(modifiedAlbum)))
     }
+}
+
+export function getCoverArt(coverArt, onFetchComplete) {
+    return (dispatch, getState) => {
+        var state = getState();
+        var server = state.server;
+        db.getItemFromStore(db.Constants.STORE_COVERART, coverArt).then(item => {
+            if(item) { 
+                //TODO: Add logic for re-fetching 'old' cover art
+                if(typeof onFetchComplete === 'function') onFetchComplete(item); 
+            } else {
+                getSubsonicInstance(server).media.getCoverArt(coverArt)
+                .then((data) => {
+                    let fetchedCoverArt = {
+                        key: coverArt,
+                        data: data,
+                        lastUpdated: new Date()
+                    };
+                    db.addToStore(db.Constants.STORE_COVERART, fetchedCoverArt);
+                    if(typeof onFetchComplete === 'function') onFetchComplete(fetchedCoverArt);
+                });
+            }
+        })
+        return 
+    }
+}
+
+function fetchCoverArt(server, coverArt, onFetchComplete) {
+
 }
 
