@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withTheme } from '../../themeProvider';
 
 import AlbumList from '../albumList'
-import AlbumDetails from '../Library/AlbumDetail'
+import AlbumDetails from '../albumDetail'
 import ArtistInfo from '../artistInfo';
 
 import styles from '../../styles/global'
