@@ -6,3 +6,22 @@ export function hexToRgb(hex) {
         b: parseInt(result[3], 16)
     } : null;
 }
+
+export function getColorForMissingArtwork(index, theme) {
+    let i = index % 5
+    switch(i)
+    {
+        case 1:
+            return theme.second
+        case 2:
+            return theme.third
+        case 3:
+            return theme.fourth
+        case 4:
+            return theme.fifth
+        case 0:
+        default:
+            return theme.first
+    }
+
+}

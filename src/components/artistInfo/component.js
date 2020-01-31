@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import  { Text, View, Dimensions, TouchableWithoutFeedback, FlatList, ImageBackground, Image} from 'react-native'
+import  { Text, View, ScrollView, TouchableWithoutFeedback, FlatList, ImageBackground, Image} from 'react-native'
 import { connect } from 'react-redux';
 import { withTheme } from '../../themeProvider';
 import { hexToRgb } from '../../helpers/colors';
@@ -35,8 +35,8 @@ const ArtistInfo = ({ dispatch, artist, artistInfo, topSongs, width, height, the
             <View style={[{width: windowWidth}]}> 
             </View>);
     let backgroundRGB = hexToRgb(theme.background);
-    let backgroundColorLight = `rgba(${backgroundRGB.r}, ${backgroundRGB.g}, ${backgroundRGB.b}, 0.34)`;
-    let backgroundColorDark = `rgba(${backgroundRGB.r}, ${backgroundRGB.g}, ${backgroundRGB.b}, 0.64)`;
+    let backgroundColorImage = `rgba(${backgroundRGB.r}, ${backgroundRGB.g}, ${backgroundRGB.b}, 0.2)`;
+    let textBackgroundColor = `rgba(${backgroundRGB.r}, ${backgroundRGB.g}, ${backgroundRGB.b}, 0.64)`;
 
     let backgroundImageUrl = artistInfo.largeImageUrl ? artistInfo.largeImageUrl
             : artistInfo.mediumImageUrl ? artistInfo.mediumImageUrl
@@ -47,7 +47,7 @@ const ArtistInfo = ({ dispatch, artist, artistInfo, topSongs, width, height, the
         return (
             <View><TouchableWithoutFeedback
                 onPress={() => dispatch(getSelectedArtistFromServer(item.id))}>
-                <View style={[a_styles.similarArtist, { backgroundColor: backgroundColorDark, borderColor: theme.background}]}><Text style={[a_styles.listItem2, { color: theme.foreground }]}>{item.name}</Text></View>
+                <View style={[a_styles.similarArtist, { backgroundColor: textBackgroundColor, borderColor: theme.background}]}><Text style={[a_styles.listItem2, { color: theme.foreground }]}>{item.name}</Text></View>
             </TouchableWithoutFeedback></View>)
     }) : [];
     
@@ -59,9 +59,9 @@ const ArtistInfo = ({ dispatch, artist, artistInfo, topSongs, width, height, the
                 blurRadius={5}
                 source={{ uri: backgroundImageUrl }}>
                 
-                <View style={{backgroundColor: backgroundColorDark, width: windowWidth, height: windowHeight}}>
+                <View style={{backgroundColor: backgroundColorImage, width: windowWidth, height: windowHeight}}>
                     <Text style={[a_styles.albumDetailTitle, { color: theme.first }]}>{artist.name}</Text>
-                    <View style={[a_styles.albumDetailText, { padding: 10, marginHorizontal: 30, backgroundColor: backgroundColorDark, borderRadius: 5 }]}>
+                    <View style={[a_styles.albumDetailText, { padding: 10, marginHorizontal: 30, backgroundColor: textBackgroundColor, borderRadius: 5 }]}>
                         <Text style={{ color: theme.foreground }}>{artistInfo.biography}</Text>
                     </View>
                     <Text style={[a_styles.albumDetailSubtitle, { color: theme.first }]}>Similar Artists</Text>
@@ -69,7 +69,9 @@ const ArtistInfo = ({ dispatch, artist, artistInfo, topSongs, width, height, the
                         {similarArtists}
                     </View>
                     <Text style={[a_styles.albumDetailSubtitle, { color: theme.first }]}>Top Songs</Text>
-                    <FlatList
+                    <ScrollView
+                        style={{ paddingHorizontal: 10, paddingVertical: 5, marginHorizontal: 30, marginBottom: 5, backgroundColor: textBackgroundColor, borderRadius: 5 }}>
+                        <FlatList
                             data={topSongs}
                             getItemLayout = {getItemLayout}
                             renderItem={({item, index}) => {
@@ -85,7 +87,7 @@ const ArtistInfo = ({ dispatch, artist, artistInfo, topSongs, width, height, the
                                 }
                                 return (
                                     <View
-                                        style={[{ flexDirection:'row', paddingHorizontal: 10, paddingVertical: 5, marginHorizontal: 30, backgroundColor: backgroundColorDark }, borderRadius]}>
+                                        style={[{ flexDirection:'row', paddingVertical: 5 }]}>
                                         <TouchableWithoutFeedback
                                             onPress={() => dispatch(playSelectedArtistTopSongs(index))}>
                                             <View style={{ flexDirection:'row' }}>
@@ -104,6 +106,7 @@ const ArtistInfo = ({ dispatch, artist, artistInfo, topSongs, width, height, the
                             }}
                             keyExtractor={(item) => item.id}
                         />
+                    </ScrollView>
                 </View>
             </ImageBackground>
         </View>);
