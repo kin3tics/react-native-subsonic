@@ -19,9 +19,10 @@ const AlbumTileComponent = ({ album, backgroundColor, color, onPress, dispatch }
     return (
         <TouchableWithoutFeedback
             onPress={() => onPress(album)}>
-        <View style={[a_styles.albumListItem, { backgroundColor: backgroundColor }]}>
+        <View style={[a_styles.albumListItem, { backgroundColor:  coverArt ? 'transparent' : backgroundColor }]}>
             {coverArt 
                 ? (<ImageBackground 
+                    resizeMode="contain"
                     style={{ height:125, width:125}}
                     source={{ uri: coverArt.data }} />)
                 : (<Text style={{color:color, padding: 5}}>{album.name}</Text>)

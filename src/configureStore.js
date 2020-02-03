@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
-import { persistStore, persistReducer } from 'redux-persist';
+import { persistStore, persistReducer, createTransform } from 'redux-persist';
 import thunkMiddleware from 'redux-thunk'
 import { server, menu, library, mediaPlayer } from './reducers'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
@@ -20,10 +20,29 @@ const libraryPersistConfig = {
   key: 'library',
   storage: storage
 }
+
+const mediaPlayerTransform = createTransform(
+  (inboundState, key) => {
+    console.log(inboundState, key)
+    return {
+      ...inboundState
+    }
+    
+  },
+  (outboundState, key) => {
+    return {
+      ...outboundState
+    }
+  },
+  { whitelist: ['mediaPlayer'] }
+)
+
 const mediaPlayerPersistConfig = {
   keyPrefix: '',
   key: 'mediaPlayer',
-  storage: storage
+  storage: storage,
+  blacklist: ['mediaPlayer', 'isPlaying'],
+  transforms: [mediaPlayerTransform]
 }
 
 let middlewares = [];

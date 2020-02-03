@@ -26,18 +26,8 @@ import {
 })
 
 const Menu = ({ dispatch, isMobile, menu, theme }) => {
-    let menuItemStyle = isMobile ? m_styles.mobileMenuItem : m_styles.menuItem;
     let menuItemImgSize = isMobile ? 42 : 24;
     let menuBackground = theme.dark ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0,0,0, 0.15)';
-
-    const style = StyleSheet.create({
-        icon: {
-            color: theme.comment
-        },
-        activeIcon: {
-            color: theme.first
-        }
-    });
 
     return (
     <View 

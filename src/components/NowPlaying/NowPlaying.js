@@ -18,25 +18,6 @@ import styles from '../../styles/global'
 import np_styles from '../../styles/nowPlaying'
 import m_styles from '../../styles/menu'
 
-function getColorForMissingArtwork(index) {
-    let i = index % 5
-    switch(i)
-    {
-        case 1:
-            return styles.missingArtworkColor1
-        case 2:
-            return styles.missingArtworkColor2
-        case 3:
-            return styles.missingArtworkColor3
-        case 4:
-            return styles.missingArtworkColor4
-        case 0:
-        default:
-            return styles.missingArtworkColor5
-    }
-
-}
-
 const mapStateToProps = state => ({
     server: state.server,
     nowPlaying: state.mediaPlayer

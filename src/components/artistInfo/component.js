@@ -45,7 +45,7 @@ const ArtistInfo = ({ dispatch, artist, artistInfo, topSongs, width, height, the
 
     let similarArtists = artistInfo.similarArtist ? artistInfo.similarArtist.map((item) => {
         return (
-            <View><TouchableWithoutFeedback
+            <View key={item.id}><TouchableWithoutFeedback
                 onPress={() => dispatch(getSelectedArtistFromServer(item.id))}>
                 <View style={[a_styles.similarArtist, { backgroundColor: textBackgroundColor, borderColor: theme.background}]}><Text style={[a_styles.listItem2, { color: theme.foreground }]}>{item.name}</Text></View>
             </TouchableWithoutFeedback></View>)
@@ -65,9 +65,11 @@ const ArtistInfo = ({ dispatch, artist, artistInfo, topSongs, width, height, the
                         <Text style={{ color: theme.foreground }}>{artistInfo.biography}</Text>
                     </View>
                     <Text style={[a_styles.albumDetailSubtitle, { color: theme.first }]}>Similar Artists</Text>
-                    <View style={[{flexDirection: 'row', width: windowWidth, flexWrap: 'wrap', alignItems: "flex-start", paddingLeft: 30, paddingRight: 30}]}>
-                        {similarArtists}
-                    </View>
+                    <ScrollView style={[{ width: windowWidth, maxHeight: 105 }]}>
+                        <View style={[{flexDirection: 'row', width: windowWidth, flexWrap: 'wrap', alignItems: "flex-start", paddingLeft: 30, paddingRight: 30 }]}>
+                            {similarArtists}
+                        </View>
+                    </ScrollView>
                     <Text style={[a_styles.albumDetailSubtitle, { color: theme.first }]}>Top Songs</Text>
                     <ScrollView
                         style={{ paddingHorizontal: 10, paddingVertical: 5, marginHorizontal: 30, marginBottom: 5, backgroundColor: textBackgroundColor, borderRadius: 5 }}>

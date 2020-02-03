@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import  { Text, View, ScrollView, TouchableWithoutFeedback, FlatList, ImageBackground, Image } from 'react-native';
+import  { Text, View, ScrollView, TouchableWithoutFeedback, FlatList, ImageBackground, Image, StyleSheet } from 'react-native';
 import { useCompare } from '../../helpers/hooks';
 import { hexToRgb } from '../../helpers/colors';
 import { getCoverArt } from '../../actions/library-actions';
 import { withTheme } from '../../themeProvider';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faHeart, faPlayCircle, faRandom, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
 import styles from '../../styles/global'
 import a_styles from '../../styles/artists'
@@ -82,7 +84,8 @@ const AlbumDetail = ({ dispatch, album, width, height, theme }) => {
     let backgroundRGB = hexToRgb(theme.background);
     let backgroundColorImage = `rgba(${backgroundRGB.r}, ${backgroundRGB.g}, ${backgroundRGB.b}, 0.2)`;
     let textBackgroundColor = `rgba(${backgroundRGB.r}, ${backgroundRGB.g}, ${backgroundRGB.b}, 0.64)`;
-    
+    const iconStyle = StyleSheet.create({ icon: { color: theme.foreground }});
+
     let genreText = album.genre ? `${album.genre} | ` : '';
     let pinnedImg = albumPinned 
             ? (<Image style={{height: 20, width: 20}} source={require('../../images/action/baseline_favorite_white_24dp.png')} />)
@@ -103,19 +106,19 @@ const AlbumDetail = ({ dispatch, album, width, height, theme }) => {
                         <View style={[a_styles.albumDetailText, { marginBottom: 10 }]}>
                             <TouchableWithoutFeedback
                                 onPress={() => { dispatch(pinSelectedAlbum()); setAlbumPinned(!albumPinned) }}>
-                                {pinnedImg}
+                                <FontAwesomeIcon icon={ faHeart } size={12} style={{ paddingTop: 3, color: theme.foreground }} />
                             </TouchableWithoutFeedback>
                             <Text style={{ color: theme.foreground }}> | {album.songCount} Tracks | {albumDuration[0]}:{albumDuration[1]} | {genreText}</Text>
                             <TouchableWithoutFeedback onPress={() => dispatch(playSelectedAlbum(0, false))}>
-                                <Image style={{height: 20, width:20}} source={require('../../images/av/ic_play_circle_outline_white_24dp.png')}/>
+                            <FontAwesomeIcon icon={ faPlayCircle } size={12} style={{ paddingTop: 3, color: theme.foreground }} />
                             </TouchableWithoutFeedback>
                             <Text style={{ color: theme.foreground }}> | </Text>
                             <TouchableWithoutFeedback onPress={() => dispatch(playSelectedAlbum(0, true))}>
-                                <Image style={{height: 20, width:20}} source={require('../../images/av/ic_shuffle_white_24dp.png')}/>
+                                <FontAwesomeIcon icon={ faRandom } size={12} style={{ paddingTop: 3, color: theme.foreground }} />
                             </TouchableWithoutFeedback>
                             <Text style={{ color: theme.foreground }}> | </Text>
                             <TouchableWithoutFeedback onPress={() => dispatch(addSelectedAlbumToPlaylist())}>
-                                <Image style={{height:20,width:20}} source={require('../../images/av/ic_queue_music_white_24dp.png')}/>
+                                <FontAwesomeIcon icon={ faPlusCircle } size={12} style={{ paddingTop: 3, color: theme.foreground }} />
                             </TouchableWithoutFeedback>
                         </View>
                     </View>
