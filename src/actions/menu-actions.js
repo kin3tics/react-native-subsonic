@@ -3,6 +3,7 @@ export const MENU_LIBRARY = 'LIBRARY'
 export const MENU_SEARCH = 'SEARCH'
 export const MENU_PLAYLIST = 'PLAYLIST'
 export const MENU_NOWPLAYING = 'NOWPLAYING'
+export const MENU_SETTINGS = 'SETTINGS'
 
 export const SET_MENU = 'SET_MENU'
 

@@ -49,7 +49,7 @@ export default StyleSheet.create({
     albumListItem: {
         height: 125,
         width: 125,
-        backgroundColor: '#FFF',
+        //backgroundColor: '#FFF',
         margin: 10
     },
     albumDetailTitle: {
@@ -82,7 +82,7 @@ export default StyleSheet.create({
     },
     similarArtist: {
         flexDirection: 'row',
-        backgroundColor: 'rgba(127, 127, 127, 0.34)',
+        //backgroundColor: 'rgba(127, 127, 127, 0.34)',
         padding: 5,
         margin: 2,
         borderRadius: 5,
@@ -91,14 +91,14 @@ export default StyleSheet.create({
     searchBox: {
         flex: 1,
         flexDirection: 'row',
-        backgroundColor: 'rgba(12, 12, 12, 0.34)',
+        //backgroundColor: 'rgba(12, 12, 12, 0.34)',
         //padding: 10,
         margin: 10,
         marginTop: 5,
         borderRadius: 10,
     },
     searchInput: {
-        color: '#FFF',
+        //color: '#FFF',
         fontSize: 16,
         padding: 10,
         flex: 1 

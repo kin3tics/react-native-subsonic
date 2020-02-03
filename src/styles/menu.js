@@ -7,7 +7,7 @@ export default StyleSheet.create({
     menuHeader: {
         flexDirection:'row',
         borderBottomWidth: 5,
-        borderColor: '#2a2a2a'
+        //borderColor: '#2a2a2a'
     },
     menuHeaderText: {
         fontSize: 20,
@@ -22,7 +22,7 @@ export default StyleSheet.create({
         width: 24
     },
     selectedMenuItem: {
-        backgroundColor: '#2a2a2a'
+        //backgroundColor: '#2a2a2a'
     },
     menuItemText: {
         fontSize: 20,

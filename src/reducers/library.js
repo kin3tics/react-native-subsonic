@@ -10,7 +10,8 @@ const library = (
         searchQuery: '',
         searchResults: null,
         libraryAlbumList: [],
-        libraryAlbumListType: null
+        libraryAlbumListType: null,
+        coverArt: {}
     }, 
     action ) => {
     switch (action.type) {
@@ -22,7 +23,7 @@ const library = (
                 value.artist = null;
             });
             return Object.assign({}, state, { 
-                artists: artistArray 
+                artists: action.artists.index 
             });
         case 'SET_SELECTEDARTIST':
             return Object.assign({}, state, { 
@@ -64,6 +65,12 @@ const library = (
             return Object.assign({}, state, { 
                 libraryAlbumList: action.libraryAlbumList 
             });
+        case 'SET_COVERART':
+            let coverArt = Object.assign({}, state.coverArt);
+            coverArt[action.key] = action.data;
+            return Object.assign({}, state, {
+                coverArt: coverArt
+            })
         default:
             return state;
     }

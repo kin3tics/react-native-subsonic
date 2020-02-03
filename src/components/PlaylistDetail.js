@@ -8,7 +8,7 @@ import { getSubsonicInstance } from '../helpers/api-helper'
 import styles from '../styles/global'
 import a_styles from '../styles/artists'
 
-import {PLAYLIST_TYPE, playSelectedPlaylist, addSelectedPlaylistToPlaylist, addSelectedSongToPlaylist } from '../actions/library-actions'
+import {PLAYLIST_TYPE, playSelectedPlaylist, addSelectedSongToPlaylist } from '../actions/library-actions'
 
 import { getDurationArray } from '../helpers/audio-helper'
 
@@ -62,9 +62,9 @@ class PlaylistDetail extends Component {
                                 <Image style={{height: 20, width:20}} source={require('../images/av/ic_shuffle_white_24dp.png')}/>
                             </TouchableWithoutFeedback>
                             <Text style={[styles.font1]}> | </Text>
-                            <TouchableWithoutFeedback onPress={() => dispatch(addSelectedPlaylistToPlaylist())}>
+                            {/* <TouchableWithoutFeedback onPress={() => dispatch(addSelectedPlaylistToPlaylist())}>
                                 <Image style={{height:20,width:20}} source={require('../images/av/ic_queue_music_white_24dp.png')}/>
-                            </TouchableWithoutFeedback>
+                            </TouchableWithoutFeedback> */}
                         </View>
                         <ScrollView style={[a_styles.albumSongContainer, {width: windowWidth - 50, height: windowHeight - 150}]}>
                             <FlatList

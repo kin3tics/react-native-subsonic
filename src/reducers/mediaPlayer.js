@@ -1,6 +1,3 @@
-const PAUSE = 'PAUSE';
-const PLAY = 'PLAY';
-
 import Sound from '../helpers/sound'
 import { shuffle } from '../helpers/audio-helper'
 
@@ -16,6 +13,7 @@ function setSongActiveMap(item, index, activeIndex) {
 const mediaPlayer = (
     state = { 
         songId: null,
+        songUri: null,
         songSeek: 0,
         songCoverArtUri: null,
         songPalette: null,
@@ -35,6 +33,7 @@ const mediaPlayer = (
 
             s = Object.assign({}, state, { 
                 songId: action.songId,
+                songUri: action.uri,
                 isPlaying: 1,
                 songSeek: 0,
                 mediaPlayer: new Sound(action.uri, null, handleError)
@@ -48,6 +47,7 @@ const mediaPlayer = (
                     ? state.mediaPlayer.getSeek()
                     : state.songSeek
             });
+            if(!s.mediaPlayer) s.mediaPlayer = new Sound(state.songUri, null, handleError);
             if (s.isPlaying) {
                 s.mediaPlayer.setSeek(s.songSeek);
                 s.mediaPlayer.play();
@@ -56,6 +56,7 @@ const mediaPlayer = (
             }
             return s;
         case('SEEK_SONG'):
+            if(!state.mediaPlayer) state.mediaPlayer = new Sound(state.songUri, null, handleError);
             if (!action.seek && action.seek !== 0) {
                 return Object.assign({}, state, {
                     songSeek: state.mediaPlayer.getSeek()

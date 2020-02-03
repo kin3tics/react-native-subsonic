@@ -58,7 +58,7 @@ class SearchSongs extends Component {
                                     </View>
                                 </TouchableWithoutFeedback>
                                 <TouchableWithoutFeedback
-                                    onPress={() => dispatch(addSelectedSongToPlaylist(SEARCH_TYPE, index))}>
+                                    onPress={() => dispatch(addSelectedSongToPlaylist('SEARCH', index))}>
                                     <View style={a_styles.songDuration}>
                                         <Text style={styles.font1}>{songDuration[0]}:{songDuration[1]} | </Text>
                                         <Image style={{height:20,width:20}} source={require('../images/av/ic_playlist_add_white_24dp.png')}/>

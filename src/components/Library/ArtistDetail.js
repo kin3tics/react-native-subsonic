@@ -3,7 +3,7 @@ import  { View, ScrollView} from 'react-native'
 import { connect } from 'react-redux';
 
 import AlbumList from './AlbumList'
-import AlbumDetails from './AlbumDetail'
+import AlbumDetails from '../albumDetail'
 import ArtistInfo from './ArtistInfo'
 import ArtistInfo_mobile from './ArtistInfo_mobile'
 

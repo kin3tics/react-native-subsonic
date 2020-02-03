@@ -4,7 +4,7 @@ export default class Sound {
   static setCategory() {}
 
   constructor(asset, basePath, error) {
-    that = this;
+    let that = this;
     this.sound = new Howl({
       src: [asset],
       onloaderror: error,
