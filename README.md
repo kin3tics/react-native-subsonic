@@ -1,6 +1,14 @@
 Front-end to Subsonic written in React Native
 
+![User Interface Light](https://user-images.githubusercontent.com/1766848/74463166-6a452f00-4e5f-11ea-9d1a-a7f98711ad52.png)
+
 Version History
+- 0.2.0
+  - UI - Overhauled Library desktop components to support 'themes' based on the Rainglow project
+  - UI - Began swapping out material icons for FontAwesome free iconography
+  - Misc - Swapped out API back-end with subsonicjs package
+  - Misc - Began migrating views / components to React Hooks
+  - Misc - Updated node packages to latest versions
 - 0.1.11
   - Library: Main Screen - Update for mobile web view
   - Library: Artist info - Update for mobile web view
