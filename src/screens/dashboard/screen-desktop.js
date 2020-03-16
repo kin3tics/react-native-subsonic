@@ -15,8 +15,8 @@ import {
 
 import ArtistList from '../../components/artistList';
 import Library from '../../components/Library/Library'
-import PlaylistList from '../../components/PlaylistList'
-import PlaylistDetail from '../../components/PlaylistDetail'
+import PlaylistList from '../../components/playlistList'
+import PlaylistDetail from '../../components/playlistDetail'
 import NowPlaying from '../../components/NowPlaying/NowPlaying'
 import NowPlayingSidebar from '../../components/NowPlaying/NowPlayingSidebar';
 import Search from '../../components/Search'

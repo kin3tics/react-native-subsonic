@@ -13,7 +13,7 @@ import {
 import styles from '../../styles/global'
 import Menu from '../../components/Menu'
 import Library from '../../components/Library/Library'
-import PlaylistDetail from '../../components/PlaylistDetail'
+import PlaylistDetail from '../../components/playlistDetail'
 import NowPlaying from '../../components/NowPlaying/NowPlaying'
 import NowPlayingBottombar from '../../components/NowPlaying/NowPlayingBottombar';
 import Search from '../../components/Search'

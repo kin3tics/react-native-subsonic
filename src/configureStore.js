@@ -41,7 +41,7 @@ const mediaPlayerPersistConfig = {
   keyPrefix: '',
   key: 'mediaPlayer',
   storage: storage,
-  blacklist: ['mediaPlayer', 'isPlaying'],
+  blacklist: ['mediaPlayer', 'isPlaying', 'songPalette'],
   transforms: [mediaPlayerTransform]
 }
 
