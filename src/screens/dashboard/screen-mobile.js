@@ -16,7 +16,7 @@ import Library from '../../components/Library/Library'
 import PlaylistDetail from '../../components/playlistDetail'
 import NowPlaying from '../../components/NowPlaying/NowPlaying'
 import NowPlayingBottombar from '../../components/NowPlaying/NowPlayingBottombar';
-import Search from '../../components/Search'
+import Search from '../../components/search'
 
 const mapStateToProps = state => ({
     menu: state.menu,

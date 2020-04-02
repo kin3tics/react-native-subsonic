@@ -39,7 +39,7 @@ const PlaylistList = ({ dispatch, playlists, theme }) =>  {
                 flexDirection: 'column', 
                 justifyContent: 'space-between'}}
             style={[a_styles.container, { backgroundColor: backgroundColor }]}>
-            <View style={{height: height }}>
+            <View style={{height: height, paddingBottom: 15 }}>
                 <Menu />
                 <View style={{ backgroundColor: theme.background }}>
                     <View style={{ position: 'absolute', height: '100%', width: '100%', backgroundColor: headerBackgroundColor }} />
