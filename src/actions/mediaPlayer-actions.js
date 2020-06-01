@@ -109,15 +109,19 @@ function beginSeekTracking() {
     }
 }
 
-function setAutoProgression() {
+function setAutoProgression(attempt = 0) {
     return (dispatch, getState) => {
         var state = getState();
         var mediaPlayer = state.mediaPlayer.mediaPlayer;
-        mediaPlayer.off('end')
-        mediaPlayer.once('end', function() {
-            dispatch(pauseSong())
-            dispatch(playNextSongInPlaylist())
-        })
+        if(mediaPlayer) {
+            mediaPlayer.off('end')
+            mediaPlayer.once('end', function() {
+                dispatch(pauseSong())
+                dispatch(playNextSongInPlaylist())
+            })
+        } else if (attempt < 10) {
+            setTimeout(() => { dispatch(setAutoProgression(attempt++))}, 240)
+        }
     }
 }
 
@@ -156,6 +160,7 @@ export function playSongInPlaylist(playlistIndex) {
         }
         var songId = mediaPlayer.activePlaylist[playlistIndex].id;
         var coverArt = mediaPlayer.activePlaylist[playlistIndex].coverArt;
+        var prevCoverArtUri = mediaPlayer.songCoverArtUri;
         Promise.all([subsonic.media.stream(songId), subsonic.media.getCoverArt(coverArt)])
             .then(values => {
                 var uri = values[0];
@@ -166,13 +171,19 @@ export function playSongInPlaylist(playlistIndex) {
                 dispatch(beginSeekTracking());
                 dispatch(setAutoProgression());
         
-                if(mediaPlayer.songCoverArtUri === coverArtUri) return;
-        
-                let v = Vibrant.from(coverArtUri)
-                v.getPalette((err, palette) => {
-                    dispatch(setSongArt(coverArtUri, palette));
-                })
+                if(prevCoverArtUri !== coverArtUri || !mediaPlayer.songPalette) {
+                    dispatch(getSongArt(coverArtUri));
+                }
             })
+    }
+}
+
+export function getSongArt(coverArtUri) {
+    return (dispatch) => {
+        let v = Vibrant.from(coverArtUri)
+        v.getPalette((err, palette) => {
+            dispatch(setSongArt(coverArtUri, palette));
+        })
     }
 }
 

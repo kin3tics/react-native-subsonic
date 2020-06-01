@@ -26,10 +26,10 @@ const getItemLayout = (data, index) => (
 
 const PlaylistDetail = ({ dispatch, playlist, width, height, server, theme }) => {
     const [ coverArt, setCoverArt ] = useState();
-    let playlistArtHasChanged = useCompare(playlist.coverArt);
+    let playlistArtHasChanged = useCompare(playlist ? playlist.coverArt : null);
     useEffect(() => {
-        if(playlistArtHasChanged && playlist.coverArt)
-            dispatch(getCoverArt(playlist.coverArt, setCoverArt));
+        if(playlistArtHasChanged && playlist && playlist.coverArt)
+            dispatch(getCoverArt(playlist ? playlist.coverArt : null, setCoverArt));
     });
 
     let windowWidth = width;

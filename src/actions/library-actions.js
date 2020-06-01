@@ -359,7 +359,3 @@ export function getCoverArt(coverArt, onFetchComplete) {
     }
 }
 
-function fetchCoverArt(server, coverArt, onFetchComplete) {
-
-}
-

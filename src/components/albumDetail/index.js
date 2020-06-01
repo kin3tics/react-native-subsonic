@@ -5,7 +5,7 @@ import { useCompare } from '../../helpers/hooks';
 import { hexToRgb } from '../../helpers/colors';
 import { withTheme } from '../../themeProvider';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faHeart, faPlayCircle, faRandom, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faPlayCircle, faRandom, faPlusCircle, faPlay } from '@fortawesome/free-solid-svg-icons';
 
 import a_styles from '../../styles/artists'
 
@@ -133,12 +133,16 @@ const AlbumDetail = ({ dispatch, album, width, height, theme }) => {
                                                 <Text style={{ paddingLeft: 15, color: theme.foreground }}>{item.title}</Text>
                                             </View>
                                         </TouchableWithoutFeedback>
-                                        <TouchableWithoutFeedback onPress={() => dispatch(addSelectedSongToPlaylist(ALBUM_TYPE, index))}>
-                                            <View style={[a_styles.songDuration, { right: 10 }]}>
-                                                <Text style={{ color: theme.foreground }}>{songDuration[0]}:{songDuration[1]} | </Text>
-                                                <Image style={{height:20,width:20}} source={require('../../images/av/ic_playlist_add_white_24dp.png')}/>
-                                            </View>
-                                        </TouchableWithoutFeedback>
+                                        <View style={[a_styles.songDuration, { right: 10 }]}>
+                                            <Text style={{ color: theme.foreground }}>{songDuration[0]}:{songDuration[1]} | </Text>
+                                            <TouchableWithoutFeedback onPress={() => dispatch(playSelectedAlbum(index, false))}>
+                                                <FontAwesomeIcon icon={ faPlayCircle } size={12} style={{ paddingTop: 3, color: theme.foreground }} />
+                                            </TouchableWithoutFeedback>
+                                            <Text> | </Text>
+                                            <TouchableWithoutFeedback onPress={() => dispatch(addSelectedSongToPlaylist(ALBUM_TYPE, index))}>
+                                                <FontAwesomeIcon icon={ faPlusCircle } size={12} style={{ paddingTop: 3, color: theme.foreground }} />
+                                            </TouchableWithoutFeedback>
+                                        </View>
                                     </View>
                                 )
                             }}

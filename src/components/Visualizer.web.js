@@ -1,14 +1,10 @@
 import React, { Component } from 'react'
-import  { Text, ProgressBar, View, Dimensions, ScrollView, TouchableWithoutFeedback, FlatList, Image, ART} from 'react-native'
+import  { View, Dimensions } from 'react-native'
 import { connect } from 'react-redux';
-import {Howler} from 'howler';
 import {Surface} from 'gl-react-dom';
 import timeLoop from "../helpers/timeLoop";
 
-import { generateUrlwithId } from '../helpers/api-helper'
-import { getDurationArray } from '../helpers/audio-helper'
-
-import Fluid from '../helpers/fluid2'
+import Fluid from '../helpers/fluid2';
 
 const mapStateToProps = state => ({
     server: state.server,

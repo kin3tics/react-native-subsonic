@@ -14,7 +14,6 @@ const ServerSettings = ({ dispatch, serverInfo, theme }) => {
     const [serverUrl, setServerUrl] = useState(serverInfo.url);
     const [username, setUsername] = useState(serverInfo.user);
     const [password, setPassword] = useState();
-    console.log(serverInfo);
     let inputBackground = theme.dark ? 'rgba(0,0,0, 0.15)' : 'rgba(255, 255, 255, 0.6)';
     return <View>
         <Text style={[ a_styles.albumDetailTitle, { color: theme.first } ]}>Server</Text>
