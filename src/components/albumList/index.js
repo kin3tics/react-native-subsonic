@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import  { Text, View, TouchableWithoutFeedback, FlatList, ImageBackground} from 'react-native'
+import React from 'react'
+import  { View, FlatList } from 'react-native'
 import { connect } from 'react-redux';
 import { withTheme } from '../../themeProvider';
 import AlbumComponent from '../albumTile';
 
 import { getColorForMissingArtwork } from '../../helpers/colors';
 
-import { getSelectedAlbumFromServer, getCoverArt } from '../../actions/library-actions';
+import { getSelectedAlbumFromServer } from '../../actions/library-actions';
 
 const mapStateToProps = state => ({
     server: state.server,

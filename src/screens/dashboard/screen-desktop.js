@@ -15,11 +15,11 @@ import {
 
 import ArtistList from '../../components/artistList';
 import Library from '../../components/Library/Library'
-import PlaylistList from '../../components/PlaylistList'
-import PlaylistDetail from '../../components/PlaylistDetail'
+import PlaylistList from '../../components/playlistList'
+import PlaylistDetail from '../../components/playlistDetail'
 import NowPlaying from '../../components/NowPlaying/NowPlaying'
 import NowPlayingSidebar from '../../components/NowPlaying/NowPlayingSidebar';
-import Search from '../../components/Search'
+import Search from '../../components/search'
 import Settings from '../../components/settings';
 
 const mapStateToProps = state => ({
@@ -53,7 +53,7 @@ const DesktopDashboardScreen = ({ dimensions, menu, activePlaylist, theme }) => 
             break;
         case MENU_SETTINGS:
             leftView = (<ArtistList />)
-            detailView= (<Settings height={height} width={width} />)
+            detailView= (<Settings height={height} width={windowWidth} />)
             break;
         case MENU_MAIN:
         case MENU_LIBRARY:

@@ -23,7 +23,6 @@ const libraryPersistConfig = {
 
 const mediaPlayerTransform = createTransform(
   (inboundState, key) => {
-    console.log(inboundState, key)
     return {
       ...inboundState
     }
@@ -41,7 +40,7 @@ const mediaPlayerPersistConfig = {
   keyPrefix: '',
   key: 'mediaPlayer',
   storage: storage,
-  blacklist: ['mediaPlayer', 'isPlaying'],
+  blacklist: ['mediaPlayer', 'isPlaying', 'songPalette', 'songCoverArtUri', 'songSeek'],
   transforms: [mediaPlayerTransform]
 }
 

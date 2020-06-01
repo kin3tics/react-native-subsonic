@@ -25,7 +25,6 @@ export function setServerUser(user) {
 }
 
 export function setServerPassword(password) {
-    console.log(password);
     return {
         type: SET_SERVERPASS,
         password

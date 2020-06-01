@@ -1,5 +1,5 @@
 import React from 'react'
-import  { Text, View, ScrollView, TouchableWithoutFeedback, ImageBackground} from 'react-native'
+import  { Text, View, ScrollView, TouchableWithoutFeedback } from 'react-native'
 import { connect } from 'react-redux';
 import { withTheme } from '../../themeProvider';
 
@@ -16,7 +16,6 @@ import {
     PINNED_TYPE,
     MOSTPLAYED_TYPE,
     RECENTPLAYED_TYPE,
-    GENRE_TYPE,
     setLibraryAlbumListType,
     getAlbumList,
     getSelectedArtistFromServer,
@@ -68,7 +67,7 @@ const LibraryComponent = ({ dispatch, artist, albumListType, albumList, height, 
     ));
 
     return (
-        <View style={[{width: windowWidth, height: height}]}> 
+        <View style={[{width: windowWidth, height: height, paddingBottom: 15}]}> 
             <Text style={[a_styles.albumDetailTitle, paddingStyle, { color: theme.foreground }]}>Library</Text>
             <View style={[{flexDirection: 'row', width: windowWidth, flexWrap: 'wrap', alignItems: "flex-start"}, paddingStyle]}>
                 {types}
@@ -77,9 +76,9 @@ const LibraryComponent = ({ dispatch, artist, albumListType, albumList, height, 
                 flexGrow: 1, 
                 flexDirection: 'row', 
                 justifyContent: 'space-between',
-                alignItems: "flex-start",
-                justifyContent: 'flex-start',
-                flexWrap: 'wrap'}}
+                alignItems: "center",
+                flexWrap: 'wrap',
+                paddingHorizontal: 15}}
                 style={[{width: windowWidth, height: height}]}>
                     {albums}
             </ScrollView>

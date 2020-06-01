@@ -1,43 +1,44 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import  { Text, ProgressBar, View, Dimensions, TouchableWithoutFeedback, Image} from 'react-native'
 import { connect } from 'react-redux';
-import Howler from 'howler';
+import { withTheme } from '../../themeProvider';
+import { useCompare } from '../../helpers/hooks';
+import { hexToRgb } from '../../helpers/colors';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faPause, faPlay, faStepForward, faStepBackward } from '@fortawesome/free-solid-svg-icons';
 
 import Visualizer from '../Visualizer';
-import NowPlayingMenu from './NowPlayingMenu';
+import Menu from '../menu/index';
 
-import { getDurationArray } from '../../helpers/audio-helper'
-
-import { pauseSongInPlaylist, playNextSongInPlaylist, playPreviousSongInPlaylist, seekSong } from '../../actions/mediaPlayer-actions'
-import {
-    MENU_MAIN,
-    setMenu,
- } from '../../actions/menu-actions'
+import { getCoverArt } from '../../actions/library-actions';
+import { pauseSongInPlaylist, playNextSongInPlaylist, playPreviousSongInPlaylist, seekSong, getSongArt } from '../../actions/mediaPlayer-actions'
 
 import styles from '../../styles/global'
 import np_styles from '../../styles/nowPlaying'
-import m_styles from '../../styles/menu'
 
 const mapStateToProps = state => ({
     server: state.server,
     nowPlaying: state.mediaPlayer
 })
 
-class NowPlaying extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isMenuActive: false
+const NowPlaying = ({ dispatch, nowPlaying, theme }) => {
+    const [ coverArt, setCoverArt ] = useState();
+    const [ needToGetSongPalette, setNeedToGetSongPalette ] = useState(true);
+    let albumArtHasChanged = useCompare(nowPlaying.activePlaylist ? nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].coverArt : coverArt);
+    useEffect(() => {
+        if(albumArtHasChanged && nowPlaying.activePlaylist && nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].coverArt) {
+            dispatch(getCoverArt(nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].coverArt, setCoverArt));
         }
-    }
+    }, [albumArtHasChanged, nowPlaying.activePlaylist, nowPlaying.activePlaylistIndex]);
+    useEffect(() => {
+        if(!needToGetSongPalette || nowPlaying.songPalette) return;
+        if(coverArt) {
+            dispatch(getSongArt(coverArt.data));
+            setNeedToGetSongPalette(false);
+        }
+    }, [ coverArt, needToGetSongPalette, nowPlaying.songPalette ])
 
-    toggleMenu() {
-        var menuActive = this.state.isMenuActive;
-        this.setState({ isMenuActive: !menuActive })
-    }
-
-    onTouchEvent(name, ev) {
-        let {dispatch, nowPlaying} = this.props;
+    function onTouchEvent(name, ev) {
         //element is set to 350 width
         var song = nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex];
         
@@ -46,90 +47,60 @@ class NowPlaying extends Component {
 
         dispatch(seekSong(seekValue));
     }
-
-    renderMenuIcon() {
-        let {dispatch, width} = this.props;
-        if(width < 1000) { return null; }
-        let mainMenuIcon = (
-            <View>
-                <TouchableWithoutFeedback
-                    onPress={() => this.toggleMenu()}>
-                    <View style={[m_styles.menuItem, this.state.isMenuActive ? m_styles.selectedMenuItem : {}]}>
-                        <Image source={require('../../images/navigation/ic_menu_white_24dp.png')} style={{height:24,width:24}}/>
-                    </View>
-                </TouchableWithoutFeedback>
-            </View>)
-
-        if(!this.state.isMenuActive)
-            return (
-                <View
-                    style={[np_styles.fs_menu, styles.background2]}>
-                    {mainMenuIcon}
-                </View>
-            )
-        else {
-            return (
-                <View
-                    style={[np_styles.fs_menu, styles.background2]}>
-                    {mainMenuIcon}
-                    <NowPlayingMenu />
-                </View>
-            )
-        }
-    }
-
-    render () {
-        let {dispatch, server, nowPlaying} = this.props;
-        let {width, height} = Dimensions.get('window');
-        if(!nowPlaying || nowPlaying.activePlaylist.length === 0) 
-            return (
-                <View style={[styles.background4, styles.container, styles.centeredcontainer]}>
-                    <View style={np_styles.fs_visualizer}><Visualizer /></View>
-                    {this.renderMenuIcon()}
-                </View>);
-        let uri = nowPlaying.songCoverArtUri;
-        var song = nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex];
-        var playButton = !nowPlaying.isPlaying
-                ?(<Image style={{height: 42, width:42}} source={require('../../images/av/ic_play_arrow_white_24dp.png')}/>)
-                :(<Image style={{height: 42, width:42}} source={require('../../images/av/ic_pause_white_24dp.png')}/>);
-        var seekProgress = (nowPlaying.songSeek / song.duration);
-        var titleColor = (nowPlaying.songPalette && nowPlaying.songPalette.LightVibrant) ? nowPlaying.songPalette.LightVibrant.getTitleTextColor()
-                            : '#FFF';
+    let { width, height } = Dimensions.get('window');
+    if(!nowPlaying || nowPlaying.activePlaylist.length === 0) 
         return (
-            <View style={[np_styles.fs_main, {width: width, height: height}]}> 
+            <View style={[styles.background4, styles.container, styles.centeredcontainer]}>
                 <View style={np_styles.fs_visualizer}><Visualizer /></View>
-                {this.renderMenuIcon()}
-                <View style={[np_styles.fs_mediaSection, styles.centeredcontainer]} >
-                    <Image 
-                        source={{ uri: uri}}
-                        style={{height: 350, width: 350, borderRadius: 10}} />
-                    <View style={np_styles.fs_progressBar}
-                        onStartShouldSetResponder={(ev) => true}
-                        onResponderGrant={this.onTouchEvent.bind(this, "onResponderGrant")}
-                        onResponderMove={this.onTouchEvent.bind(this, "onResponderMove")}
-                        >
-                        <ProgressBar
-                            style={{borderRadius: 10, height: 12}}
-                            color={'#FFF'}
-                            progress={seekProgress}
-                        />
-                    </View>
-                    <Text numberOfLines={1} style={[{color: '#FFF'}, np_styles.fs_songText]}>{nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].title}</Text>
-                    <Text numberOfLines={1} style={[{color: '#FFF'}, np_styles.fs_artistText]}>{nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].artist}</Text>
-                    <View style={{flexDirection: 'row', paddingTop: 10}}>
-                        <TouchableWithoutFeedback onPress={() => dispatch(playPreviousSongInPlaylist())}>
-                            <Image style={{height: 42, width:42}} source={require('../../images/av/ic_skip_previous_white_24dp.png')}/>
-                        </TouchableWithoutFeedback>
-                        <TouchableWithoutFeedback onPress={() => dispatch(pauseSongInPlaylist())}>
-                            {playButton}
-                        </TouchableWithoutFeedback>
-                        <TouchableWithoutFeedback onPress={() => dispatch(playNextSongInPlaylist())}>
-                            <Image style={{height: 42, width:42}} source={require('../../images/av/ic_skip_next_white_24dp.png')}/>
-                        </TouchableWithoutFeedback>
-                    </View>
+                <View style={{ position: 'absolute', top: 0, left: 0}} >
+                    <Menu collapsible={true} width={250} useThemeBackground={true} />
                 </View>
             </View>);
-        }
+    let uri = coverArt ? coverArt.data : null;
+    var song = nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex];
+    var seekProgress = (nowPlaying.songSeek / song.duration);
+    let backgroundRGB = hexToRgb(theme.background);
+    let textBackgroundColor = `rgba(${backgroundRGB.r}, ${backgroundRGB.g}, ${backgroundRGB.b}, 0.33)`;
+    let trackBackgroundColor = `rgba(${backgroundRGB.r}, ${backgroundRGB.g}, ${backgroundRGB.b}, 0.64)`;
+
+    return (
+        <View style={[np_styles.fs_main, {width: width, height: height}]}> 
+            <View style={np_styles.fs_visualizer}><Visualizer /></View>
+            <View style={{ position: 'absolute', top: 0, left: 0}} >
+                <Menu collapsible={true} width={250} useThemeBackground={true} />
+            </View>
+            <View style={[np_styles.fs_mediaSection, styles.centeredcontainer, { backgroundColor: textBackgroundColor }]} >
+                <Image 
+                    source={{ uri: uri}}
+                    style={{height: 350, width: 350, borderRadius: 10}} />
+                <View style={np_styles.fs_progressBar}
+                    onStartShouldSetResponder={(ev) => true}
+                    onResponderGrant={onTouchEvent.bind(this, "onResponderGrant")}
+                    onResponderMove={onTouchEvent.bind(this, "onResponderMove")}
+                    >
+                    <ProgressBar
+                        style={{borderRadius: 10, height: 12}}
+                        color={theme.first}
+                        trackColor={trackBackgroundColor}
+                        progress={seekProgress}
+                    />
+                </View>
+                <Text numberOfLines={1} style={[{color: theme.foreground}, np_styles.fs_songText]}>{nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].title}</Text>
+                <Text numberOfLines={1} style={[{color: theme.foreground}, np_styles.fs_artistText]}>{nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].artist}</Text>
+                <View style={{flexDirection: 'row', paddingTop: 10}}>
+                    <TouchableWithoutFeedback onPress={() => dispatch(playPreviousSongInPlaylist())}>
+                        <FontAwesomeIcon icon={ faStepBackward } size={ 24 } style={{ paddingTop: 3, paddingHorizontal: 15, color: theme.foreground }} />
+                    </TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback onPress={() => dispatch(pauseSongInPlaylist())}>
+                        <FontAwesomeIcon icon={ !nowPlaying.isPlaying ? faPause : faPlay } size={ 24 } style={{ paddingTop: 3, paddingHorizontal: 15, color: theme.foreground }} />
+                    </TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback onPress={() => dispatch(playNextSongInPlaylist())}>
+                        <FontAwesomeIcon icon={ faStepForward } size={ 24 } style={{ paddingTop: 3, paddingHorizontal: 15, color: theme.foreground }} />
+                    </TouchableWithoutFeedback>
+                </View>
+            </View>
+        </View>);
+    
 }
 
-export default connect(mapStateToProps)(NowPlaying)
+export default connect(mapStateToProps)(withTheme(NowPlaying))

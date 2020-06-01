@@ -47,8 +47,10 @@ export default StyleSheet.create({
         flexDirection: 'row'
     },
     fs_mediaSection: {
-        height: 500,
-        width: 500
+        paddingHorizontal: 10,
+        paddingTop: 10,
+        paddingBottom: 20,
+        borderRadius: 10
     },
     fs_songText: {
         //paddingTop: 15,

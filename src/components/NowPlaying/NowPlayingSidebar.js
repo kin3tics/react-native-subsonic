@@ -67,7 +67,7 @@ const NowPlayingSidebar = ({ dispatch, nowPlaying, theme }) => {
                 <Text numberOfLines={1} style={[np_styles.artistText, { color: theme.foreground }]}>{nowPlaying.activePlaylist[nowPlaying.activePlaylistIndex].artist}</Text>
                 <View style={{flexDirection: 'row', marginTop: 10}}>
                     <TouchableWithoutFeedback onPress={() => dispatch(playPreviousSongInPlaylist())}>
-                    <FontAwesomeIcon icon={ faStepBackward } size={ 12 } style={{ paddingTop: 3, paddingHorizontal: 5, color: theme.foreground }} />
+                        <FontAwesomeIcon icon={ faStepBackward } size={ 12 } style={{ paddingTop: 3, paddingHorizontal: 5, color: theme.foreground }} />
                     </TouchableWithoutFeedback>
                     <TouchableWithoutFeedback onPress={() => dispatch(pauseSongInPlaylist())}>
                         <FontAwesomeIcon icon={ !nowPlaying.isPlaying ? faPause : faPlay } size={ 12 } style={{ paddingTop: 3, paddingHorizontal: 5, color: theme.foreground }} />

@@ -5,7 +5,6 @@ import { withTheme } from '../../themeProvider';
 
 import Menu from '../menu/index'
 
-import styles from '../../styles/global'
 import a_styles from '../../styles/artists'
 
 import { 
