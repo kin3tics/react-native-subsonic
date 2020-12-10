@@ -1,5 +1,7 @@
 Front-end to Subsonic written in React Native
 
+![Demo](https://subsonic.kin3tics.com/) (Note: You will need to connect to a valid Subsonic server)
+
 ![User Interface Light](https://user-images.githubusercontent.com/1766848/74463166-6a452f00-4e5f-11ea-9d1a-a7f98711ad52.png)
 
 Version History
